@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 
 export type Field =
   | { name: string; label: string; type: "text" | "textarea" | "image" }
+  | { name: string; label: string; type: "select"; options: string[] }
   | { name: string; label: string; type: "list" }       // string[]
   | { name: string; label: string; type: "json"; placeholder?: string }; // free-form jsonb
 
@@ -91,6 +92,15 @@ export default function EditDialog({
                   </label>
                 </div>
               </div>
+            );
+            if (f.type === "select") return (
+              <label key={f.name} className="block">
+                <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{f.label}</span>
+                <select value={v ?? ""} onChange={(e) => set(f.name, e.target.value)} className="mt-1 w-full bg-background border border-border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/30">
+                  {!v && <option value="" disabled>Select…</option>}
+                  {f.options.map((o) => <option key={o} value={o}>{o}</option>)}
+                </select>
+              </label>
             );
             if (f.type === "list") return (
               <label key={f.name} className="block">

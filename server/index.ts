@@ -11,6 +11,7 @@ import { z } from "zod";
 import { generateCatalogPdf } from "./catalog-pdf";
 import { sendContactEmail } from "./mailer";
 import { handleChat, createBackup, createFullBackup, listBackups, restoreBackup, deleteBackup, saveUploadedBackup, healthCheck, ensureFirstRunBackup, startBackupScheduler } from "./mi-service";
+import { runDataFixes } from "./data-fix";
 
 const app = express();
 app.use(cors());
@@ -443,6 +444,9 @@ app.use((err: any, _req: any, res: any, _next: any) => {
 
 // Always bootstrap admin accounts (runs on both local and Vercel cold-start)
 ensureDefaultAdmin().catch((e) => console.error("admin bootstrap failed", e));
+
+// Backfill product categories + repair broken legacy image URLs (one-shot per boot)
+runDataFixes().catch((e) => console.error("data-fix failed", e));
 
 if (process.env.VERCEL) {
   // Vercel serverless: skip disk-dependent startup tasks

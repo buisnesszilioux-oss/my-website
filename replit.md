@@ -86,6 +86,12 @@ The public `GradeChartSection` and `SpecificationsSection` components read via `
 - **SEO component** at `src/components/SEO.tsx`: emits unique title/description/keywords, OG/Twitter cards, canonical URL, geo (Mumbai/IN-MH), JSON-LD Organization. Used on Products / About / Contact pages.
 - **MI Chat** at `/admin/mi`: locally-running admin assistant (no external/paid AI). Commands (Hindi+English): `backup`, `restore`, `list backups`, `health` / `fix`, `stats`, `help`. Chat UI shows action chips, backup list cards, health metrics. Backed by `server/mi-service.ts` and 5 endpoints under `/api/admin/mi/*`. Backup files saved to `data/backups/*.json` (committed to git so they survive GitHub→Replit roundtrips). Auto first-run backup created on server boot if none exist.
 
+## Recent changes (2026-04 — fifth batch)
+- **Header dropdowns** for Applications and Standards. Hover (or click) reveals a 2-column panel listing every industry / standard pulled from the API plus a "View all" link. Products remains a direct link with no dropdown. Mobile menu has tappable expand chevrons for the same submenus.
+- **Products page revamp** at `/products`: search bar at top (matches name, standard, description, material, applications, grades) + horizontal scrollable category bar with the 9 fixed categories plus per-category counts. Combined search + category filtering with empty-state and reset button. The page now reads from `/api/products` so any admin edit is reflected live.
+- **Product categories**: added `category` column to `products` schema. Boot-time `server/data-fix.ts` keyword-classifies every product into one of 9 buckets (Bolts, Nuts, Screws, Washers, Rivets, Threaded Rods / Studs, Anchors, Industrial / Heavy, Special). Admin Products edit dialog gained a Category select (new `select` field type added to `EditDialog`).
+- **Restored broken Application/Standard images**: `server/data-fix.ts` runs on boot and replaces every legacy `source.unsplash.com` URL (now defunct) on industries, standards, and products with branded placeholders (`https://placehold.co/...`) using a deterministic palette. Nested `industries.applications[].image` is also fixed. `<img onError>` fallback added to product cards as a defensive layer.
+
 ## Recent changes (2026-04 — fourth batch)
 - **Full website backup system** at `/admin/backups` (sidebar: "Backups"). Two backup kinds:
   - **DB** — `.json` of all tables only (small, fast).

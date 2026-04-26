@@ -6,10 +6,23 @@ import { api, type Product } from "@/lib/api";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+const PRODUCT_CATEGORIES = [
+  "Bolts",
+  "Nuts",
+  "Screws",
+  "Washers",
+  "Rivets",
+  "Threaded Rods / Studs",
+  "Anchors",
+  "Industrial / Heavy",
+  "Special",
+];
+
 const fields: Field[] = [
   { name: "slug", label: "Slug", type: "text" },
   { name: "name", label: "Name", type: "text" },
   { name: "image", label: "Image", type: "image" },
+  { name: "category", label: "Category", type: "select", options: PRODUCT_CATEGORIES },
   { name: "standard", label: "Standard", type: "text" },
   { name: "description", label: "Description", type: "textarea" },
   { name: "sizes", label: "Sizes", type: "text" },
@@ -22,7 +35,7 @@ const fields: Field[] = [
   { name: "dimensions", label: "Dimensions", type: "json", placeholder: '[{"label":"Diameter","value":"M6 – M100"}]' },
 ];
 
-const empty: Partial<Product> = { slug: "", name: "", image: "", standard: "", description: "", sizes: "", threads: "", length: "", material: "", finish: [], grades: [], applications: [], dimensions: [] };
+const empty: Partial<Product> = { slug: "", name: "", image: "", standard: "", category: "Bolts", description: "", sizes: "", threads: "", length: "", material: "", finish: [], grades: [], applications: [], dimensions: [] };
 
 const AdminProducts = () => {
   const qc = useQueryClient();

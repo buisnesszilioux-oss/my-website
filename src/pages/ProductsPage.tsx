@@ -21,7 +21,7 @@ export default function ProductsPage() {
       />
       <Header />
       <main>
-        <ProductsSection />
+        <ProductsSection withFilters />
       </main>
       <Footer />
     </PageTransition>
