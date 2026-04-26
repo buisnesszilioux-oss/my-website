@@ -9,11 +9,6 @@ export default defineConfig(({ mode }) => ({
     host: "0.0.0.0",
     port: 5000,
     allowedHosts: true,
-    hmr: {
-      overlay: false,
-      clientPort: 443,
-      protocol: "wss",
-    },
     proxy: {
       "/api": "http://localhost:3001",
       "/uploads": "http://localhost:3001",
