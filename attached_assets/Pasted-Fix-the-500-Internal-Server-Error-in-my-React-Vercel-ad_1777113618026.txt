@@ -1,0 +1,83 @@
+Fix the 500 Internal Server Error in my React + Vercel admin login system and make the entire login flow fully functional.
+
+Context:
+
+* This is a React SPA deployed on Vercel
+* /admin route is working
+* API route /api/admin/login exists
+* When trying to login, I get: "Request failed (500)"
+* This means the backend function is crashing
+
+Tasks:
+
+1. Debug the API route (/api/admin/login):
+
+* Find the exact cause of the 500 error
+* Fix any crashes or undefined values
+* Ensure the function handles errors properly with try/catch
+
+2. Fix request body parsing:
+
+* Ensure req.body is correctly handled
+* If body is a string, parse it using JSON.parse
+* Prevent crashes when body is undefined
+
+3. Validate input safely:
+
+* Check if username and password exist
+* Return proper error if missing fields
+
+4. Implement correct login logic:
+
+* Accept username and password
+* Validate credentials
+* Return:
+
+  * 200 for success
+  * 401 for invalid credentials
+  * 400 for bad request
+  * 405 for wrong method
+  * 500 for server errors
+
+5. Fix frontend request:
+
+* Ensure fetch/axios sends:
+
+  * method: POST
+  * headers: Content-Type: application/json
+  * body: JSON.stringify({ username, password })
+
+6. Add proper error handling:
+
+* Show clear error messages on UI
+* Prevent app crash
+
+7. Ensure compatibility with Vercel serverless functions:
+
+* API files must be in root /api folder (NOT inside /src)
+* Use default export function(req, res)
+
+8. Logging:
+
+* Add console.error logs inside API for debugging
+* Ensure logs appear in Vercel function logs
+
+Important:
+
+* Do NOT convert to static HTML
+* Keep everything in React
+* Do NOT remove existing UI
+* Only fix backend and login functionality
+
+Final Result:
+
+* No more 500 errors
+* Login works correctly
+* Proper success and error responses
+* Admin dashboard opens after login
+
+Return:
+
+* Fixed /api/admin/login.js
+* Fixed frontend login code
+* Explanation of what caused the 500 error and how it was fixed

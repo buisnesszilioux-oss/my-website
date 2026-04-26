@@ -1,0 +1,323 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 20% 98%;
+    --foreground: 30 10% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 30 10% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 30 10% 15%;
+
+    --primary: 43 72% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 40 30% 95%;
+    --secondary-foreground: 30 10% 25%;
+
+    --muted: 40 15% 94%;
+    --muted-foreground: 30 8% 50%;
+
+    --accent: 43 72% 48%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 40 20% 88%;
+    --input: 40 20% 88%;
+    --ring: 43 72% 48%;
+
+    --radius: 0.5rem;
+
+    --gold: 43 72% 48%;
+    --gold-light: 43 60% 70%;
+    --gold-dark: 43 80% 35%;
+    --gold-shine: 43 50% 85%;
+    --cream: 40 30% 96%;
+    --charcoal: 30 10% 20%;
+
+    --gradient-gold: linear-gradient(135deg, hsl(43, 72%, 48%), hsl(43, 80%, 60%), hsl(43, 72%, 48%));
+    --gradient-dark: linear-gradient(135deg, hsl(30, 10%, 12%), hsl(30, 10%, 20%));
+    --gradient-hero: linear-gradient(135deg, hsl(30, 10%, 10%) 0%, hsl(30, 15%, 18%) 50%, hsl(43, 30%, 25%) 100%);
+
+    --shadow-gold: 0 4px 20px -4px hsl(43 72% 48% / 0.3);
+    --shadow-elegant: 0 10px 40px -10px hsl(30 10% 15% / 0.15);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+/* Ultra-smooth scrolling & rendering */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* GPU-accelerate all animated elements */
+[style*="transform"],
+.shadow-elegant,
+.shadow-gold {
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Smooth all transitions globally */
+*, *::before, *::after {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth image rendering */
+img {
+  image-rendering: auto;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--secondary));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.4);
+  border-radius: 999px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.7);
+}
+
+/* Firefox smooth scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(43 72% 48% / 0.4) hsl(40 30% 95%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    font-feature-settings: "ss01", "kern", "liga";
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+    letter-spacing: -0.015em;
+  }
+
+  /* Mobile-friendly base sizes */
+  html { font-size: 15px; }
+  @media (min-width: 768px) { html { font-size: 16px; } }
+
+  /* Prevent iOS zoom-on-focus for form fields */
+  input, select, textarea {
+    font-size: 16px;
+  }
+
+  /* Better tap targets on mobile */
+  @media (max-width: 767px) {
+    button, a, [role="button"] { min-height: 40px; }
+  }
+
+  /* Avoid layout shift when WhatsApp button overlaps content */
+  main, footer { padding-bottom: env(safe-area-inset-bottom); }
+}
+
+@layer utilities {
+  .text-gradient-gold {
+    background: linear-gradient(135deg, hsl(43, 72%, 48%), hsl(43, 60%, 65%), hsl(43, 72%, 48%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient-gold {
+    background: linear-gradient(135deg, hsl(43, 72%, 48%), hsl(43, 80%, 60%), hsl(43, 72%, 48%));
+  }
+
+  .bg-gradient-dark {
+    background: linear-gradient(135deg, hsl(30, 10%, 10%), hsl(30, 15%, 18%), hsl(43, 30%, 22%));
+  }
+
+  .border-gold {
+    border-color: hsl(43, 72%, 48%);
+  }
+
+  .shadow-gold {
+    box-shadow: 0 4px 20px -4px hsl(43 72% 48% / 0.3);
+  }
+
+  .shadow-elegant {
+    box-shadow: 0 10px 40px -10px hsl(30 10% 15% / 0.15);
+  }
+
+  .gold-divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, hsl(43, 72%, 48%), transparent);
+  }
+}
+
+/* ===== Animation Presets (driven by site_content) ===== */
+@layer utilities {
+  /* ----- Product card animations ----- */
+  .anim-card-lift {
+    transition: transform 0.4s cubic-bezier(.2,.8,.2,1), box-shadow 0.4s ease;
+  }
+  .anim-card-lift:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px -12px hsl(43 72% 48% / 0.35);
+  }
+
+  .anim-card-tilt {
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    transform-style: preserve-3d;
+  }
+  .anim-card-tilt:hover {
+    transform: perspective(900px) rotateX(4deg) rotateY(-4deg) translateY(-4px);
+    box-shadow: 0 24px 48px -16px hsl(30 15% 8% / 0.5);
+  }
+
+  .anim-card-glow {
+    position: relative;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .anim-card-glow:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 0 1px hsl(43 72% 48% / 0.6), 0 0 26px 4px hsl(43 80% 55% / 0.45);
+    animation: anim-glow-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes anim-glow-pulse {
+    0%, 100% { box-shadow: 0 0 0 1px hsl(43 72% 48% / 0.6), 0 0 18px 2px hsl(43 80% 55% / 0.35); }
+    50%      { box-shadow: 0 0 0 1px hsl(43 72% 48% / 0.9), 0 0 32px 8px hsl(43 80% 55% / 0.55); }
+  }
+
+  .anim-card-shine {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s ease;
+  }
+  .anim-card-shine:hover { transform: translateY(-3px); }
+  .anim-card-shine::after {
+    content: "";
+    position: absolute;
+    top: -50%; left: -75%;
+    width: 50%; height: 200%;
+    background: linear-gradient(115deg, transparent 30%, hsl(43 80% 70% / 0.35) 50%, transparent 70%);
+    transform: skewX(-20deg);
+    pointer-events: none;
+    transition: left 0.7s ease;
+  }
+  .anim-card-shine:hover::after { left: 130%; }
+
+  .anim-card-zoom { transition: transform 0.4s ease, box-shadow 0.4s ease; }
+  .anim-card-zoom:hover { transform: translateY(-4px); box-shadow: 0 18px 36px -14px hsl(30 15% 8% / 0.45); }
+  .anim-card-zoom img { transition: transform 0.7s ease; }
+  .anim-card-zoom:hover img { transform: scale(1.08); }
+
+  .anim-card-pulse { transition: transform 0.3s ease; border-color: hsl(43 72% 48% / 0.2); }
+  .anim-card-pulse:hover { animation: anim-pulse-border 1.4s ease-in-out infinite; transform: translateY(-2px); }
+  @keyframes anim-pulse-border {
+    0%, 100% { border-color: hsl(43 72% 48% / 0.4); box-shadow: 0 0 0 0 hsl(43 72% 48% / 0); }
+    50%      { border-color: hsl(43 72% 48% / 1);   box-shadow: 0 0 0 6px hsl(43 72% 48% / 0.18); }
+  }
+
+  /* ----- Background animations applied to <body> ----- */
+  .anim-bg-grid::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(hsl(43 72% 48% / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(43 72% 48% / 0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+    animation: anim-bg-shift 18s linear infinite;
+  }
+  @keyframes anim-bg-shift {
+    0%   { background-position: 0 0, 0 0; }
+    100% { background-position: 48px 48px, 48px 48px; }
+  }
+
+  .anim-bg-aurora::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(60% 40% at 20% 20%, hsl(43 72% 48% / 0.18), transparent 60%),
+      radial-gradient(50% 35% at 80% 70%, hsl(43 80% 60% / 0.14), transparent 60%),
+      radial-gradient(40% 30% at 50% 90%, hsl(30 30% 25% / 0.18), transparent 60%);
+    animation: anim-bg-aurora-shift 16s ease-in-out infinite alternate;
+    filter: blur(40px);
+  }
+  @keyframes anim-bg-aurora-shift {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(2%, -2%) scale(1.05); }
+  }
+
+  .anim-bg-particles::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    background-image:
+      radial-gradient(2px 2px at 20% 30%, hsl(43 80% 60% / 0.55), transparent 60%),
+      radial-gradient(1.5px 1.5px at 70% 60%, hsl(43 80% 60% / 0.45), transparent 60%),
+      radial-gradient(2px 2px at 40% 80%, hsl(43 80% 60% / 0.35), transparent 60%),
+      radial-gradient(1.5px 1.5px at 85% 25%, hsl(43 80% 60% / 0.4),  transparent 60%),
+      radial-gradient(1.5px 1.5px at 10% 70%, hsl(43 80% 60% / 0.4),  transparent 60%);
+    background-size: 600px 600px;
+    animation: anim-bg-float 22s linear infinite;
+  }
+  @keyframes anim-bg-float {
+    0%   { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+    100% { background-position: 600px 600px, -600px 600px, 600px -600px, -600px -600px, 0 600px; }
+  }
+
+  .anim-bg-stripes::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    background: repeating-linear-gradient(
+      135deg,
+      transparent 0 32px,
+      hsl(43 72% 48% / 0.04) 32px 64px
+    );
+    animation: anim-bg-stripes-move 20s linear infinite;
+  }
+  @keyframes anim-bg-stripes-move {
+    0%   { background-position: 0 0; }
+    100% { background-position: 256px 0; }
+  }
+
+  /* Make sure page content sits above the fixed pseudo-element layer */
+  body > #root { position: relative; z-index: 1; }
+}

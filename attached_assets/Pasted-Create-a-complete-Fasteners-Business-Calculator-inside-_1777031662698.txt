@@ -1,0 +1,117 @@
+Create a complete Fasteners Business Calculator inside my website.
+
+IMPORTANT:
+- Clean industrial UI
+- Fast and simple to use
+- All calculations must be accurate
+
+----------------------------------
+
+STEP 1: RAW MATERIAL (ROD CALCULATION)
+
+Inputs:
+- Diameter (mm)
+- Length (mm)
+- Quantity
+- Material (dropdown with factor)
+
+Material Factors:
+- MS → 0.0063
+- SS → 0.0060
+- Brass → 0.0073
+- Aluminium → 0.0027
+
+Formula:
+Weight per piece = (D × D × L × Factor) / 1000
+Total Weight = Weight per piece × Quantity
+
+----------------------------------
+
+STEP 2: MATERIAL COST
+
+Input:
+- Rate per kg (₹)
+
+Formula:
+Material Cost = Total Weight × Rate per kg
+
+----------------------------------
+
+STEP 3: LABOUR COST
+
+Add 2 options (toggle):
+
+1. Labour per kg
+   Labour Cost = Total Weight × Rate
+
+2. Labour per piece
+   Labour Cost = Quantity × Rate
+
+(User can enter any value manually)
+
+----------------------------------
+
+STEP 4: REAL COST
+
+Formula:
+Real Cost = Material Cost + Labour Cost
+
+----------------------------------
+
+STEP 5: PROFIT
+
+Input:
+- Profit %
+
+Formula:
+Profit Amount = Real Cost × (Profit % / 100)
+
+----------------------------------
+
+STEP 6: FINAL SELLING PRICE
+
+Formula:
+Final Price = Real Cost + Profit Amount
+
+----------------------------------
+
+STEP 7: OPTIONAL GST
+
+Toggle ON/OFF:
+If ON:
+GST = Final Price × GST %
+Final Price with GST = Final Price + GST
+
+----------------------------------
+
+OUTPUTS (IMPORTANT):
+
+- Weight per piece (kg)
+- Total Weight (kg)
+- Material Cost (₹)
+- Labour Cost (₹)
+- Real Cost (₹)
+- Profit Amount (₹)
+- Final Selling Price (₹)
+- Final Price with GST (if enabled)
+- Rate per piece (₹)
+
+----------------------------------
+
+FEATURES:
+
+- Auto calculate on input change
+- Round values to 2 decimal
+- Clean card layout
+- Highlight Final Price
+- Mobile friendly
+
+----------------------------------
+
+GOAL:
+
+Create a complete calculator that helps:
+- Know how much raw material is needed
+- Calculate manufacturing cost
+- Add profit
+- Generate final selling price

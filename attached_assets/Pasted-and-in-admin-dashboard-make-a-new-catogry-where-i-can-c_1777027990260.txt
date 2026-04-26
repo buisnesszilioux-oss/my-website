@@ -1,0 +1,122 @@
+and in admin dashboard make a new catogry where i can change company logo and company favicon and i can edit and add a new social links and add this gst no 27CBFPM8207D1ZR to the website and fix the admin login system user are search in url admin they open at dashboard not in login system its to risky fix that and add a catogry in admin dashboard animation section which change product animation and thier baground animation add some animation file when i click install then its install to the product and when i click unquip then its remove from products and add a calcutaor of fasteners Create a professional Fasteners Weight & Rate Calculator website.
+
+Tech:
+
+Use HTML, CSS, JavaScript (single page)
+Clean industrial UI (black, yellow, white)
+Fully responsive (mobile friendly)
+Inputs:
+
+Diameter (mm)
+Length (mm)
+Quantity
+Material Rate (₹ per kg)
+Labour Charge (₹)
+GST (Optional Feature):
+
+Add a toggle switch: "Include GST"
+If ON:
+Show GST input field (default 18%)
+GST Amount = (Material Cost + Labour) × GST%
+Final Cost with GST = Total Cost + GST
+If OFF:
+Hide GST field
+Final Cost = Material Cost + Labour
+Calculations:
+
+Weight per piece = (D × D × L × 0.0063) / 1000
+Total Weight = Weight per piece × Quantity
+Material Cost = Total Weight × Rate per kg
+Total Cost (without GST) = Material Cost + Labour
+Rate per piece = Final Cost / Quantity
+Outputs:
+
+Weight per piece (kg)
+Total weight (kg)
+Material cost (₹)
+Labour (₹)
+GST amount (only if enabled)
+Final cost (₹)
+Rate per piece (₹)
+Features:
+
+Auto calculate on input change
+Round all values to 2 decimal places
+Reset button
+Highlight final cost in bold
+Show/hide GST section dynamically
+Smooth UI transitions
+Optional Enhancements:
+
+Dropdown for material type (MS, SS)
+Dark/light mode toggle
+Add "Profit/Margin %" input
+Keep UI clean, minimal, and fast like a real industrial calculator tool.
+
+and when we click on the heading of miengineering works logo then its reload the website and go to the home page and Add a Ledger / Khata module inside my existing admin dashboard.
+
+IMPORTANT:
+
+Integrate inside existing dashboard (do NOT create separate app)
+Match existing UI, colors, sidebar, and layout
+Ledger Table:
+Create a table like a traditional accounting register with columns:
+
+Customer Name
+Date of Invoice
+Invoice No
+Amount Due (₹)
+Payment Date
+Amount Received (₹)
+Receipt No
+Balance (₹)
+Status (✔ Paid / Pending)
+Entry System:
+
+Add form/modal to add new ledger entry
+Fields:
+Customer Name, Date, Invoice No, Amount Due, Payment Date, Amount Received, Receipt No
+Calculation:
+
+Balance = Amount Due - Amount Received
+If Balance <= 0 → Status = Paid ✔
+If Balance > 0 → Status = Pending
+Tick Feature:
+
+Checkbox in Status column
+On check → mark Paid and balance = 0
+Row color:
+Green = Paid
+Red = Pending
+🔍 SEARCH FEATURE:
+
+Add search bar at top
+Real-time search (no button)
+Search by:
+Customer Name
+Invoice No
+Receipt No
+🔤 ALPHABETICAL INDEX (A–Z FILTER):
+
+Add A to Z buttons at top (A, B, C ... Z, ALL)
+When user clicks a letter:
+→ Show only customers whose name starts with that letter
+"ALL" button shows all entries
+Highlight selected letter
+Extra Features:
+
+Add / Edit / Delete entry
+Sticky table header
+Highlight Balance column
+Show total pending amount at bottom
+Filter buttons: All / Paid / Pending
+Storage:
+
+Use localStorage or existing backend
+UI:
+
+Clean ledger style (like physical register)
+Thin borders, simple lines
+Professional industrial look
+Goal:
+Make a powerful digital ledger system where user can quickly search and filter customers using A–Z index and check payment status instantly.

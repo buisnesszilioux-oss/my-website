@@ -1,0 +1,105 @@
+Mere liye ek full enterprise-grade AI system banao jiska naam ho "MI AI PRO".
+
+TECH STACK:
+- Frontend: React (Vite)
+- Backend: Node.js + Express
+- Database: MongoDB (optional but recommended)
+- Architecture: Modular + Scalable + API-driven
+
+━━━━━━━━━━━━━━━━━━
+1. 🧠 CHATGPT-STYLE AI BRAIN
+━━━━━━━━━━━━━━━━━━
+
+- Ek intelligent chat system banao (like ChatGPT)
+- User natural language me instructions de:
+  - "home page change karo"
+  - "invoice generate karo"
+  - "error fix karo"
+- AI context samjhe aur appropriate module trigger kare
+
+━━━━━━━━━━━━━━━━━━
+2. 🛒 SHOPIFY-STYLE VISUAL BUILDER
+━━━━━━━━━━━━━━━━━━
+
+- Live website preview dashboard me show ho
+- Click-to-select element system ho (text, image, button, section)
+- Drag & drop sections supported ho
+- Inline editing possible ho (like Shopify)
+
+Workflow:
+- Select element → AI suggest edit → preview update → approve → live apply
+
+━━━━━━━━━━━━━━━━━━
+3. 🏭 ERP SYSTEM (BUSINESS CORE)
+━━━━━━━━━━━━━━━━━━
+
+- Material management system
+- Fasteners calculator (weight + rate + profit)
+- Quotation generator
+- Invoice generator
+- GST calculation
+- Customer + order management
+
+━━━━━━━━━━━━━━━━━━
+4. 🔍 SELF-HEALING SYSTEM (AUTO FIX ENGINE)
+━━━━━━━━━━━━━━━━━━
+
+AI automatically detect aur fix kare:
+
+- Missing data
+- API failure
+- UI broken state
+- Routing issues
+- Backend errors
+
+Fix flow:
+Detect → Analyze → Fix → Retry → Fallback → Stable UI
+
+━━━━━━━━━━━━━━━━━━
+5. 🖥️ ADMIN BUILDER DASHBOARD
+━━━━━━━━━━━━━━━━━━
+
+- Sidebar admin panel ho
+- Sections:
+  - AI Chat
+  - Visual Editor
+  - ERP System
+  - Orders
+  - Customers
+  - Analytics
+
+Admin features:
+- Add/remove pages
+- Edit website content via AI
+- Manage products & pricing
+- Generate reports
+
+━━━━━━━━━━━━━━━━━━
+6. 🔄 PREVIEW + APPROVAL SYSTEM
+━━━━━━━━━━━━━━━━━━
+
+- Har AI change pehle preview me show ho
+- Admin approval mandatory ho
+- Approved changes hi production me apply hon
+- Rollback option ho
+
+━━━━━━━━━━━━━━━━━━
+7. 📊 OUTPUT SYSTEM
+━━━━━━━━━━━━━━━━━━
+
+AI response format:
+
+- Issue detected
+- Module triggered (Shopify / ERP / Fix / Editor)
+- Preview generated
+- Approval status
+- Final applied change
+
+━━━━━━━━━━━━━━━━━━
+GOAL:
+Ek complete enterprise SaaS system banana jo:
+- ChatGPT jaisa AI brain ho
+- Shopify jaisa visual website builder ho
+- ERP system (billing + quotation + inventory) ho
+- Self-healing auto fix engine ho
+- Admin dashboard se full control ho

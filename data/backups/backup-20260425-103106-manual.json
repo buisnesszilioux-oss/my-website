@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "kind": "db",
+  "createdAt": "2026-04-25T10:31:06.552Z",
+  "tables": {
+    "products": [],
+    "industries": [],
+    "standards": [],
+    "media": [],
+    "siteContent": [],
+    "pageSections": [],
+    "customers": [],
+    "ledgerEntries": [],
+    "contactSubmissions": []
+  },
+  "counts": {
+    "products": 0,
+    "industries": 0,
+    "standards": 0,
+    "media": 0,
+    "siteContent": 0,
+    "pageSections": 0,
+    "customers": 0,
+    "ledgerEntries": 0,
+    "contactSubmissions": 0
+  }
+}
