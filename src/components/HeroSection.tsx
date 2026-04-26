@@ -2,9 +2,11 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import heroImg from "@/assets/hero-fasteners.jpg";
 import { useSiteContent } from "@/hooks/useSiteContent";
+import { useHeroImage } from "@/hooks/useHeroImage";
 
 const HeroSection = () => {
   const { get } = useSiteContent();
+  const dynamicHero = useHeroImage("home", heroImg);
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
@@ -16,7 +18,7 @@ const HeroSection = () => {
       {/* Parallax BG */}
       <motion.div className="absolute inset-0" style={{ y: bgY }}>
         <motion.img
-          src={heroImg}
+          src={dynamicHero || heroImg}
           alt="Premium fasteners by M.I. Engineering Works"
           className="w-full h-full object-cover"
           width={1920}

@@ -3,8 +3,10 @@ import Footer from "@/components/Footer";
 import GradeChartSection from "@/components/GradeChartSection";
 import PageTransition from "@/components/PageTransition";
 import { Helmet } from "react-helmet-async";
+import { useHeroImage } from "@/hooks/useHeroImage";
 
 const GradeChartPage = () => {
+  const heroImage = useHeroImage("gradeChart");
   return (
     <PageTransition>
       <Helmet>
@@ -14,6 +16,24 @@ const GradeChartPage = () => {
         <link rel="canonical" href="https://miengineeringworks.lovable.app/grade-chart" />
       </Helmet>
       <Header />
+
+      <section className="relative bg-gradient-dark py-20 md:py-28 text-primary-foreground overflow-hidden">
+        {heroImage && (
+          <div className="absolute inset-0 opacity-25" style={{ backgroundImage: `url(${heroImage})`, backgroundSize: "cover", backgroundPosition: "center" }} />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-charcoal/40 via-charcoal/55 to-charcoal/85" />
+        <div className="container relative z-10 text-center">
+          <span className="text-xs md:text-sm font-semibold tracking-[0.4em] uppercase text-primary">Engineering Reference</span>
+          <h1 className="font-heading text-4xl md:text-6xl font-bold mt-4 leading-[1.1] tracking-tight">
+            Fastener <span className="text-gradient-gold">Grade Chart</span>
+          </h1>
+          <div className="gold-divider w-24 mx-auto mt-5" />
+          <p className="mt-5 max-w-2xl mx-auto text-primary-foreground/80 leading-relaxed">
+            Tensile strength, yield, hardness and matching specifications for every grade we supply.
+          </p>
+        </div>
+      </section>
+
       <GradeChartSection />
       <Footer />
     </PageTransition>
