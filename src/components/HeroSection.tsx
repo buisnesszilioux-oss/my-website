@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import heroImg from "@/assets/hero-fasteners.jpg";
+import heroImg from "@/assets/hero-engineering-works.png";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import { useHeroImage } from "@/hooks/useHeroImage";
 
@@ -21,14 +21,16 @@ const HeroSection = () => {
           src={dynamicHero || heroImg}
           alt="Premium fasteners by M.I. Engineering Works"
           className="w-full h-full object-cover"
+          style={{ objectPosition: "30% 35%" }}
           width={1920}
           height={1080}
-          initial={{ scale: 1.15 }}
-          animate={{ scale: 1 }}
+          initial={{ scale: 1.25 }}
+          animate={{ scale: 1.1 }}
           transition={{ duration: 2, ease: "easeOut" }}
         />
-        <div className="absolute inset-0 bg-gradient-dark opacity-80" />
-        <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/60 to-transparent" />
+        <div className="absolute inset-0 bg-charcoal/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-charcoal/95 via-charcoal/75 to-charcoal/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-charcoal/30" />
       </motion.div>
 
       {/* Floating particles */}

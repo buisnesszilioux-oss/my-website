@@ -23,15 +23,15 @@ export const SITE_CONTENT_DEFAULTS: SiteContentMap = {
   "animations.background": "none",
 
   // Hero
-  "hero.eyebrow": "",
-  "hero.title": "ASTM A193 Grade B7",
-  "hero.titleAccent": "Fasteners",
+  "hero.eyebrow": "Industrial Engineering Excellence",
+  "hero.title": "Precision Engineering",
+  "hero.titleAccent": "Solutions.",
   "hero.subtitle":
-    "M.I. Engineering Works — trusted ASTM A193 Grade B7 manufacturer & supplier of stud bolts, hex bolts, threaded rods, anchor bolts & high-tensile alloy steel fasteners for petrochemical, oil & gas, and power plant applications. Based in Mumbai, India.",
-  "hero.ctaPrimaryText": "View Products",
-  "hero.ctaPrimaryUrl": "#products",
-  "hero.ctaSecondaryText": "Get a Quote",
-  "hero.ctaSecondaryUrl": "#contact",
+    "Your trusted partner in Fabrication, Machining, and Industrial Engineering Excellence — manufacturing high-tensile fasteners, stud bolts and precision components from Mumbai for clients across India and the world.",
+  "hero.ctaPrimaryText": "Get a Quote",
+  "hero.ctaPrimaryUrl": "/contact",
+  "hero.ctaSecondaryText": "View Products",
+  "hero.ctaSecondaryUrl": "/products",
 
   // About
   "about.eyebrow": "About Us",
