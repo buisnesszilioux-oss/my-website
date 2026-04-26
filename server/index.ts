@@ -445,8 +445,11 @@ app.use((err: any, _req: any, res: any, _next: any) => {
 // Always bootstrap admin accounts (runs on both local and Vercel cold-start)
 ensureDefaultAdmin().catch((e) => console.error("admin bootstrap failed", e));
 
-// Backfill product categories + repair broken legacy image URLs (one-shot per boot)
-runDataFixes().catch((e) => console.error("data-fix failed", e));
+// Backfill product categories + repair broken legacy image URLs (one-shot per boot).
+// Delayed slightly so any startup seeding has a chance to insert rows first.
+setTimeout(() => {
+  runDataFixes().catch((e) => console.error("[data-fix] failed at boot:", e));
+}, 2000);
 
 if (process.env.VERCEL) {
   // Vercel serverless: skip disk-dependent startup tasks

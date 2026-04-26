@@ -1,188 +1,104 @@
-# M.I. Engineering Works — Fasteners Website
+# M.I. Engineering Works — Website
 
-Full-stack website + private admin dashboard for **M.I. Engineering Works**, Mumbai (industrial fasteners — MS, SS, Brass, Aluminium, hex bolts, foundation bolts, anchor bolts, U-bolts, J-bolts and custom hardware).
+Full-stack site (React + Vite + Express + PostgreSQL/Drizzle) for the M.I. Engineering Works business with an integrated admin panel.
 
----
-
-## Tech Stack
-
-- **Frontend** — React 18 + Vite + TypeScript + Tailwind CSS + shadcn/ui + TanStack Query + React Router (wouter compatible)
-- **Backend** — Express (Node.js) serving the same port as Vite in dev
-- **Database** — PostgreSQL via Drizzle ORM (schema in `shared/schema.ts`)
-- **Auth** — JWT bearer tokens (12-hour expiry) for the admin area
-- **Email** — Nodemailer (SMTP) for the public contact form
-
----
-
-## Local Development
+## Local development
 
 ```bash
 npm install
-npm run db:push       # sync schema to your Postgres
-npm run dev           # starts Vite + Express on :5000
+npm run db:push     # creates / syncs the database schema
+npm run db:seed     # seeds initial products, industries, standards
+npm run dev         # starts vite (5000) + express (3001) together
 ```
 
-App will be live at <http://localhost:5000>. The admin panel is at `/admin/login`.
+Default admin login: `miengineering@gmail.com` / `6392061892`
+(Override with `ADMIN_USERNAME` and `ADMIN_PASSWORD` env vars.)
 
-> The Replit workflow named **"Start application"** runs `npm run dev` automatically.
+## Pushing to GitHub — what travels with the repo
 
----
+The `.gitignore` is configured so that **all** of the following ARE pushed:
 
-## Required Environment Variables
+| Folder                | What's inside                                       |
+| --------------------- | --------------------------------------------------- |
+| `src/`                | All React frontend code                             |
+| `server/`             | Express backend, storage, auth, mailer, mi-service  |
+| `shared/`             | Shared schema and types                             |
+| `public/`             | Static assets (favicon, robots, sitemap)            |
+| `src/assets/`         | Bundled product / hero images                       |
+| `attached_assets/`    | Reference docs and original assets                  |
+| `uploads/`            | Admin-uploaded images, videos, PDFs                 |
+| `data/backups/`       | Database + file backups created from /admin/backups |
 
-| Variable | Purpose | Example |
-| --- | --- | --- |
-| `DATABASE_URL` | Postgres connection string | `postgres://user:pass@host:5432/dbname` |
-| `JWT_SECRET` | Sign admin login JWTs (use a long random string) | `change-me-to-64-random-chars` |
-| `ADMIN_USERNAME` | Comma-separated admin emails / usernames | `owner@miengineeringworks.com` |
-| `ADMIN_PASSWORD` | Initial admin password (default `6392061892` if unset) | `your-strong-password` |
-| `SMTP_HOST` | SMTP server for contact-form emails | `smtp.gmail.com` |
-| `SMTP_PORT` | SMTP port | `587` |
-| `SMTP_USER` | SMTP login | `notify@miengineeringworks.com` |
-| `SMTP_PASS` | SMTP password / app password | `…` |
-| `SMTP_FROM` | "From" address shown on emails | `M.I. Engineering Works <notify@miengineeringworks.com>` |
-| `NODE_ENV` | `development` or `production` | `production` |
-| `PORT` | Web port (defaults to `5000`) | `5000` |
+What does **NOT** push:
+- `node_modules/` (run `npm install` after cloning)
+- `.env` files (secrets — see below)
+- `dist/` build output
 
-Create a `.env` file at the project root for local dev. **Do not commit `.env`.**
+### "My data is missing on GitHub" — how to fix
 
----
+1. **The website data lives in PostgreSQL**, not in the repo. After deploying you must:
+   - Set the `DATABASE_URL` environment variable on the new host.
+   - Run `npm run db:push` once to create the tables.
+   - Run `npm run db:seed` to load the initial products / industries / standards.
+   - **OR** restore a backup file (admin → Backups → Upload `.json`).
 
-## Production Build
+2. **Uploaded images live in `uploads/`** which IS pushed to git. If they're missing, run `git status` on the original machine and `git add uploads/ data/ attached_assets/` before committing.
+
+3. **Always create a backup before pushing**: open `/admin/backups`, click "Create Full Backup" (DB + uploaded files). The download is a single `.json` file — keep it safe and re-upload it on any new environment to instantly restore everything.
+
+## Environment variables
+
+Create a `.env` file (NEVER commit it):
+
+```env
+DATABASE_URL=postgres://user:pass@host/dbname
+
+ADMIN_USERNAME=youremail@example.com
+ADMIN_PASSWORD=your-secure-password
+JWT_SECRET=any-long-random-string
+
+# Optional — outgoing contact email (SMTP)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=youremail@gmail.com
+SMTP_PASS=your-app-password
+SMTP_FROM="M.I. Engineering <youremail@gmail.com>"
+SMTP_TO=youremail@gmail.com
+```
+
+A safe template lives at `.env.example`.
+
+## Admin panel (`/admin`)
+
+Available pages (all gated by JWT login):
+
+- **Dashboard** — overview
+- **MI Chat** — natural-language admin assistant (backup, restore, health)
+- **Backups** — create / upload / restore full website backups
+- **Branding & Identity** — brand name, tagline, logo, favicon, GST, social links
+- **Theme & Colors** — change site palette with presets or custom HSL values
+- **Animations** — choose background / card animations
+- **Site Content** — hero, about, stats, contact text
+- **Custom Sections** — add extra blocks to the homepage
+- **Products / Industries / Standards / Applications / Specifications** — full CRUD
+- **Grade Chart** — technical reference table
+- **PDF Catalog** — upload / manage downloadable catalog
+- **Photos & Videos** — media gallery with category filters: **Hero / Product / Banner / Gallery**
+- **Calculator** — bolt / load calculator (admin-only tool)
+- **Ledger / Khata** — customers + invoices
+- **Submissions** — contact form responses
+
+## Useful scripts
 
 ```bash
-npm run build         # builds the React client into dist/public + bundles the server
-npm start             # runs the production server (Express serves the built client)
+npm run dev        # start dev (vite + express)
+npm run build      # production frontend bundle
+npm run db:push    # sync Drizzle schema to DB
+npm run db:seed    # seed reference data
+npx tsx scripts/fix-cats.ts   # re-run product category backfill manually
 ```
 
-The production server is a **single Node process** listening on `PORT` (defaults to `5000`) that serves both the static frontend assets and the `/api/*` JSON endpoints.
+## Deployment notes
 
----
-
-## Deploying
-
-This is a **dynamic Node.js + PostgreSQL** application. It cannot be deployed as a pure static site (Netlify free / Vercel static hosting), because the admin dashboard, ledger, contact form and content APIs all need a live server and database.
-
-### Option A — Replit Deployments (recommended, one-click)
-
-1. Open the project on Replit.
-2. Click **Deploy** in the top-right.
-3. Choose **Reserved VM** (always-on) or **Autoscale**.
-4. Replit will use `npm run build` and `npm start` automatically.
-5. Add the environment variables listed above in the **Secrets** panel before deploying.
-
-### Option B — Render.com / Railway.app / Fly.io
-
-1. Create a new **Web Service** from this repository.
-2. Build command: `npm install && npm run build`
-3. Start command: `npm start`
-4. Add the environment variables from the table above.
-5. Provision a managed Postgres database and paste the connection string into `DATABASE_URL`.
-6. Run `npm run db:push` once after first deploy (Render/Railway both expose a shell or "post-deploy" hook).
-
-### Option C — VPS / Self-hosted (DigitalOcean, AWS EC2, Hetzner, …)
-
-```bash
-# on the server
-git clone <your-repo-url> mi-website && cd mi-website
-npm install
-npm run build
-
-# create .env with the required variables
-nano .env
-
-npm run db:push
-
-# run with pm2 so it stays alive
-npm i -g pm2
-pm2 start "npm start" --name mi-website
-pm2 save
-```
-
-Then put **nginx** in front to handle TLS:
-
-```nginx
-server {
-    listen 443 ssl http2;
-    server_name miengineeringworks.com www.miengineeringworks.com;
-    # ssl_certificate / ssl_certificate_key from Let's Encrypt
-
-    location / {
-        proxy_pass http://127.0.0.1:5000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-```
-
-### Option D — cPanel / shared hosting (only if your plan offers Node.js)
-
-Most cPanel plans expose **"Setup Node.js App"** under the Software section.
-
-1. In **Setup Node.js App**, create an app:
-   - Node version: **20.x** (or the latest supported by your host)
-   - Application root: the folder where you uploaded this project
-   - Application URL: your domain
-   - Application startup file: `dist/index.js`
-2. SSH into the server (or use the host's terminal):
-   ```bash
-   cd ~/<your-app-folder>
-   npm install
-   npm run build
-   npm run db:push
-   ```
-3. In the **Setup Node.js App** page, click **Add variable** and add every key from the env-vars table.
-4. Click **Restart**.
-5. Use cPanel's **PostgreSQL Databases** tool (or any external Postgres host like Neon / Supabase / Render) and paste the connection string into `DATABASE_URL`.
-
-> ❗ A pure static cPanel plan **without Node support** cannot host this app.
-
-### What about Vercel / Netlify?
-
-Vercel and Netlify can host this project too, but only if you use their **serverless functions** or a long-running server platform — the same constraints as Render/Railway. Static-only deploys will not work because the admin panel and ledger require an Express backend with Postgres.
-
----
-
-## Admin Panel
-
-- URL: `https://your-domain/admin/login`
-- Username: as set in `ADMIN_USERNAME`
-- Password: as set in `ADMIN_PASSWORD` (or the default `6392061892` if not set — **change this on production**)
-
-Inside the panel you can manage:
-
-- Branding & identity (logo, colors)
-- Animations (product card + page background)
-- Site content (key/value editor)
-- Custom homepage sections
-- Products / Industries / Standards / Grade chart / Specifications
-- PDF catalog upload
-- Photos & videos (gallery)
-- **Calculator** — internal weight / pricing tool for fasteners
-- **Ledger / Khata** — customer-first bookkeeping (add a customer, then record their invoices)
-- Contact form submissions
-
----
-
-## Project Layout
-
-```
-shared/schema.ts        # Drizzle tables + Zod insert schemas (single source of truth)
-server/
-  index.ts              # Express routes + auth + email
-  storage.ts            # Database access layer (used by routes)
-  db.ts                 # Drizzle client
-src/
-  pages/                # Public site pages
-  pages/admin/          # Admin dashboard pages (gated by RequireAdmin)
-  components/           # Reusable UI
-  hooks/, lib/          # Shared client-side helpers
-```
-
----
-
-## License
-
-Proprietary — © M.I. Engineering Works, Mumbai. All rights reserved.
+- This project deploys cleanly to Replit (autoscale), Vercel, or any Node host that exposes `PORT=3001` (Express) + serves the Vite build under the same domain.
+- On Vercel, the express app is mounted as a serverless function from `server/index.ts` and uploads land in `/tmp` (ephemeral). For persistent uploads in production, mount cloud object storage and update `UPLOAD_DIR` in `server/index.ts`.

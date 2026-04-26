@@ -7,6 +7,7 @@ const links = [
   { to: "/admin/mi", label: "MI Chat", icon: Bot },
   { to: "/admin/backups", label: "Backups", icon: HardDriveDownload },
   { to: "/admin/branding", label: "Branding & Identity", icon: Palette },
+  { to: "/admin/theme", label: "Theme & Colors", icon: Palette },
   { to: "/admin/animations", label: "Animations", icon: Sparkles },
   { to: "/admin/content", label: "Site Content", icon: FileText },
   { to: "/admin/sections", label: "Custom Sections", icon: LayoutGrid },

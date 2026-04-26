@@ -58,12 +58,16 @@ export const standards = pgTable("standards", {
 export const media = pgTable("media", {
   id: serial("id").primaryKey(),
   type: varchar("type", { length: 16 }).notNull(),
+  category: varchar("category", { length: 24 }).notNull().default("gallery"),
   url: text("url").notNull(),
   title: text("title").notNull().default(""),
   caption: text("caption").notNull().default(""),
   thumbnail: text("thumbnail").notNull().default(""),
   sortOrder: serial("sort_order"),
 });
+
+export const MEDIA_CATEGORIES = ["hero", "product", "banner", "gallery"] as const;
+export type MediaCategory = (typeof MEDIA_CATEGORIES)[number];
 
 export const contactSubmissions = pgTable("contact_submissions", {
   id: serial("id").primaryKey(),

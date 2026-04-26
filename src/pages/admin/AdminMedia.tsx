@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AdminLayout from "./AdminLayout";
 import { api, uploadFile } from "@/lib/api";
 import type { Media } from "@/lib/api-extras";
-import { Trash2, Upload, Plus, Play } from "lucide-react";
+import { Trash2, Upload, Plus, Play, Image as ImageIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const empty = { type: "photo" as "photo" | "video", url: "", title: "", caption: "", thumbnail: "" };
+const CATEGORIES = ["hero", "product", "banner", "gallery"] as const;
+type Cat = (typeof CATEGORIES)[number];
+
+const empty = { type: "photo" as "photo" | "video", category: "gallery" as Cat, url: "", title: "", caption: "", thumbnail: "" };
 
 const AdminMedia = () => {
   const qc = useQueryClient();
@@ -14,6 +17,20 @@ const AdminMedia = () => {
   const { data } = useQuery<Media[]>({ queryKey: ["/api/media"], queryFn: () => api("/api/media") });
   const [form, setForm] = useState<typeof empty>(empty);
   const [busy, setBusy] = useState(false);
+  const [filter, setFilter] = useState<"all" | Cat>("all");
+
+  const filtered = useMemo(() => {
+    const arr = data ?? [];
+    if (filter === "all") return arr;
+    return arr.filter((m) => ((m as any).category || "gallery") === filter);
+  }, [data, filter]);
+
+  const counts = useMemo(() => {
+    const m: Record<string, number> = { all: data?.length ?? 0 };
+    CATEGORIES.forEach((c) => (m[c] = 0));
+    (data ?? []).forEach((it) => { const c = (it as any).category || "gallery"; m[c] = (m[c] || 0) + 1; });
+    return m;
+  }, [data]);
 
   const create = useMutation({
     mutationFn: (v: typeof empty) => api("/api/admin/media", { method: "POST", body: JSON.stringify(v) }),
@@ -61,10 +78,17 @@ const AdminMedia = () => {
             </select>
           </label>
           <label className="block">
-            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Title</span>
-            <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="mt-1 w-full bg-background border border-border rounded-md px-3 py-2" data-testid="input-media-title" />
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Category</span>
+            <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value as Cat })} className="mt-1 w-full bg-background border border-border rounded-md px-3 py-2" data-testid="select-media-category">
+              {CATEGORIES.map((c) => <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>)}
+            </select>
           </label>
         </div>
+
+        <label className="block">
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Title</span>
+          <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="mt-1 w-full bg-background border border-border rounded-md px-3 py-2" data-testid="input-media-title" />
+        </label>
 
         <div>
           <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Media File ({form.type})</span>
@@ -101,30 +125,51 @@ const AdminMedia = () => {
       </form>
 
       <div>
-        <h2 className="font-heading text-lg font-bold mb-3">Existing Media ({data?.length ?? 0})</h2>
-        {data && data.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {data.map((m) => (
-              <div key={m.id} className="bg-card border border-border rounded-lg overflow-hidden" data-testid={`media-${m.id}`}>
-                <div className="relative aspect-square bg-secondary">
-                  <img src={m.thumbnail || m.url} alt={m.title} className="w-full h-full object-cover" />
-                  {m.type === "video" && (
-                    <span className="absolute inset-0 flex items-center justify-center bg-black/30">
-                      <span className="w-10 h-10 rounded-full bg-gradient-gold flex items-center justify-center"><Play className="w-4 h-4 text-charcoal" /></span>
-                    </span>
-                  )}
-                </div>
-                <div className="p-3">
-                  <div className="text-sm font-semibold text-foreground line-clamp-1">{m.title || "(untitled)"}</div>
-                  <div className="text-xs text-muted-foreground capitalize">{m.type}</div>
-                  <button onClick={() => { if (confirm("Delete this media?")) del.mutate(m.id); }} data-testid={`button-delete-media-${m.id}`} className="mt-2 inline-flex items-center gap-1 px-2 py-1 text-xs border border-destructive/40 text-destructive rounded hover:bg-destructive/10">
-                    <Trash2 className="w-3 h-3" /> Delete
-                  </button>
-                </div>
-              </div>
+        <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
+          <h2 className="font-heading text-lg font-bold flex items-center gap-2"><ImageIcon className="w-5 h-5 text-primary" /> Existing Media ({filtered.length})</h2>
+          <div className="flex gap-2 flex-wrap">
+            {(["all", ...CATEGORIES] as const).map((c) => (
+              <button
+                key={c}
+                type="button"
+                onClick={() => setFilter(c as any)}
+                data-testid={`filter-media-${c}`}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all capitalize ${
+                  filter === c ? "bg-gradient-gold text-charcoal border-transparent" : "bg-card text-foreground/70 border-border hover:border-primary/50"
+                }`}
+              >
+                {c} <span className="opacity-70 ml-1">({counts[c] || 0})</span>
+              </button>
             ))}
           </div>
-        ) : <div className="bg-card rounded-lg border border-border p-8 text-center text-muted-foreground text-sm">No media uploaded yet.</div>}
+        </div>
+        {filtered.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {filtered.map((m) => {
+              const cat = ((m as any).category || "gallery") as string;
+              return (
+                <div key={m.id} className="bg-card border border-border rounded-lg overflow-hidden" data-testid={`media-${m.id}`}>
+                  <div className="relative aspect-square bg-secondary">
+                    <img src={m.thumbnail || m.url} alt={m.title} className="w-full h-full object-cover" />
+                    {m.type === "video" && (
+                      <span className="absolute inset-0 flex items-center justify-center bg-black/30">
+                        <span className="w-10 h-10 rounded-full bg-gradient-gold flex items-center justify-center"><Play className="w-4 h-4 text-charcoal" /></span>
+                      </span>
+                    )}
+                    <span className="absolute top-2 left-2 px-2 py-0.5 text-[10px] uppercase font-semibold rounded-full bg-charcoal/80 text-primary border border-primary/30">{cat}</span>
+                  </div>
+                  <div className="p-3">
+                    <div className="text-sm font-semibold text-foreground line-clamp-1">{m.title || "(untitled)"}</div>
+                    <div className="text-xs text-muted-foreground capitalize">{m.type}</div>
+                    <button onClick={() => { if (confirm("Delete this media?")) del.mutate(m.id); }} data-testid={`button-delete-media-${m.id}`} className="mt-2 inline-flex items-center gap-1 px-2 py-1 text-xs border border-destructive/40 text-destructive rounded hover:bg-destructive/10">
+                      <Trash2 className="w-3 h-3" /> Delete
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : <div className="bg-card rounded-lg border border-border p-8 text-center text-muted-foreground text-sm">No media in this category.</div>}
       </div>
     </AdminLayout>
   );

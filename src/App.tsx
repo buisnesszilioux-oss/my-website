@@ -11,6 +11,7 @@ import WhatsAppButton from "./components/WhatsAppButton.tsx";
 import ScrollToTop from "./components/ScrollToTop";
 import BrandingHead from "./components/BrandingHead";
 import { useApplyBackgroundAnimation } from "@/hooks/useActiveAnimations";
+import { useApplyTheme } from "@/hooks/useApplyTheme";
 
 // Public pages — lazy loaded for faster initial paint
 const ProductDetail = lazy(() => import("./pages/ProductDetail.tsx"));
@@ -50,6 +51,7 @@ const AdminApplications = lazy(() => import("./pages/admin/AdminApplications.tsx
 const AdminApplicationUseCases = lazy(() => import("./pages/admin/AdminApplicationUseCases.tsx"));
 const AdminMI = lazy(() => import("./pages/admin/AdminMI.tsx"));
 const AdminBackups = lazy(() => import("./pages/admin/AdminBackups.tsx"));
+const AdminTheme = lazy(() => import("./pages/admin/AdminTheme.tsx"));
 const RequireAdmin = lazy(() => import("./pages/admin/RequireAdmin.tsx"));
 
 const queryClient = new QueryClient({
@@ -109,6 +111,7 @@ const AnimatedRoutes = () => {
           <Route path="/admin/applications/:slug" element={<RequireAdmin><AdminApplicationUseCases /></RequireAdmin>} />
           <Route path="/admin/mi" element={<RequireAdmin><AdminMI /></RequireAdmin>} />
           <Route path="/admin/backups" element={<RequireAdmin><AdminBackups /></RequireAdmin>} />
+          <Route path="/admin/theme" element={<RequireAdmin><AdminTheme /></RequireAdmin>} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -119,6 +122,7 @@ const AnimatedRoutes = () => {
 
 const SiteEffects = () => {
   useApplyBackgroundAnimation();
+  useApplyTheme();
   return null;
 };
 
