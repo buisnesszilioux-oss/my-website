@@ -24,3 +24,18 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
     res.status(401).json({ error: "Invalid token" });
   }
 };
+
+// Same as requireAuth but for normal customer-user JWTs (kind = "user")
+export const requireUser = (req: Request, res: Response, next: NextFunction) => {
+  const auth = req.headers.authorization;
+  if (!auth?.startsWith("Bearer ")) return res.status(401).json({ error: "Unauthorized" });
+  try {
+    const token = auth.slice(7);
+    const payload: any = jwt.verify(token, JWT_SECRET);
+    if (payload?.kind !== "user") return res.status(401).json({ error: "Invalid token" });
+    (req as any).user = payload;
+    next();
+  } catch {
+    res.status(401).json({ error: "Invalid token" });
+  }
+};

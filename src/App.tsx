@@ -12,6 +12,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import BrandingHead from "./components/BrandingHead";
 import { useApplyBackgroundAnimation } from "@/hooks/useActiveAnimations";
 import { useApplyTheme } from "@/hooks/useApplyTheme";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 // Public pages — lazy loaded for faster initial paint
 const ProductDetail = lazy(() => import("./pages/ProductDetail.tsx"));
@@ -27,6 +28,8 @@ const StandardDetail = lazy(() => import("./pages/StandardDetail.tsx"));
 const GalleryPage = lazy(() => import("./pages/GalleryPage.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const QuotePage = lazy(() => import("./pages/QuotePage.tsx"));
+const UserAuthPage = lazy(() => import("./pages/UserAuthPage.tsx"));
+const AccountPage = lazy(() => import("./pages/AccountPage.tsx"));
 
 // Calculator is now an admin-only tool
 const CalculatorPage = lazy(() => import("./pages/CalculatorPage.tsx"));
@@ -87,6 +90,9 @@ const AnimatedRoutes = () => {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/quote" element={<QuotePage />} />
+          <Route path="/login" element={<UserAuthPage />} />
+          <Route path="/register" element={<UserAuthPage />} />
+          <Route path="/account" element={<AccountPage />} />
           <Route path="/product/:slug" element={<ProductDetail />} />
           <Route path="/industry/:slug" element={<IndustryDetail />} />
           <Route path="/applications" element={<ApplicationsPage />} />
@@ -144,11 +150,13 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <BrandingHead />
-            <SiteEffects />
-            <ScrollToTop />
-            <AnimatedRoutes />
-            <WhatsAppButton />
+            <AuthProvider>
+              <BrandingHead />
+              <SiteEffects />
+              <ScrollToTop />
+              <AnimatedRoutes />
+              <WhatsAppButton />
+            </AuthProvider>
           </BrowserRouter>
         </TooltipProvider>
       </MotionConfig>

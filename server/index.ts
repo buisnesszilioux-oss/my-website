@@ -5,8 +5,8 @@ import path from "path";
 import fs from "fs";
 import multer from "multer";
 import { storage } from "./storage";
-import { hashPassword, verifyPassword, signToken, requireAuth } from "./auth";
-import { insertContactSchema, insertProductSchema, insertIndustrySchema, insertStandardSchema, insertMediaSchema, insertSiteContentSchema, insertPageSectionSchema } from "../shared/schema";
+import { hashPassword, verifyPassword, signToken, requireAuth, requireUser } from "./auth";
+import { insertContactSchema, insertProductSchema, insertIndustrySchema, insertStandardSchema, insertMediaSchema, insertSiteContentSchema, insertPageSectionSchema, insertUserSchema, loginUserSchema } from "../shared/schema";
 import { z } from "zod";
 import { generateCatalogPdf } from "./catalog-pdf";
 import { sendContactEmail } from "./mailer";
@@ -156,6 +156,106 @@ app.post("/api/admin/google-login", async (req, res) => {
     res.status(500).json({ error: "Google sign-in failed" });
   }
 });
+
+// ── User accounts (normal customers) ──────────────────────────────────────────
+const sanitiseUser = (u: any) => ({
+  id: u.id, email: u.email, name: u.name, phone: u.phone,
+  company: u.company, picture: u.picture, provider: u.provider,
+  createdAt: u.createdAt,
+});
+
+app.post("/api/auth/register", wrap(async (req, res) => {
+  const parsed = insertUserSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: parsed.error.issues[0]?.message || "Invalid data" });
+  }
+  const data = parsed.data;
+  const existing = await storage.getUserByEmail(data.email);
+  if (existing) return res.status(409).json({ error: "An account with this email already exists" });
+  const passwordHash = await hashPassword(data.password);
+  const user = await storage.createUser({
+    email: data.email,
+    name: data.name,
+    phone: data.phone || "",
+    company: data.company || "",
+    passwordHash,
+    provider: "password",
+  });
+  const token = signToken({ id: user.id, email: user.email, kind: "user" });
+  res.json({ token, user: sanitiseUser(user) });
+}));
+
+app.post("/api/auth/login", wrap(async (req, res) => {
+  const parsed = loginUserSchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(400).json({ error: parsed.error.issues[0]?.message || "Invalid data" });
+  }
+  const { email, password } = parsed.data;
+  const user = await storage.getUserByEmail(email);
+  if (!user || !user.passwordHash) {
+    return res.status(401).json({ error: "Invalid email or password" });
+  }
+  const ok = await verifyPassword(password, user.passwordHash);
+  if (!ok) return res.status(401).json({ error: "Invalid email or password" });
+  const token = signToken({ id: user.id, email: user.email, kind: "user" });
+  res.json({ token, user: sanitiseUser(user) });
+}));
+
+// Google sign-in for normal users — auto-creates an account on first login
+app.post("/api/auth/google", wrap(async (req, res) => {
+  const credential = String(req.body?.credential || "").trim();
+  if (!credential) return res.status(400).json({ error: "Missing Google credential" });
+  const expectedAud = process.env.GOOGLE_CLIENT_ID || "";
+  if (!expectedAud) return res.status(500).json({ error: "Google login not configured." });
+
+  const verifyUrl = `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(credential)}`;
+  const r = await fetch(verifyUrl);
+  if (!r.ok) return res.status(401).json({ error: "Invalid Google token" });
+  const payload: any = await r.json();
+  if (String(payload.aud || "") !== expectedAud) return res.status(401).json({ error: "Invalid Google token" });
+  if (!["accounts.google.com", "https://accounts.google.com"].includes(String(payload.iss || ""))) {
+    return res.status(401).json({ error: "Invalid Google token" });
+  }
+  if (Number(payload.exp || 0) * 1000 <= Date.now()) return res.status(401).json({ error: "Google token expired" });
+  if (!payload.email_verified || payload.email_verified === "false") {
+    return res.status(401).json({ error: "Google email not verified" });
+  }
+  const email = String(payload.email || "").trim().toLowerCase();
+  if (!email) return res.status(400).json({ error: "Google account has no email" });
+
+  let user = await storage.getUserByEmail(email);
+  if (!user) {
+    user = await storage.createUser({
+      email,
+      name: String(payload.name || email.split("@")[0]),
+      picture: String(payload.picture || ""),
+      provider: "google",
+    });
+  }
+  const token = signToken({ id: user.id, email: user.email, kind: "user" });
+  res.json({ token, user: sanitiseUser(user) });
+}));
+
+app.get("/api/auth/me", requireUser, wrap(async (req, res) => {
+  const id = (req as any).user?.id;
+  const user = id ? await storage.getUserById(id) : null;
+  if (!user) return res.status(401).json({ error: "Account not found" });
+  res.json({ user: sanitiseUser(user) });
+}));
+
+app.patch("/api/auth/me", requireUser, wrap(async (req, res) => {
+  const id = (req as any).user?.id;
+  if (!id) return res.status(401).json({ error: "Unauthorized" });
+  const schema = z.object({
+    name: z.string().min(2).optional(),
+    phone: z.string().optional(),
+    company: z.string().optional(),
+  });
+  const parsed = schema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json({ error: parsed.error.issues[0]?.message || "Invalid data" });
+  const updated = await storage.updateUser(id, parsed.data);
+  res.json({ user: sanitiseUser(updated) });
+}));
 
 // Public reads
 app.get("/api/products",       wrap(async (_req, res) => res.json(await storage.listProducts())));

@@ -8,6 +8,33 @@ export const adminUsers = pgTable("admin_users", {
   passwordHash: text("password_hash").notNull(),
 });
 
+// Customer / normal user accounts (separate from admin)
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  email: varchar("email", { length: 128 }).notNull().unique(),
+  name: text("name").notNull(),
+  phone: text("phone").notNull().default(""),
+  company: text("company").notNull().default(""),
+  passwordHash: text("password_hash").notNull().default(""),
+  provider: varchar("provider", { length: 16 }).notNull().default("password"),
+  picture: text("picture").notNull().default(""),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertUserSchema = z.object({
+  email: z.string().email("Valid email required").transform((v) => v.trim().toLowerCase()),
+  name: z.string().min(2, "Name is required"),
+  phone: z.string().optional().default(""),
+  company: z.string().optional().default(""),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
+export const loginUserSchema = z.object({
+  email: z.string().email("Valid email required").transform((v) => v.trim().toLowerCase()),
+  password: z.string().min(1, "Password is required"),
+});
+export type User = typeof users.$inferSelect;
+export type InsertUser = z.infer<typeof insertUserSchema>;
+
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
   slug: varchar("slug", { length: 128 }).notNull().unique(),

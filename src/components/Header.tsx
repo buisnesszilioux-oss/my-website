@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { Menu, X, Phone, Mail, Search, Download, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, Mail, Search, Download, ChevronDown, User as UserIcon, LogOut, LayoutDashboard } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import SearchDialog from "@/components/SearchDialog";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import { api, type Industry, type Standard } from "@/lib/api";
+import { useAuth } from "@/contexts/AuthContext";
 
 type NavLink = {
   label: string;
@@ -36,6 +37,9 @@ const Header = () => {
   const brandTagline = (content["brand.tagline"] || "Premium Fastener Solutions").trim();
   const brandLogo = (content["brand.logo"] || "").trim();
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { user, logout } = useAuth();
+  const [accountOpen, setAccountOpen] = useState(false);
+  const accountRef = useRef<HTMLDivElement>(null);
 
   const { data: industries = [] } = useQuery<Industry[]>({
     queryKey: ["industries"],
@@ -184,59 +188,133 @@ const Header = () => {
 
       {/* Main nav */}
       <header className="sticky top-0 z-50 glass-panel-strong border-b border-primary/15">
-        <div className="container flex items-center justify-between gap-4 h-16 md:h-20">
+        <div className="container flex items-center justify-between gap-3 h-14 md:h-16">
           <a
             href="/"
             onClick={handleLogoClick}
             data-testid="link-logo-home"
-            className="flex items-center gap-3 leading-tight group flex-shrink-0 cursor-pointer"
+            className="flex items-center gap-2 leading-tight group flex-shrink-0 cursor-pointer"
           >
             {brandLogo ? (
-              <img src={brandLogo} alt={brandName} className="h-10 md:h-12 w-auto object-contain" data-testid="img-brand-logo" />
+              <img src={brandLogo} alt={brandName} className="h-8 md:h-10 w-auto object-contain" data-testid="img-brand-logo" />
             ) : null}
             <span className="flex flex-col">
-              <span className="font-heading text-xl md:text-2xl font-bold text-gradient-gold">{brandName}</span>
-              <span className="text-[10px] md:text-xs tracking-[0.2em] uppercase text-muted-foreground">{brandTagline}</span>
+              <span className="font-heading text-sm md:text-base lg:text-lg font-bold text-gradient-gold leading-tight">{brandName}</span>
+              <span className="hidden sm:inline text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-muted-foreground">{brandTagline}</span>
             </span>
           </a>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-4 xl:gap-5">
+          <nav className="hidden lg:flex items-center gap-3 xl:gap-4">
             {navLinks.map(renderDesktopLink)}
           </nav>
 
           {/* Right side actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <button
               onClick={() => setSearchOpen(true)}
               data-testid="button-search"
               aria-label="Search"
-              className="hidden md:inline-flex items-center gap-2 px-3 py-2 rounded-md border border-border text-sm text-muted-foreground hover:text-primary hover:border-primary transition"
+              title="Search"
+              className="hidden md:inline-flex items-center justify-center w-8 h-8 rounded-md border border-border text-muted-foreground hover:text-primary hover:border-primary transition"
             >
-              <Search className="w-4 h-4" /> <span className="hidden xl:inline">Search</span>
+              <Search className="w-3.5 h-3.5" />
             </button>
             <a
               href="/api/catalog.pdf"
               target="_blank"
               rel="noopener noreferrer"
               data-testid="button-download-catalog"
-              className="hidden md:inline-flex items-center gap-2 px-3 py-2 rounded-md border border-primary/40 text-primary text-sm font-semibold hover:bg-primary/10 transition"
+              aria-label="Download catalog"
+              title="Download catalog"
+              className="hidden md:inline-flex items-center justify-center w-8 h-8 rounded-md border border-primary/40 text-primary hover:bg-primary/10 transition"
             >
-              <Download className="w-4 h-4" /> <span className="hidden xl:inline">Catalog</span>
+              <Download className="w-3.5 h-3.5" />
             </a>
+
+            {/* User account button / dropdown */}
+            {user ? (
+              <div
+                className="relative hidden md:block"
+                ref={accountRef}
+                onMouseLeave={() => setAccountOpen(false)}
+              >
+                <button
+                  type="button"
+                  onClick={() => setAccountOpen((o) => !o)}
+                  onMouseEnter={() => setAccountOpen(true)}
+                  data-testid="button-account-menu"
+                  className="inline-flex items-center gap-2 pl-1 pr-2.5 py-1 rounded-full border border-primary/30 text-foreground/90 hover:border-primary hover:text-primary transition text-xs font-semibold"
+                >
+                  <span className="w-7 h-7 rounded-full bg-gradient-gold text-charcoal text-[11px] font-bold flex items-center justify-center overflow-hidden">
+                    {user.picture ? (
+                      <img src={user.picture} alt={user.name} className="w-full h-full object-cover" />
+                    ) : (
+                      user.name.charAt(0).toUpperCase()
+                    )}
+                  </span>
+                  <span className="hidden lg:inline max-w-[80px] truncate">{user.name.split(" ")[0]}</span>
+                  <ChevronDown className={`w-3 h-3 transition-transform ${accountOpen ? "rotate-180" : ""}`} />
+                </button>
+                {accountOpen && (
+                  <div className="absolute right-0 top-full pt-2 w-56 z-50">
+                    <div className="rounded-xl border border-primary/15 bg-card/95 backdrop-blur-xl shadow-elegant p-1.5">
+                      <div className="px-3 py-2 border-b border-border/40 mb-1">
+                        <p className="text-sm font-semibold truncate">{user.name}</p>
+                        <p className="text-[11px] text-muted-foreground truncate">{user.email}</p>
+                      </div>
+                      <Link
+                        to="/account"
+                        onClick={() => setAccountOpen(false)}
+                        data-testid="link-account"
+                        className="flex items-center gap-2 px-3 py-2 rounded-md text-sm hover:bg-secondary/60 hover:text-primary transition"
+                      >
+                        <LayoutDashboard className="w-4 h-4" /> My account
+                      </Link>
+                      <Link
+                        to="/quote"
+                        onClick={() => setAccountOpen(false)}
+                        className="flex items-center gap-2 px-3 py-2 rounded-md text-sm hover:bg-secondary/60 hover:text-primary transition"
+                      >
+                        <Mail className="w-4 h-4" /> Request a quote
+                      </Link>
+                      <button
+                        onClick={() => { logout(); setAccountOpen(false); }}
+                        data-testid="button-logout-menu"
+                        className="w-full flex items-center gap-2 px-3 py-2 rounded-md text-sm text-foreground/80 hover:text-red-400 hover:bg-red-500/10 transition"
+                      >
+                        <LogOut className="w-4 h-4" /> Sign out
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                data-testid="button-user-login"
+                title="Sign in"
+                className={`hidden md:inline-flex items-center justify-center gap-1.5 h-8 px-2.5 rounded-md border border-primary/40 text-primary text-xs font-semibold whitespace-nowrap hover:bg-primary/10 transition ${
+                  location.pathname === "/login" ? "bg-primary/10" : ""
+                }`}
+              >
+                <UserIcon className="w-3.5 h-3.5" /> <span className="hidden xl:inline">Sign In</span>
+              </Link>
+            )}
+
             <Link
               to="/quote"
               data-testid="nav-quote"
-              className={`hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-md bg-gradient-gold text-charcoal text-sm font-semibold hover:opacity-90 transition shadow-gold ${
+              className={`hidden md:inline-flex items-center px-3 py-1.5 rounded-md bg-gradient-gold text-charcoal text-xs font-bold hover:opacity-90 transition shadow-gold ${
                 location.pathname === "/quote" ? "ring-2 ring-primary/50" : ""
               }`}
             >
-              Get a Quote
+              Get Quote
             </Link>
 
-            <button onClick={() => setSearchOpen(true)} data-testid="button-search-mobile" aria-label="Search" className="md:hidden p-2 text-foreground"><Search className="w-5 h-5" /></button>
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden text-foreground p-2" data-testid="button-menu-mobile" aria-label="Menu">
-              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <button onClick={() => setSearchOpen(true)} data-testid="button-search-mobile" aria-label="Search" className="md:hidden p-1.5 text-foreground"><Search className="w-5 h-5" /></button>
+            <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden text-foreground p-1.5" data-testid="button-menu-mobile" aria-label="Menu">
+              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -299,17 +377,38 @@ const Header = () => {
               );
             })}
             <div className="px-6 pt-3 space-y-2 text-sm">
-              <Link
-                to="/quote"
-                onClick={() => setMobileOpen(false)}
-                data-testid="nav-quote-mobile"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-gradient-gold text-charcoal font-semibold mr-2"
-              >
-                Get a Quote
-              </Link>
-              <a href="/api/catalog.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-primary text-primary font-semibold">
-                <Download className="w-4 h-4" /> Catalog
-              </a>
+              <div className="flex flex-wrap gap-2">
+                <Link
+                  to="/quote"
+                  onClick={() => setMobileOpen(false)}
+                  data-testid="nav-quote-mobile"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-gradient-gold text-charcoal font-semibold"
+                >
+                  Get a Quote
+                </Link>
+                {user ? (
+                  <Link
+                    to="/account"
+                    onClick={() => setMobileOpen(false)}
+                    data-testid="nav-account-mobile"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-primary text-primary font-semibold"
+                  >
+                    <UserIcon className="w-4 h-4" /> {user.name.split(" ")[0]}
+                  </Link>
+                ) : (
+                  <Link
+                    to="/login"
+                    onClick={() => setMobileOpen(false)}
+                    data-testid="nav-login-mobile"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-primary text-primary font-semibold"
+                  >
+                    <UserIcon className="w-4 h-4" /> Sign In
+                  </Link>
+                )}
+                <a href="/api/catalog.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-border text-foreground/80 font-semibold">
+                  <Download className="w-4 h-4" /> Catalog
+                </a>
+              </div>
               <a href="mailto:mienginering17@gmail.com" className="flex items-center gap-2 text-primary"><Mail className="w-4 h-4" /> mienginering17@gmail.com</a>
               <a href="tel:9819972301" className="flex items-center gap-2 text-primary"><Phone className="w-4 h-4" /> +91 98199 72301</a>
             </div>

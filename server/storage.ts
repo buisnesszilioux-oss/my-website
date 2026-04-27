@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { adminUsers, products, industries, standards, contactSubmissions, media, siteContent, pageSections, ledgerEntries, customers, floatingImages } from "../shared/schema";
+import { adminUsers, users, products, industries, standards, contactSubmissions, media, siteContent, pageSections, ledgerEntries, customers, floatingImages } from "../shared/schema";
 import { eq, asc, desc } from "drizzle-orm";
 import type { InsertProduct, InsertIndustry, InsertStandard, InsertContact, InsertMedia, InsertSiteContent, InsertPageSection, InsertLedger, InsertCustomer, InsertFloatingImage } from "../shared/schema";
 
@@ -12,6 +12,24 @@ export const storage = {
   updateAdminPassword: (id: number, passwordHash: string) =>
     db.update(adminUsers).set({ passwordHash }).where(eq(adminUsers.id, id)).returning().then((r) => r[0]),
   deleteAllAdmins: () => db.delete(adminUsers),
+
+  // Users (normal customer accounts)
+  getUserByEmail: (email: string) =>
+    db.select().from(users).where(eq(users.email, email)).then((r) => r[0]),
+  getUserById: (id: number) =>
+    db.select().from(users).where(eq(users.id, id)).then((r) => r[0]),
+  createUser: (data: { email: string; name: string; phone?: string; company?: string; passwordHash?: string; provider?: string; picture?: string }) =>
+    db.insert(users).values({
+      email: data.email,
+      name: data.name,
+      phone: data.phone ?? "",
+      company: data.company ?? "",
+      passwordHash: data.passwordHash ?? "",
+      provider: data.provider ?? "password",
+      picture: data.picture ?? "",
+    }).returning().then((r) => r[0]),
+  updateUser: (id: number, data: Partial<{ name: string; phone: string; company: string; picture: string }>) =>
+    db.update(users).set(data).where(eq(users.id, id)).returning().then((r) => r[0]),
 
   // Media
   listMedia: () => db.select().from(media).orderBy(asc(media.sortOrder)),
