@@ -9,6 +9,7 @@ const links = [
   { to: "/admin/branding", label: "Branding & Identity", icon: Palette },
   { to: "/admin/theme", label: "Theme & Colors", icon: Palette },
   { to: "/admin/hero", label: "Hero Images", icon: ImagePlus },
+  { to: "/admin/floating-images", label: "Floating Images", icon: Sparkles },
   { to: "/admin/animations", label: "Animations", icon: Sparkles },
   { to: "/admin/content", label: "Site Content", icon: FileText },
   { to: "/admin/sections", label: "Custom Sections", icon: LayoutGrid },
@@ -32,25 +33,25 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen flex bg-secondary/20">
-      <aside className="w-60 bg-gradient-dark text-primary-foreground flex flex-col">
+      <aside className="w-60 bg-gradient-dark text-white flex flex-col">
         <div className="p-5 border-b border-white/10">
           <div className="font-heading text-lg font-bold text-gradient-gold">M.I. Admin</div>
-          <div className="text-[10px] uppercase tracking-widest text-primary-foreground/60 mt-1">Content Manager</div>
+          <div className="text-[10px] uppercase tracking-widest text-white/70 mt-1">Content Manager</div>
         </div>
-        <nav className="flex-1 py-3">
+        <nav className="flex-1 py-3 overflow-y-auto">
           {links.map(({ to, label, icon: Icon }) => {
             const active = loc.pathname === to;
             return (
               <Link key={to} to={to} data-testid={`nav-${label.toLowerCase()}`}
-                className={`flex items-center gap-3 px-5 py-2.5 text-sm hover:bg-white/5 transition ${active ? "bg-primary/20 text-primary border-l-2 border-primary" : "text-primary-foreground/80"}`}>
-                <Icon className="w-4 h-4" /> {label}
+                className={`flex items-center gap-3 px-5 py-2.5 text-sm hover:bg-white/10 hover:text-white transition ${active ? "bg-primary/25 text-white border-l-2 border-primary font-semibold" : "text-white/85"}`}>
+                <Icon className="w-4 h-4 shrink-0" /> <span className="truncate">{label}</span>
               </Link>
             );
           })}
         </nav>
         <div className="p-3 border-t border-white/10 space-y-1">
-          <Link to="/" className="flex items-center gap-2 px-3 py-2 text-sm text-primary-foreground/80 hover:text-primary"><Home className="w-4 h-4" /> View Site</Link>
-          <button onClick={logout} data-testid="button-logout" className="flex items-center gap-2 px-3 py-2 text-sm text-primary-foreground/80 hover:text-destructive w-full">
+          <Link to="/" className="flex items-center gap-2 px-3 py-2 text-sm text-white/85 hover:text-primary"><Home className="w-4 h-4" /> View Site</Link>
+          <button onClick={logout} data-testid="button-logout" className="flex items-center gap-2 px-3 py-2 text-sm text-white/85 hover:text-destructive w-full">
             <LogOut className="w-4 h-4" /> Sign Out
           </button>
         </div>

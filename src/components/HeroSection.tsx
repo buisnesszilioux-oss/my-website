@@ -3,6 +3,7 @@ import { useRef } from "react";
 import heroImg from "@/assets/hero-engineering-works.png";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import { useHeroImage } from "@/hooks/useHeroImage";
+import FloatingImages from "./FloatingImages";
 
 const HeroSection = () => {
   const { get } = useSiteContent();
@@ -45,6 +46,9 @@ const HeroSection = () => {
           />
         ))}
       </div>
+
+      {/* Admin-managed floating images (premium animated overlay) */}
+      <FloatingImages />
 
       <motion.div className="container relative z-10 py-20 md:py-32" style={{ y: textY, opacity }}>
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="max-w-3xl">

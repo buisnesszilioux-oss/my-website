@@ -1,7 +1,7 @@
 import { db } from "./db";
-import { adminUsers, products, industries, standards, contactSubmissions, media, siteContent, pageSections, ledgerEntries, customers } from "../shared/schema";
+import { adminUsers, products, industries, standards, contactSubmissions, media, siteContent, pageSections, ledgerEntries, customers, floatingImages } from "../shared/schema";
 import { eq, asc, desc } from "drizzle-orm";
-import type { InsertProduct, InsertIndustry, InsertStandard, InsertContact, InsertMedia, InsertSiteContent, InsertPageSection, InsertLedger, InsertCustomer } from "../shared/schema";
+import type { InsertProduct, InsertIndustry, InsertStandard, InsertContact, InsertMedia, InsertSiteContent, InsertPageSection, InsertLedger, InsertCustomer, InsertFloatingImage } from "../shared/schema";
 
 export const storage = {
   // Admin
@@ -99,6 +99,16 @@ export const storage = {
   updateLedger: (id: number, data: Partial<InsertLedger>) =>
     db.update(ledgerEntries).set(data).where(eq(ledgerEntries.id, id)).returning().then((r) => r[0]),
   deleteLedger: (id: number) => db.delete(ledgerEntries).where(eq(ledgerEntries.id, id)),
+
+  // Floating images (premium animated overlay images on the hero)
+  listFloatingImages: () => db.select().from(floatingImages).orderBy(asc(floatingImages.sortOrder)),
+  listEnabledFloatingImages: () =>
+    db.select().from(floatingImages).where(eq(floatingImages.enabled, true)).orderBy(asc(floatingImages.sortOrder)),
+  createFloatingImage: (data: InsertFloatingImage) =>
+    db.insert(floatingImages).values(data).returning().then((r) => r[0]),
+  updateFloatingImage: (id: number, data: Partial<InsertFloatingImage>) =>
+    db.update(floatingImages).set(data).where(eq(floatingImages.id, id)).returning().then((r) => r[0]),
+  deleteFloatingImage: (id: number) => db.delete(floatingImages).where(eq(floatingImages.id, id)),
 
   // Page sections (custom homepage blocks)
   listPageSections: (page = "home") =>

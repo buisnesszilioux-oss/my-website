@@ -330,6 +330,23 @@ app.delete("/api/admin/page-sections/:id", requireAuth, wrap(async (req, res) =>
   res.json({ ok: true });
 }));
 
+// Floating images (public read enabled, admin write)
+app.get("/api/floating-images", wrap(async (_req, res) => res.json(await storage.listEnabledFloatingImages())));
+app.get("/api/admin/floating-images", requireAuth, wrap(async (_req, res) => res.json(await storage.listFloatingImages())));
+app.post("/api/admin/floating-images", requireAuth, wrap(async (req, res) => {
+  const { insertFloatingImageSchema } = await import("../shared/schema");
+  const parsed = insertFloatingImageSchema.safeParse(req.body || {});
+  if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
+  res.json(await storage.createFloatingImage(parsed.data));
+}));
+app.patch("/api/admin/floating-images/:id", requireAuth, wrap(async (req, res) => {
+  res.json(await storage.updateFloatingImage(Number(req.params.id), req.body || {}));
+}));
+app.delete("/api/admin/floating-images/:id", requireAuth, wrap(async (req, res) => {
+  await storage.deleteFloatingImage(Number(req.params.id));
+  res.json({ ok: true });
+}));
+
 // Bootstrap default admin (email + password)
 async function ensureDefaultAdmin() {
   const password = process.env.ADMIN_PASSWORD || "6392061892";

@@ -23,7 +23,17 @@ Marketing + content-managed site for M.I. Engineering Works, manufacturer of AST
   - Email: `miengineering@gmail.com` (also accepts `miengineering17@gmail.com`)
   - Password: `6392061892`
 - Bootstrap on server start: creates/updates admin users with the env password each boot so credentials stay in sync.
-- **Sections**: Dashboard, Site Content, Custom Sections, Products, Industries, Standards, Grade Chart, Specifications, PDF Catalog, Photos & Videos, Submissions.
+- **Sections**: Dashboard, Site Content, Custom Sections, Products, Industries, Standards, Grade Chart, Specifications, PDF Catalog, Photos & Videos, Floating Images, Submissions.
+
+### Floating Images
+- Table `floating_images` (id, url, title, enabled, duration, delay, positionX, positionY, size).
+- Public endpoint: `GET /api/floating-images` (only enabled rows). Admin CRUD at `/api/admin/floating-images`.
+- Admin page `/admin/floating-images` lets staff upload images and tweak position (X/Y in %), size (px), animation duration (s) and delay (s).
+- Rendered via `src/components/FloatingImages.tsx` overlaid on the hero with `.anim-float` (CSS `float-up-down` keyframe).
+
+### Theme
+- Replaced the original gold (`48 100% 52%`) palette with a CloudOX-style blue (`210 100% 56%`); legacy class names (`bg-gradient-gold`, `text-gradient-gold`, `gold-divider`, `shadow-gold`, `text-glow-gold`) are kept but now resolve to blue tokens — no codebase-wide rename needed.
+- Favicon: `public/favicon.png` (M.I. logo). Cache-busted with `?v=2` in `index.html`.
 
 ### Editable Grade Chart & Specifications
 Stored as JSON strings in `site_content` rows under these keys (with hardcoded factory defaults if unset):

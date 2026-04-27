@@ -173,6 +173,33 @@ export const insertLedgerSchema = z.object({
 export type LedgerEntry = typeof ledgerEntries.$inferSelect;
 export type InsertLedger = z.infer<typeof insertLedgerSchema>;
 
+// Floating images shown over the hero / background with a smooth up-down animation
+export const floatingImages = pgTable("floating_images", {
+  id: serial("id").primaryKey(),
+  url: text("url").notNull(),
+  title: text("title").notNull().default(""),
+  enabled: boolean("enabled").notNull().default(true),
+  duration: integer("duration").notNull().default(6),  // seconds for one full float cycle
+  delay: integer("delay").notNull().default(0),         // seconds before animation starts
+  positionX: integer("position_x").notNull().default(50), // 0-100 (% from left)
+  positionY: integer("position_y").notNull().default(50), // 0-100 (% from top)
+  size: integer("size").notNull().default(120),         // px width
+  sortOrder: serial("sort_order"),
+});
+
+export const insertFloatingImageSchema = z.object({
+  url: z.string().min(1, "Image URL is required"),
+  title: z.string().optional().default(""),
+  enabled: z.boolean().optional().default(true),
+  duration: z.number().int().min(2).max(30).optional().default(6),
+  delay: z.number().int().min(0).max(20).optional().default(0),
+  positionX: z.number().int().min(0).max(100).optional().default(50),
+  positionY: z.number().int().min(0).max(100).optional().default(50),
+  size: z.number().int().min(40).max(400).optional().default(120),
+});
+export type FloatingImage = typeof floatingImages.$inferSelect;
+export type InsertFloatingImage = z.infer<typeof insertFloatingImageSchema>;
+
 export const insertPageSectionSchema = z.object({
   page: z.string().default("home"),
   position: z.string().default("after-stats"),
