@@ -39,9 +39,13 @@ function wrap(fn: AsyncHandler): AsyncHandler {
     try {
       await fn(req, res, next);
     } catch (e: any) {
-      console.error("[route] Error:", e?.message ?? e, e?.stack ?? "");
+      const cause = e?.cause ?? e?.original ?? null;
+      console.error("[route] Error:", e?.message ?? e);
+      if (cause) console.error("[route] Cause:", cause?.code, cause?.detail, cause?.message);
+      if (e?.stack) console.error(e.stack);
       if (res.headersSent) return;
       let msg = e?.message || "Internal server error";
+      if (cause?.message) msg = `${msg} — ${cause.message}`;
       if (e?.message?.includes("ECONNREFUSED") || e?.message?.includes("timeout") || e?.message?.includes("connect")) {
         msg = "Database unreachable. Set DATABASE_URL in Vercel environment variables to a public PostgreSQL server (Neon/Supabase).";
       }

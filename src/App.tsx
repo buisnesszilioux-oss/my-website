@@ -29,6 +29,8 @@ const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 // Calculator is now an admin-only tool
 const CalculatorPage = lazy(() => import("./pages/CalculatorPage.tsx"));
+// Public-facing metal weight calculator
+const MetalCalculatorPage = lazy(() => import("./pages/MetalCalculatorPage.tsx"));
 
 // Admin pages — lazy loaded (only ever opened by site owner)
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin.tsx"));
@@ -90,6 +92,7 @@ const AnimatedRoutes = () => {
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/specifications" element={<SpecificationsPage />} />
           <Route path="/grade-chart" element={<GradeChartPage />} />
+          <Route path="/calculator" element={<MetalCalculatorPage />} />
 
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/calculator" element={<RequireAdmin><CalculatorPage /></RequireAdmin>} />

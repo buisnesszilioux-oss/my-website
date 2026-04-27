@@ -20,6 +20,7 @@ const navLinks: NavLink[] = [
   { label: "Gallery", href: "/gallery" },
   { label: "Specifications", href: "/specifications" },
   { label: "Grade Chart", href: "/grade-chart" },
+  { label: "Calculator", href: "/calculator" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
