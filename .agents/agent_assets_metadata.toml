@@ -1,0 +1,14 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "stImwJpulMkUziIYvpQEC"
+uri = "file://mi-engineering-cpanel.zip"
+type = "unspecified"
+title = "M.I. Engineering Works - cPanel Deployment Package"
+
+[[outputs]]
+id = "n60HKxPSdjsahcDnsgNm-"
+uri = "file://CPANEL_DEPLOY.md"
+type = "text"
+title = "cPanel Deployment Instructions"
