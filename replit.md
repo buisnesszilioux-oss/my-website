@@ -59,7 +59,43 @@ The public `GradeChartSection` and `SpecificationsSection` components read via `
 ## Running
 - Workflow `Start application` runs `npm run dev`. Vite auto-restarts on edits; server uses `tsx watch`.
 - DB schema sync: `npm run db:push` (use `--force` if needed). Seed: `npm run db:seed`.
-- Do not edit `package.json`, `vite.config.ts`, `server/vite.ts`, or `drizzle.config.ts`.
+- Production: `npm run build && npm start` (single Express process serves both API and the built SPA).
+
+## Self-Hosted Deployment (cPanel / VPS / Render)
+The app runs as a **single Node process** in production — Express serves both the `/api/*` endpoints AND the built React app from `dist/`. No reverse proxy or second server needed.
+
+### One-time setup
+1. Copy `.env.example` to `.env` and fill in real values (at minimum `DATABASE_URL` and `JWT_SECRET`).
+2. `npm install` — installs all dependencies.
+3. `npm run db:push` — creates / syncs all tables in your PostgreSQL database.
+
+### Build & start
+```
+npm run build    # builds the React frontend into dist/
+npm start        # boots Express on $PORT (or 3000 if unset)
+```
+
+### How it picks the port
+`server/index.ts` reads `process.env.PORT` first (the standard on Render / Heroku / cPanel), then falls back to `process.env.SERVER_PORT`, then `3001`. Always binds to `0.0.0.0` so the host's reverse proxy can reach it.
+
+### cPanel-specific notes
+- In cPanel "Setup Node.js App", set **Application startup file** to `node_modules/.bin/tsx` and **Startup arguments** to `server/index.ts` (cPanel doesn't run `npm start` directly). Or use the "Run Script" option with `start`.
+- Set environment variables in the cPanel UI (don't upload `.env`).
+- Make sure cPanel's Node version is **20.x or higher**.
+- After uploading new code: hit "Restart" in the cPanel Node app panel.
+
+### Required env vars (production)
+- `DATABASE_URL` — PostgreSQL connection string (without this, hero images / grade chart / site content / products cannot save).
+- `JWT_SECRET` — long random string for signing auth tokens.
+- `ADMIN_USERNAME`, `ADMIN_PASSWORD` — admin login credentials.
+- `GOOGLE_CLIENT_ID`, `VITE_GOOGLE_CLIENT_ID` (optional) — only if you want Google sign-in. Same value goes in both.
+- `SMTP_*` (optional) — only if you want the contact form to email you.
+
+### Production hardening already in place
+- **Global error middleware** in `server/index.ts` — catches every uncaught route error, logs the stack, returns a clean JSON `{ error }` (never crashes the process).
+- **DB pool** uses short timeouts and emits warnings on connection errors instead of crashing.
+- **Static assets** served with a `1h` cache header in production.
+- **SPA fallback** — any non-API GET serves `index.html`, so deep links like `/admin/products` work after refresh.
 
 ## Vercel Deployment
 - Frontend: Vite builds to `dist/` (auto-detected by Vercel).

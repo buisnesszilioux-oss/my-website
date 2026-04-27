@@ -621,16 +621,40 @@ setTimeout(() => {
   runDataFixes().catch((e) => console.error("[data-fix] failed at boot:", e));
 }, 2000);
 
+// ── Production: serve the built React SPA from dist/ ──────────────────────────
+// In dev, Vite serves the frontend separately on its own port (proxied to /api).
+// In production (cPanel / VPS / Render), Express alone serves both the API AND
+// the static build, so the whole site runs as a single Node process.
+const NODE_ENV = process.env.NODE_ENV || "development";
+if (NODE_ENV === "production" && !process.env.VERCEL) {
+  const distDir = path.resolve("dist");
+  if (fs.existsSync(distDir)) {
+    app.use(express.static(distDir, { maxAge: "1h", index: false }));
+    // SPA fallback: any non-API GET → index.html (lets React Router handle it)
+    app.get(/^\/(?!api\/|uploads\/).*/, (_req, res) => {
+      res.sendFile(path.join(distDir, "index.html"));
+    });
+    console.log(`[server] serving production build from ${distDir}`);
+  } else {
+    console.warn(
+      "[server] NODE_ENV=production but dist/ not found.\n" +
+      "        Run `npm run build` before `npm start`."
+    );
+  }
+}
+
 if (process.env.VERCEL) {
   // Vercel serverless: skip disk-dependent startup tasks
   console.log("[server] running as Vercel serverless function");
 } else {
-  // Local / Replit development
+  // Local dev OR self-hosted (cPanel / VPS / Render).
+  // PORT is the standard env var on most hosts; SERVER_PORT kept as fallback
+  // so existing dev setups that proxy from Vite to :3001 keep working.
   ensureFirstRunBackup().catch((e) => console.error("first-run backup failed", e));
   startBackupScheduler();
-  const PORT = Number(process.env.SERVER_PORT || 3001);
+  const PORT = Number(process.env.PORT || process.env.SERVER_PORT || 3001);
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`[server] listening on :${PORT}`);
+    console.log(`[server] listening on :${PORT} (${NODE_ENV})`);
   });
 }
 
