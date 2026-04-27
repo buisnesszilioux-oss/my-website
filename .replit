@@ -44,9 +44,19 @@ localPort = 3010
 externalPort = 3003
 
 [[ports]]
+localPort = 4001
+externalPort = 4200
+
+[[ports]]
 localPort = 5000
 externalPort = 80
 
 [[ports]]
 localPort = 5001
 externalPort = 3000
+
+[userenv]
+
+[userenv.shared]
+GOOGLE_CLIENT_ID = "374744007598-plgqj6s9ds83v5aij2ehtm60ad2k86er.apps.googleusercontent.com"
+VITE_GOOGLE_CLIENT_ID = "374744007598-plgqj6s9ds83v5aij2ehtm60ad2k86er.apps.googleusercontent.com"

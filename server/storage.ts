@@ -87,12 +87,18 @@ export const storage = {
     return rows.reduce<Record<string, string>>((m, r) => { m[r.key] = r.value; return m; }, {});
   },
   upsertSiteContent: async (data: InsertSiteContent) => {
-    const existing = await db.select().from(siteContent).where(eq(siteContent.key, data.key)).then((r) => r[0]);
-    if (existing) return db.update(siteContent).set({ value: data.value }).where(eq(siteContent.id, existing.id)).returning().then((r) => r[0]);
-    return db.insert(siteContent).values(data).returning().then((r) => r[0]);
+    return db.insert(siteContent)
+      .values(data)
+      .onConflictDoUpdate({ target: siteContent.key, set: { value: data.value } })
+      .returning()
+      .then((r) => r[0]);
   },
   bulkUpsertSiteContent: async (entries: InsertSiteContent[]) => {
-    for (const e of entries) await storage.upsertSiteContent(e);
+    for (const e of entries) {
+      await db.insert(siteContent)
+        .values(e)
+        .onConflictDoUpdate({ target: siteContent.key, set: { value: e.value } });
+    }
     return storage.getSiteContentMap();
   },
 
