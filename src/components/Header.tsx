@@ -84,7 +84,9 @@ const Header = () => {
           key={l.label}
           to={l.href}
           data-testid={`nav-${l.label.toLowerCase()}`}
-          className={`text-sm font-medium transition-colors ${isActive(l) ? "text-primary" : "text-foreground/80 hover:text-primary"}`}
+          className={`relative text-sm font-medium transition-colors after:absolute after:left-0 after:right-0 after:-bottom-1.5 after:h-0.5 after:rounded-full after:bg-primary after:transition-transform after:origin-center ${
+            isActive(l) ? "text-primary after:scale-x-100" : "text-foreground/80 hover:text-primary after:scale-x-0 hover:after:scale-x-100"
+          }`}
         >
           {l.label}
         </Link>
@@ -199,7 +201,7 @@ const Header = () => {
           </a>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-5 xl:gap-6">
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-5">
             {navLinks.map(renderDesktopLink)}
           </nav>
 
@@ -218,10 +220,19 @@ const Header = () => {
               target="_blank"
               rel="noopener noreferrer"
               data-testid="button-download-catalog"
-              className="hidden md:inline-flex items-center gap-2 px-3 py-2 rounded-md bg-gradient-gold text-charcoal text-sm font-semibold hover:opacity-90 transition"
+              className="hidden md:inline-flex items-center gap-2 px-3 py-2 rounded-md border border-primary/40 text-primary text-sm font-semibold hover:bg-primary/10 transition"
             >
               <Download className="w-4 h-4" /> <span className="hidden xl:inline">Catalog</span>
             </a>
+            <Link
+              to="/quote"
+              data-testid="nav-quote"
+              className={`hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-md bg-gradient-gold text-charcoal text-sm font-semibold hover:opacity-90 transition shadow-gold ${
+                location.pathname === "/quote" ? "ring-2 ring-primary/50" : ""
+              }`}
+            >
+              Get a Quote
+            </Link>
 
             <button onClick={() => setSearchOpen(true)} data-testid="button-search-mobile" aria-label="Search" className="md:hidden p-2 text-foreground"><Search className="w-5 h-5" /></button>
             <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden text-foreground p-2" data-testid="button-menu-mobile" aria-label="Menu">
@@ -288,8 +299,16 @@ const Header = () => {
               );
             })}
             <div className="px-6 pt-3 space-y-2 text-sm">
-              <a href="/api/catalog.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-gradient-gold text-charcoal font-semibold">
-                <Download className="w-4 h-4" /> Download Catalog
+              <Link
+                to="/quote"
+                onClick={() => setMobileOpen(false)}
+                data-testid="nav-quote-mobile"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-gradient-gold text-charcoal font-semibold mr-2"
+              >
+                Get a Quote
+              </Link>
+              <a href="/api/catalog.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-primary text-primary font-semibold">
+                <Download className="w-4 h-4" /> Catalog
               </a>
               <a href="mailto:mienginering17@gmail.com" className="flex items-center gap-2 text-primary"><Mail className="w-4 h-4" /> mienginering17@gmail.com</a>
               <a href="tel:9819972301" className="flex items-center gap-2 text-primary"><Phone className="w-4 h-4" /> +91 98199 72301</a>

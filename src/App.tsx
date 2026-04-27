@@ -26,6 +26,7 @@ const StandardsPage = lazy(() => import("./pages/StandardsPage.tsx"));
 const StandardDetail = lazy(() => import("./pages/StandardDetail.tsx"));
 const GalleryPage = lazy(() => import("./pages/GalleryPage.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
+const QuotePage = lazy(() => import("./pages/QuotePage.tsx"));
 
 // Calculator is now an admin-only tool
 const CalculatorPage = lazy(() => import("./pages/CalculatorPage.tsx"));
@@ -85,6 +86,7 @@ const AnimatedRoutes = () => {
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/quote" element={<QuotePage />} />
           <Route path="/product/:slug" element={<ProductDetail />} />
           <Route path="/industry/:slug" element={<IndustryDetail />} />
           <Route path="/applications" element={<ApplicationsPage />} />

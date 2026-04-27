@@ -1,0 +1,91 @@
+Fix and improve my website (Admin Panel + Frontend) with the following requirements.
+
+IMPORTANT:
+- Do not break existing backend
+- Fix all bugs and ensure everything saves and loads correctly
+- Make system stable and production-ready
+
+=====================
+1. SAVE / DATABASE ISSUES (CRITICAL FIX)
+=====================
+Fix issues where the following are NOT saving properly:
+- Grade chart
+- Specification content
+- Site content (text, sections)
+- Theme settings (colors, styles)
+- Hero images upload
+
+Ensure:
+- Data saves correctly in database
+- Data persists after refresh
+- No "failed to save" errors
+- Add proper success/error messages
+
+=====================
+2. BACKUP SYSTEM FIX
+=====================
+Fix backup system:
+- Add "1-click download backup" button
+- Backup should include full website data (content, images, settings)
+- Ensure file downloads instantly without errors
+
+=====================
+3. HERO IMAGE FIX
+=====================
+- Fix hero image upload issue
+- Ensure uploaded image saves and displays on homepage
+- Add preview before saving
+
+=====================
+4. WHATSAPP BUTTON CHANGE
+=====================
+- Remove WhatsApp floating button from all pages
+- Add a "WhatsApp / Contact" button ONLY near the Contact Form section
+- Place it beside or below "Submit / Get Quote" button
+
+=====================
+5. BRANDING IDENTITY FIX
+=====================
+- In admin panel:
+  - If admin deletes company name → it should remove from website
+  - If new name is added → it should update instantly everywhere
+- Ensure dynamic update across all pages
+
+=====================
+6. GRADE CHART / TEXT VISIBILITY FIX
+=====================
+- Fix issue where text is hidden due to dark blue background
+- Ensure:
+  - Proper contrast (light text on dark background)
+  - All text clearly visible
+  - No hidden or unreadable content
+
+=====================
+7. CATALOG PDF CREATION
+=====================
+Create a downloadable product catalog PDF similar to:
+https://www.realbolt.in/images/product/REAL-BOLT-CATALOGE.pdf
+
+Requirements:
+- Professional industrial design
+- Include:
+  - Company name (M.I. Engineering Works)
+  - Logo
+  - Product images
+  - Product specifications
+  - Grade chart
+  - Contact details
+- Clean layout like a real manufacturing company catalog
+- Add "Download Catalog" button on website
+- PDF should generate dynamically or be downloadable
+
+=====================
+8. ADMIN PANEL IMPROVEMENT
+=====================
+- Ensure all changes in admin panel reflect instantly on homepage
+- Add proper validation for inputs
+- Improve UI for better usability
+
+=====================
+GOAL:
+Make the website fully functional, bug-free, and premium like a professional industrial company website.

@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, Award, ShieldCheck, FileCheck2, Layers, ArrowDownAZ, ArrowUpAZ } from "lucide-react";
+import { ArrowRight, Award, ShieldCheck, FileCheck2, Layers, ArrowDownAZ, ArrowUpAZ, Search, X } from "lucide-react";
 import { api, type Standard } from "@/lib/api";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -13,7 +13,7 @@ const StandardsPage = () => {
   const { data, isLoading } = useQuery<Standard[]>({ queryKey: ["/api/standards"], queryFn: () => api("/api/standards") });
   const heroImage = useHeroImage("standards");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
-  const [letter, setLetter] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
 
   const sorted = useMemo(() => {
     const arr = [...(data || [])];
@@ -22,19 +22,15 @@ const StandardsPage = () => {
     return arr;
   }, [data, sortDir]);
 
-  const letters = useMemo(() => {
-    const s = new Set<string>();
-    for (const x of data || []) {
-      const ch = (x.code || x.name || "").trim().charAt(0).toUpperCase();
-      if (ch) s.add(ch);
-    }
-    return Array.from(s).sort();
-  }, [data]);
-
   const standards = useMemo(() => {
-    if (!letter) return sorted;
-    return sorted.filter((s) => (s.code || s.name || "").trim().charAt(0).toUpperCase() === letter);
-  }, [sorted, letter]);
+    const q = query.trim().toLowerCase();
+    if (!q) return sorted;
+    return sorted.filter((s) => {
+      const haystack = [s.code, s.name, s.region, s.description, ...(s.materials || []), ...(s.applications || [])]
+        .filter(Boolean).join(" ").toLowerCase();
+      return haystack.includes(q);
+    });
+  }, [sorted, query]);
 
   return (
     <PageTransition>
@@ -115,39 +111,47 @@ const StandardsPage = () => {
             <div className="gold-divider w-24 mx-auto mt-4" />
           </div>
 
-          {/* A–Z letter index + sort toggle */}
-          {!isLoading && letters.length > 0 && (
-            <div className="mb-10 flex flex-wrap items-center justify-center gap-2">
-              <button
-                onClick={() => setLetter(null)}
-                data-testid="filter-letter-all"
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition ${
-                  letter === null ? "bg-primary text-foreground border-primary" : "bg-card text-muted-foreground border-border hover:border-primary/50"
-                }`}
-              >
-                All
-              </button>
-              {letters.map((l) => (
-                <button
-                  key={l}
-                  onClick={() => setLetter(l === letter ? null : l)}
-                  data-testid={`filter-letter-${l}`}
-                  className={`w-9 h-9 inline-flex items-center justify-center rounded-full text-sm font-bold border transition ${
-                    letter === l ? "bg-primary text-foreground border-primary shadow-gold" : "bg-card text-foreground border-border hover:border-primary/60"
-                  }`}
-                >
-                  {l}
-                </button>
-              ))}
-              <button
-                onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
-                data-testid="button-sort-standards"
-                className="ml-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border border-border bg-card hover:border-primary/50 transition"
-                title={`Sort ${sortDir === "asc" ? "Z → A" : "A → Z"}`}
-              >
-                {sortDir === "asc" ? <ArrowDownAZ className="w-4 h-4" /> : <ArrowUpAZ className="w-4 h-4" />}
-                {sortDir === "asc" ? "A → Z" : "Z → A"}
-              </button>
+          {/* Premium glassmorphism search bar + sort toggle */}
+          {!isLoading && (data || []).length > 0 && (
+            <div className="mb-10 max-w-3xl mx-auto">
+              <div className="group relative rounded-2xl bg-card/60 backdrop-blur-xl border border-primary/15 shadow-elegant transition focus-within:border-primary/60 focus-within:shadow-[0_0_0_4px_hsl(var(--primary)/0.15),0_18px_45px_-15px_hsl(var(--primary)/0.45)]">
+                <div className="flex items-center gap-2 px-4 py-3">
+                  <Search className="w-5 h-5 text-primary flex-shrink-0" aria-hidden />
+                  <input
+                    type="text"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search standards by code, name, region or material…"
+                    aria-label="Search standards"
+                    data-testid="input-standards-search"
+                    className="flex-1 bg-transparent border-0 outline-none text-base placeholder:text-muted-foreground/70"
+                  />
+                  {query && (
+                    <button
+                      type="button"
+                      onClick={() => setQuery("")}
+                      aria-label="Clear search"
+                      data-testid="button-standards-search-clear"
+                      className="p-1 rounded-full text-muted-foreground hover:text-primary hover:bg-secondary/60 transition"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
+                    data-testid="button-sort-standards"
+                    title={`Sort ${sortDir === "asc" ? "Z → A" : "A → Z"}`}
+                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border border-border bg-background/60 hover:border-primary/50 transition"
+                  >
+                    {sortDir === "asc" ? <ArrowDownAZ className="w-4 h-4" /> : <ArrowUpAZ className="w-4 h-4" />}
+                    {sortDir === "asc" ? "A → Z" : "Z → A"}
+                  </button>
+                </div>
+              </div>
+              <div className="mt-3 text-center text-xs text-muted-foreground" data-testid="text-standards-count">
+                Showing <span className="text-foreground font-semibold">{standards.length}</span> of {data?.length ?? 0} standards
+              </div>
             </div>
           )}
 

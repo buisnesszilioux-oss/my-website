@@ -108,6 +108,55 @@ app.post("/api/admin/login", async (req, res) => {
 // Verify a token is still valid (used by RequireAdmin to harden client-side guard)
 app.get("/api/admin/verify", requireAuth, (_req, res) => res.json({ ok: true }));
 
+// Google Identity Services — verify Google ID token, then issue our own JWT
+app.post("/api/admin/google-login", async (req, res) => {
+  try {
+    const credential = String(req.body?.credential || "").trim();
+    if (!credential) return res.status(400).json({ error: "Missing Google credential" });
+
+    const expectedAud = process.env.GOOGLE_CLIENT_ID || "";
+    if (!expectedAud) {
+      return res.status(500).json({ error: "Google login not configured. Set GOOGLE_CLIENT_ID env var." });
+    }
+
+    // Verify the ID token via Google's tokeninfo endpoint (no extra dependency required).
+    const verifyUrl = `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(credential)}`;
+    const r = await fetch(verifyUrl);
+    if (!r.ok) return res.status(401).json({ error: "Invalid Google token" });
+    const payload: any = await r.json();
+
+    // aud must match our client id; iss must be google
+    const audOk = String(payload.aud || "") === expectedAud;
+    const issOk = ["accounts.google.com", "https://accounts.google.com"].includes(String(payload.iss || ""));
+    const expOk = Number(payload.exp || 0) * 1000 > Date.now();
+    if (!audOk || !issOk || !expOk) {
+      return res.status(401).json({ error: "Invalid Google token" });
+    }
+    if (!payload.email_verified || payload.email_verified === "false") {
+      return res.status(401).json({ error: "Google email is not verified" });
+    }
+
+    const email = String(payload.email || "").trim().toLowerCase();
+    const allowedEmails = (process.env.ADMIN_USERNAME || "miengineering@gmail.com,miengineering17@gmail.com")
+      .split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
+    if (!allowedEmails.includes(email)) {
+      return res.status(403).json({ error: "This Google account is not authorised for admin access." });
+    }
+
+    // Best-effort: ensure DB admin record exists (matches password-login flow)
+    let adminId = 0;
+    try {
+      const existing = await storage.getAdminByUsername(email);
+      if (existing) adminId = existing.id;
+    } catch (e) { console.warn("[google-login] DB lookup failed:", (e as any)?.message); }
+
+    res.json({ token: signToken({ id: adminId, username: email, via: "google" }) });
+  } catch (e: any) {
+    console.error("[google-login] Error:", e?.message ?? e);
+    res.status(500).json({ error: "Google sign-in failed" });
+  }
+});
+
 // Public reads
 app.get("/api/products",       wrap(async (_req, res) => res.json(await storage.listProducts())));
 app.get("/api/products/:slug", wrap(async (req, res) => {
