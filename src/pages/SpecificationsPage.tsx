@@ -17,7 +17,7 @@ const SpecificationsPage = () => {
       </Helmet>
       <Header />
 
-      <section className="relative bg-gradient-dark py-20 md:py-28 text-primary-foreground overflow-hidden">
+      <section className="relative bg-gradient-dark py-20 md:py-28 text-foreground overflow-hidden">
         {heroImage && (
           <div className="absolute inset-0 opacity-25" style={{ backgroundImage: `url(${heroImage})`, backgroundSize: "cover", backgroundPosition: "center" }} />
         )}
@@ -26,7 +26,7 @@ const SpecificationsPage = () => {
           <span className="text-xs md:text-sm font-semibold tracking-[0.4em] uppercase text-primary">Technical Reference</span>
           <h1 className="font-heading text-4xl md:text-6xl font-bold mt-4 leading-[1.1] tracking-tight">Specifications</h1>
           <div className="gold-divider w-24 mx-auto mt-5" />
-          <p className="mt-5 max-w-2xl mx-auto text-primary-foreground/80 leading-relaxed">
+          <p className="mt-5 max-w-2xl mx-auto text-foreground/80 leading-relaxed">
             Chemical composition, mechanical properties and dimensional standards for every grade we manufacture.
           </p>
         </div>

@@ -17,7 +17,7 @@ const GradeChartPage = () => {
       </Helmet>
       <Header />
 
-      <section className="relative bg-gradient-dark py-20 md:py-28 text-primary-foreground overflow-hidden">
+      <section className="relative bg-gradient-dark py-20 md:py-28 text-foreground overflow-hidden">
         {heroImage && (
           <div className="absolute inset-0 opacity-25" style={{ backgroundImage: `url(${heroImage})`, backgroundSize: "cover", backgroundPosition: "center" }} />
         )}
@@ -28,7 +28,7 @@ const GradeChartPage = () => {
             Fastener <span className="text-gradient-gold">Grade Chart</span>
           </h1>
           <div className="gold-divider w-24 mx-auto mt-5" />
-          <p className="mt-5 max-w-2xl mx-auto text-primary-foreground/80 leading-relaxed">
+          <p className="mt-5 max-w-2xl mx-auto text-foreground/80 leading-relaxed">
             Tensile strength, yield, hardness and matching specifications for every grade we supply.
           </p>
         </div>

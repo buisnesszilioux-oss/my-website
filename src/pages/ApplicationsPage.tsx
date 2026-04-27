@@ -64,13 +64,13 @@ const ApplicationsPage = () => {
           <div className="absolute inset-0 opacity-30" style={{ backgroundImage: `url(${heroImage})`, backgroundSize: "cover", backgroundPosition: "center" }} />
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal/40 via-charcoal/55 to-charcoal/85" />
-        <div className="container relative z-10 text-center text-primary-foreground">
+        <div className="container relative z-10 text-center text-foreground">
           <span className="text-xs md:text-sm font-semibold tracking-[0.4em] uppercase text-primary inline-block">Global Engineering Solutions</span>
           <h1 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold mt-4 leading-[1.05] tracking-tight">
             Applications
           </h1>
           <div className="gold-divider w-24 mx-auto mt-5" />
-          <p className="max-w-3xl mx-auto text-base md:text-lg text-primary-foreground/80 mt-5 leading-relaxed">
+          <p className="max-w-3xl mx-auto text-base md:text-lg text-foreground/80 mt-5 leading-relaxed">
             Precision-engineered fastening solutions designed for the world's most demanding environments. From deep-sea extraction to aerospace exploration, we secure the future of global industry.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
@@ -88,8 +88,8 @@ const ApplicationsPage = () => {
               <div key={title} className="bg-card/10 backdrop-blur-md border border-white/10 rounded-lg p-5 text-center">
                 <Icon className="w-8 h-8 text-primary mx-auto mb-2" />
                 <div className="font-heading text-2xl font-bold text-primary">{num}</div>
-                <div className="text-sm text-primary-foreground/90 font-semibold">{title}</div>
-                <div className="text-xs text-primary-foreground/60 mt-1">{sub}</div>
+                <div className="text-sm text-foreground/90 font-semibold">{title}</div>
+                <div className="text-xs text-foreground/60 mt-1">{sub}</div>
               </div>
             ))}
           </div>
@@ -118,7 +118,7 @@ const ApplicationsPage = () => {
                 onClick={() => setLetter(null)}
                 data-testid="filter-letter-all"
                 className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition ${
-                  letter === null ? "bg-primary text-primary-foreground border-primary" : "bg-card text-muted-foreground border-border hover:border-primary/50"
+                  letter === null ? "bg-primary text-foreground border-primary" : "bg-card text-muted-foreground border-border hover:border-primary/50"
                 }`}
               >
                 All
@@ -129,7 +129,7 @@ const ApplicationsPage = () => {
                   onClick={() => setLetter(l === letter ? null : l)}
                   data-testid={`filter-letter-${l}`}
                   className={`w-9 h-9 inline-flex items-center justify-center rounded-full text-sm font-bold border transition ${
-                    letter === l ? "bg-primary text-primary-foreground border-primary shadow-gold" : "bg-card text-foreground border-border hover:border-primary/60"
+                    letter === l ? "bg-primary text-foreground border-primary shadow-gold" : "bg-card text-foreground border-border hover:border-primary/60"
                   }`}
                 >
                   {l}

@@ -39,13 +39,13 @@ const StandardDetail = () => {
       <section className="relative h-[40vh] md:h-[50vh] overflow-hidden bg-gradient-dark">
         {s.image && <img src={s.image} alt={s.code} className="absolute inset-0 w-full h-full object-cover opacity-40" />}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-        <div className="container relative z-10 h-full flex flex-col justify-end pb-12 text-primary-foreground">
+        <div className="container relative z-10 h-full flex flex-col justify-end pb-12 text-foreground">
           <Link to="/standards" data-testid="link-back-standards" className="inline-flex items-center gap-1 text-primary mb-4 hover:underline w-fit">
             <ArrowLeft className="w-4 h-4" /> Back to Standards
           </Link>
           <div className="text-sm tracking-[0.3em] uppercase text-primary mb-2">{s.region}</div>
           <h1 className="font-heading text-4xl md:text-6xl font-bold">{s.code}</h1>
-          <p className="text-lg md:text-xl text-primary-foreground/90 mt-2">{s.name}</p>
+          <p className="text-lg md:text-xl text-foreground/90 mt-2">{s.name}</p>
         </div>
       </section>
 

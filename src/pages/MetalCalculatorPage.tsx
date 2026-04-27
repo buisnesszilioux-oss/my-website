@@ -393,12 +393,12 @@ const MetalCalculatorPage = () => {
             {/* Results — sticky */}
             <div className="lg:col-span-5">
               <div className="lg:sticky lg:top-24 space-y-4">
-                <div className="rounded-2xl bg-gradient-dark text-primary-foreground p-6 shadow-elegant border border-primary/20">
+                <div className="rounded-2xl bg-gradient-dark text-foreground p-6 shadow-elegant border border-primary/20">
                   <p className="text-[11px] uppercase tracking-[0.3em] text-primary/80 font-semibold mb-1">Total Weight</p>
                   <div className="font-heading text-5xl font-extrabold text-gradient-gold leading-none" data-testid="result-total-kg">
                     {fmt(calc.totalKg, 3)} <span className="text-2xl font-bold">kg</span>
                   </div>
-                  <div className="mt-2 text-sm text-primary-foreground/70">
+                  <div className="mt-2 text-sm text-foreground/70">
                     for {qty} {num(qty) === 1 ? "piece" : "pieces"} of {SHAPES.find((s) => s.key === shape)?.label.toLowerCase()}
                   </div>
                 </div>

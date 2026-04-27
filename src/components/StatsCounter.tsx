@@ -65,7 +65,7 @@ const StatsCounter = () => {
           transition={{ duration: 0.7 }}
         >
           <span className="text-sm font-semibold tracking-[0.3em] uppercase text-primary" data-testid="text-stats-eyebrow">{get("stats.eyebrow")}</span>
-          <h2 className="font-heading text-3xl md:text-5xl font-bold mt-3 text-primary-foreground">
+          <h2 className="font-heading text-3xl md:text-5xl font-bold mt-3 text-foreground">
             <span data-testid="text-stats-title">{get("stats.title")}</span>{get("stats.titleAccent") && " "}{get("stats.titleAccent") && <span className="text-gradient-gold" data-testid="text-stats-title-accent">{get("stats.titleAccent")}</span>}
           </h2>
           <motion.div
@@ -99,8 +99,8 @@ const StatsCounter = () => {
                     <Icon className="w-7 h-7 text-primary" />
                   </motion.div>
                   <AnimatedNumber value={stat.value} suffix={stat.suffix} inView={inView} />
-                  <p className="text-primary-foreground font-heading font-semibold mt-3 text-sm md:text-base">{stat.label}</p>
-                  <p className="text-primary-foreground/50 text-xs mt-1">{stat.description}</p>
+                  <p className="text-foreground font-heading font-semibold mt-3 text-sm md:text-base">{stat.label}</p>
+                  <p className="text-foreground/50 text-xs mt-1">{stat.description}</p>
                 </div>
               </motion.div>
             );

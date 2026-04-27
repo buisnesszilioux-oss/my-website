@@ -161,19 +161,19 @@ const Header = () => {
   return (
     <>
       {/* Top bar */}
-      <div className="bg-gradient-dark text-primary-foreground py-2 text-sm hidden md:block">
+      <div className="bg-charcoal/95 text-foreground/80 py-2 text-xs hidden md:block border-b border-primary/10">
         <div className="container flex justify-between items-center">
           <div className="flex items-center gap-6">
-            <a href="mailto:mienginering17@gmail.com" className="flex items-center gap-1.5 text-gold-light hover:text-gold transition-colors">
+            <a href="mailto:mienginering17@gmail.com" className="flex items-center gap-1.5 text-foreground/70 hover:text-primary transition-colors">
               <Mail className="w-3.5 h-3.5" /> mienginering17@gmail.com
             </a>
           </div>
           <div className="flex items-center gap-4">
-            <a href="tel:9819972301" className="flex items-center gap-1.5 text-gold-light hover:text-gold transition-colors">
+            <a href="tel:9819972301" className="flex items-center gap-1.5 text-foreground/70 hover:text-primary transition-colors">
               <Phone className="w-3.5 h-3.5" /> +91 98199 72301
             </a>
             <span className="text-muted-foreground">|</span>
-            <a href="tel:9137658733" className="flex items-center gap-1.5 text-gold-light hover:text-gold transition-colors">
+            <a href="tel:9137658733" className="flex items-center gap-1.5 text-foreground/70 hover:text-primary transition-colors">
               <Phone className="w-3.5 h-3.5" /> +91 91376 58733
             </a>
           </div>
@@ -181,7 +181,7 @@ const Header = () => {
       </div>
 
       {/* Main nav */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-card/80 border-b border-primary/10 shadow-elegant">
+      <header className="sticky top-0 z-50 glass-panel-strong border-b border-primary/15">
         <div className="container flex items-center justify-between gap-4 h-16 md:h-20">
           <a
             href="/"

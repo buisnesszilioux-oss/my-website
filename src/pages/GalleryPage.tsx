@@ -34,7 +34,7 @@ const GalleryPage = () => {
       />
       <Header />
 
-      <section className="relative bg-gradient-dark py-20 md:py-28 text-primary-foreground overflow-hidden">
+      <section className="relative bg-gradient-dark py-20 md:py-28 text-foreground overflow-hidden">
         {heroImage && (
           <div className="absolute inset-0 opacity-30" style={{ backgroundImage: `url(${heroImage})`, backgroundSize: "cover", backgroundPosition: "center" }} />
         )}
@@ -43,7 +43,7 @@ const GalleryPage = () => {
           <span className="text-xs md:text-sm font-semibold tracking-[0.4em] uppercase text-primary">Inside Our Workshop</span>
           <h1 className="font-heading text-4xl md:text-6xl font-bold mt-4 leading-[1.1] tracking-tight">Photos & <span className="text-gradient-gold">Videos</span></h1>
           <div className="gold-divider w-24 mx-auto mt-5" />
-          <p className="mt-5 max-w-2xl mx-auto text-primary-foreground/80 leading-relaxed">A behind-the-scenes look at our manufacturing operations, finished products, and project deliveries.</p>
+          <p className="mt-5 max-w-2xl mx-auto text-foreground/80 leading-relaxed">A behind-the-scenes look at our manufacturing operations, finished products, and project deliveries.</p>
         </div>
       </section>
 

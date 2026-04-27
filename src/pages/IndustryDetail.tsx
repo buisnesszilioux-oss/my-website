@@ -44,7 +44,7 @@ const IndustryDetail = () => {
       <section className="relative h-[50vh] md:h-[60vh] overflow-hidden">
         <img src={industry.image} alt={industry.name} className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/30" />
-        <div className="container relative z-10 h-full flex flex-col justify-end pb-12 text-primary-foreground">
+        <div className="container relative z-10 h-full flex flex-col justify-end pb-12 text-foreground">
           <Link to="/applications" data-testid="link-back-applications" className="inline-flex items-center gap-1 text-primary mb-4 hover:underline w-fit">
             <ArrowLeft className="w-4 h-4" /> Back to Applications
           </Link>

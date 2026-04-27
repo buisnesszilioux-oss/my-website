@@ -6,58 +6,61 @@
 
 @layer base {
   :root {
-    --background: 40 20% 98%;
-    --foreground: 30 10% 15%;
+    /* CloudOX-inspired dark navy + bright gold palette */
+    --background: 224 28% 6%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 30 10% 15%;
+    --card: 226 28% 10%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 30 10% 15%;
+    --popover: 226 30% 9%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 43 72% 48%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 48 100% 52%;
+    --primary-foreground: 224 30% 8%;
 
-    --secondary: 40 30% 95%;
-    --secondary-foreground: 30 10% 25%;
+    --secondary: 226 25% 13%;
+    --secondary-foreground: 0 0% 92%;
 
-    --muted: 40 15% 94%;
-    --muted-foreground: 30 8% 50%;
+    --muted: 226 22% 16%;
+    --muted-foreground: 226 12% 65%;
 
-    --accent: 43 72% 48%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 48 100% 52%;
+    --accent-foreground: 224 30% 8%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 40 20% 88%;
-    --input: 40 20% 88%;
-    --ring: 43 72% 48%;
+    --border: 226 25% 18%;
+    --input: 226 25% 18%;
+    --ring: 48 100% 52%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --gold: 43 72% 48%;
-    --gold-light: 43 60% 70%;
-    --gold-dark: 43 80% 35%;
-    --gold-shine: 43 50% 85%;
+    --gold: 48 100% 52%;
+    --gold-light: 48 100% 70%;
+    --gold-dark: 44 95% 45%;
+    --gold-shine: 50 100% 80%;
     --cream: 40 30% 96%;
-    --charcoal: 30 10% 20%;
+    --charcoal: 224 35% 4%;
 
-    --gradient-gold: linear-gradient(135deg, hsl(43, 72%, 48%), hsl(43, 80%, 60%), hsl(43, 72%, 48%));
-    --gradient-dark: linear-gradient(135deg, hsl(30, 10%, 12%), hsl(30, 10%, 20%));
-    --gradient-hero: linear-gradient(135deg, hsl(30, 10%, 10%) 0%, hsl(30, 15%, 18%) 50%, hsl(43, 30%, 25%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(48, 100%, 52%), hsl(50, 100%, 65%), hsl(44, 100%, 50%));
+    --gradient-dark: linear-gradient(135deg, hsl(224, 35%, 4%), hsl(226, 28%, 10%));
+    --gradient-hero: linear-gradient(135deg, hsl(224, 35%, 4%) 0%, hsl(226, 28%, 10%) 55%, hsl(48, 60%, 14%) 100%);
+    --gradient-glass: linear-gradient(135deg, hsl(226 30% 14% / 0.7), hsl(226 30% 8% / 0.5));
 
-    --shadow-gold: 0 4px 20px -4px hsl(43 72% 48% / 0.3);
-    --shadow-elegant: 0 10px 40px -10px hsl(30 10% 15% / 0.15);
+    --shadow-gold: 0 4px 24px -4px hsl(48 100% 52% / 0.35);
+    --shadow-glow: 0 0 0 1px hsl(48 100% 52% / 0.25), 0 8px 40px -8px hsl(48 100% 52% / 0.35);
+    --shadow-elegant: 0 10px 40px -10px hsl(0 0% 0% / 0.55);
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 226 30% 8%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 48 100% 52%;
+    --sidebar-primary-foreground: 224 30% 8%;
+    --sidebar-accent: 226 25% 14%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 226 25% 18%;
+    --sidebar-ring: 48 100% 52%;
   }
 }
 
@@ -101,23 +104,23 @@ img {
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--secondary));
+  background: hsl(var(--background));
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.4);
+  background: hsl(var(--primary) / 0.45);
   border-radius: 999px;
   transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.7);
+  background: hsl(var(--primary) / 0.8);
 }
 
 /* Firefox smooth scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: hsl(43 72% 48% / 0.4) hsl(40 30% 95%);
+  scrollbar-color: hsl(48 100% 52% / 0.5) hsl(224 28% 6%);
 }
 
 @layer base {
@@ -184,7 +187,106 @@ img {
 
   .gold-divider {
     height: 2px;
-    background: linear-gradient(90deg, transparent, hsl(43, 72%, 48%), transparent);
+    background: linear-gradient(90deg, transparent, hsl(48, 100%, 52%), transparent);
+  }
+
+  /* === CloudOX-inspired utilities === */
+  .glass-panel {
+    background: linear-gradient(135deg, hsl(226 30% 14% / 0.65), hsl(226 30% 8% / 0.45));
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid hsl(48 100% 52% / 0.12);
+  }
+  .glass-panel-strong {
+    background: linear-gradient(135deg, hsl(226 30% 14% / 0.85), hsl(226 30% 8% / 0.7));
+    backdrop-filter: blur(22px) saturate(160%);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    border: 1px solid hsl(48 100% 52% / 0.18);
+  }
+  .glass-card {
+    background: linear-gradient(180deg, hsl(226 28% 12% / 0.85), hsl(226 28% 8% / 0.85));
+    border: 1px solid hsl(226 25% 22% / 0.7);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .glass-card:hover {
+    border-color: hsl(48 100% 52% / 0.45);
+    box-shadow: 0 8px 28px -4px hsl(48 100% 52% / 0.18), 0 0 0 1px hsl(48 100% 52% / 0.15);
+    transform: translateY(-3px);
+  }
+
+  .btn-cloudox {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, hsl(48, 100%, 55%), hsl(50, 100%, 50%));
+    color: hsl(224 30% 8%);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    box-shadow: 0 6px 20px -4px hsl(48 100% 52% / 0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  }
+  .btn-cloudox:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -6px hsl(48 100% 52% / 0.65);
+    filter: brightness(1.05);
+  }
+  .btn-cloudox-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 9999px;
+    background: transparent;
+    color: hsl(0 0% 96%);
+    font-weight: 600;
+    border: 1px solid hsl(48 100% 52% / 0.45);
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+  .btn-cloudox-outline:hover {
+    background: hsl(48 100% 52% / 0.1);
+    border-color: hsl(48 100% 52%);
+    color: hsl(48 100% 70%);
+  }
+
+  .neon-border {
+    position: relative;
+  }
+  .neon-border::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, hsl(48 100% 52% / 0.6), transparent 40%, hsl(48 100% 52% / 0.3));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .text-glow-gold {
+    text-shadow: 0 0 24px hsl(48 100% 52% / 0.35);
+  }
+
+  /* Subtle starry / dot grid background overlay used for sections */
+  .bg-stars {
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, hsl(48 100% 70% / 0.35), transparent 60%),
+      radial-gradient(1px 1px at 70% 60%, hsl(48 100% 70% / 0.25), transparent 60%),
+      radial-gradient(1px 1px at 40% 80%, hsl(48 100% 70% / 0.2),  transparent 60%),
+      radial-gradient(1px 1px at 85% 25%, hsl(48 100% 70% / 0.3),  transparent 60%),
+      radial-gradient(1px 1px at 10% 70%, hsl(48 100% 70% / 0.25), transparent 60%);
+    background-size: 700px 700px;
+  }
+  .bg-grid-dim {
+    background-image:
+      linear-gradient(hsl(226 25% 22% / 0.45) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(226 25% 22% / 0.45) 1px, transparent 1px);
+    background-size: 60px 60px;
   }
 }
 

@@ -61,7 +61,7 @@ const HeroSection = () => {
             </div>
           )}
           <motion.h1
-            className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-tight"
+            className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight text-glow-gold"
             initial={{ opacity: 0, y: 40, rotateX: 15 }}
             animate={{ opacity: 1, y: 0, rotateX: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -80,7 +80,7 @@ const HeroSection = () => {
             )}
           </motion.h1>
           <motion.p
-            className="mt-6 text-lg md:text-xl text-gold-light/80 max-w-2xl leading-relaxed"
+            className="mt-6 text-lg md:text-xl text-foreground/80 max-w-2xl leading-relaxed"
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.9 }}
@@ -97,7 +97,7 @@ const HeroSection = () => {
             {get("hero.ctaPrimaryText") && (
               <motion.a
                 href={get("hero.ctaPrimaryUrl") || "#products"}
-                className="inline-flex items-center px-8 py-3.5 bg-gradient-gold text-charcoal font-semibold rounded-sm hover:opacity-90 transition-opacity shadow-gold"
+                className="btn-cloudox text-base"
                 whileHover={{ scale: 1.05, boxShadow: "0 8px 30px -4px hsl(43 72% 48% / 0.5)" }}
                 whileTap={{ scale: 0.97 }}
                 data-testid="link-hero-primary"
@@ -108,7 +108,7 @@ const HeroSection = () => {
             {get("hero.ctaSecondaryText") && (
               <motion.a
                 href={get("hero.ctaSecondaryUrl") || "#contact"}
-                className="inline-flex items-center px-8 py-3.5 border-2 border-gold/50 text-gold-light font-semibold rounded-sm hover:bg-gold/10 transition-colors"
+                className="btn-cloudox-outline text-base"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
                 data-testid="link-hero-secondary"

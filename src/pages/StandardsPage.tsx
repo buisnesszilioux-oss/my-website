@@ -59,7 +59,7 @@ const StandardsPage = () => {
       <Header />
 
       {/* Hero */}
-      <section className="relative bg-gradient-dark text-primary-foreground py-24 md:py-32 overflow-hidden">
+      <section className="relative bg-gradient-dark text-foreground py-24 md:py-32 overflow-hidden">
         {heroImage && (
           <div className="absolute inset-0 opacity-25" style={{ backgroundImage: `url(${heroImage})`, backgroundSize: "cover", backgroundPosition: "center" }} />
         )}
@@ -70,7 +70,7 @@ const StandardsPage = () => {
             Precision Fasteners Built to <span className="text-gradient-gold">Global Standards</span>
           </h1>
           <div className="gold-divider w-24 mx-auto mb-5" />
-          <p className="max-w-3xl mx-auto text-base md:text-lg text-primary-foreground/80 leading-relaxed">
+          <p className="max-w-3xl mx-auto text-base md:text-lg text-foreground/80 leading-relaxed">
             Every fastener we produce conforms to the most demanding international specifications — ensuring dimensional accuracy, mechanical integrity, and full traceability across every project.
           </p>
         </div>
@@ -122,7 +122,7 @@ const StandardsPage = () => {
                 onClick={() => setLetter(null)}
                 data-testid="filter-letter-all"
                 className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition ${
-                  letter === null ? "bg-primary text-primary-foreground border-primary" : "bg-card text-muted-foreground border-border hover:border-primary/50"
+                  letter === null ? "bg-primary text-foreground border-primary" : "bg-card text-muted-foreground border-border hover:border-primary/50"
                 }`}
               >
                 All
@@ -133,7 +133,7 @@ const StandardsPage = () => {
                   onClick={() => setLetter(l === letter ? null : l)}
                   data-testid={`filter-letter-${l}`}
                   className={`w-9 h-9 inline-flex items-center justify-center rounded-full text-sm font-bold border transition ${
-                    letter === l ? "bg-primary text-primary-foreground border-primary shadow-gold" : "bg-card text-foreground border-border hover:border-primary/60"
+                    letter === l ? "bg-primary text-foreground border-primary shadow-gold" : "bg-card text-foreground border-border hover:border-primary/60"
                   }`}
                 >
                   {l}
