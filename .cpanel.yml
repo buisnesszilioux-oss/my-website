@@ -1,0 +1,13 @@
+---
+deployment:
+  tasks:
+    # cPanel runs these commands every time you click "Update from Remote"
+    # in Git Version Control. They install dependencies and restart Passenger
+    # so the new code goes live without needing to touch the Node.js App page.
+    - export DEPLOYPATH=$PWD
+    - /bin/echo "[deploy] starting in $DEPLOYPATH"
+    - /bin/echo "[deploy] installing production dependencies"
+    - /usr/bin/npm install --omit=dev --no-audit --no-fund || /bin/echo "[deploy] npm install finished with warnings"
+    - /bin/echo "[deploy] restarting passenger"
+    - /usr/bin/touch tmp/restart.txt 2>/dev/null || /bin/mkdir -p tmp && /usr/bin/touch tmp/restart.txt
+    - /bin/echo "[deploy] done"

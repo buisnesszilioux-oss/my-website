@@ -12,3 +12,15 @@ id = "n60HKxPSdjsahcDnsgNm-"
 uri = "file://CPANEL_DEPLOY.md"
 type = "text"
 title = "cPanel Deployment Instructions"
+
+[[outputs]]
+id = "vtAmHf-R_lgBGGiR2W5dE"
+uri = "file://CPANEL_GITHUB_DEPLOY.md"
+type = "text"
+title = "cPanel + GitHub Auto-Deploy Guide"
+
+[[outputs]]
+id = "W3BOVtXz2c25Msp9E1HJ5"
+uri = "file://.cpanel.yml"
+type = "unspecified"
+title = ".cpanel.yml (auto-deploy script)"

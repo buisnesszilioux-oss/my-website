@@ -9,9 +9,13 @@ lerna-debug.log*
 
 # Dependencies and build output
 node_modules
-dist
 dist-ssr
 *.local
+
+# NOTE: dist/ is intentionally NOT ignored. The cPanel deployment uses the
+# pre-built dist/ folder (frontend + bundled server). Run `npm run build` and
+# `npm run build:server` locally before pushing so cPanel can deploy without
+# needing to compile.
 
 # Editor directories and files
 .vscode/*
