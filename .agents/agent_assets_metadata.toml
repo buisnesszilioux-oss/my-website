@@ -24,3 +24,9 @@ id = "W3BOVtXz2c25Msp9E1HJ5"
 uri = "file://.cpanel.yml"
 type = "unspecified"
 title = ".cpanel.yml (auto-deploy script)"
+
+[[outputs]]
+id = "481UZ6oIz6nqb_bXWxooD"
+uri = "file://public_html-frontend.zip"
+type = "unspecified"
+title = "public_html ke liye - sirf HTML aur assets folder"
