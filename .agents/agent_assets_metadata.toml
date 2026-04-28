@@ -30,3 +30,15 @@ id = "481UZ6oIz6nqb_bXWxooD"
 uri = "file://public_html-frontend.zip"
 type = "unspecified"
 title = "public_html ke liye - sirf HTML aur assets folder"
+
+[[outputs]]
+id = "0caR--ez7_RLHoScD7tFy"
+uri = "file://mi-backend-nodeapp.zip"
+type = "unspecified"
+title = "BACKEND - Node.js App folder me upload (no npm install needed)"
+
+[[outputs]]
+id = "UrrzG91cMHILbm9vmwbw_"
+uri = "file://mi-frontend-public_html.zip"
+type = "unspecified"
+title = "FRONTEND - public_html folder me upload"

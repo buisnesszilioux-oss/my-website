@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://miengineeringworks.lovable.app/</loc><priority>1.0</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://miengineeringworks.lovable.app/applications</loc><priority>0.9</priority><changefreq>weekly</changefreq></url>
+  <url><loc>https://miengineeringworks.lovable.app/specifications</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://miengineeringworks.lovable.app/grade-chart</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://miengineeringworks.lovable.app/industry/oil-and-gas</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://miengineeringworks.lovable.app/industry/petrochemical</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://miengineeringworks.lovable.app/industry/power-generation</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://miengineeringworks.lovable.app/industry/construction</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+</urlset>
