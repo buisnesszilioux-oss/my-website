@@ -332,34 +332,22 @@ var storage = {
   createMedia: (data) => db.insert(media).values(data).returning().then((r) => r[0]),
   updateMedia: (id, data) => db.update(media).set(data).where((0, import_drizzle_orm.eq)(media.id, id)).returning().then((r) => r[0]),
   deleteMedia: (id) => db.delete(media).where((0, import_drizzle_orm.eq)(media.id, id)),
-  // Products
+  // Products — uses ON CONFLICT on slug so saves never fail due to id sequence drift
   listProducts: () => db.select().from(products).orderBy((0, import_drizzle_orm.asc)(products.sortOrder)),
   getProduct: (slug) => db.select().from(products).where((0, import_drizzle_orm.eq)(products.slug, slug)).then((r) => r[0]),
-  upsertProduct: async (data) => {
-    const existing = await db.select().from(products).where((0, import_drizzle_orm.eq)(products.slug, data.slug)).then((r) => r[0]);
-    if (existing) return db.update(products).set(data).where((0, import_drizzle_orm.eq)(products.id, existing.id)).returning().then((r) => r[0]);
-    return db.insert(products).values(data).returning().then((r) => r[0]);
-  },
+  upsertProduct: async (data) => db.insert(products).values(data).onConflictDoUpdate({ target: products.slug, set: data }).returning().then((r) => r[0]),
   updateProduct: (id, data) => db.update(products).set(data).where((0, import_drizzle_orm.eq)(products.id, id)).returning().then((r) => r[0]),
   deleteProduct: (id) => db.delete(products).where((0, import_drizzle_orm.eq)(products.id, id)),
   // Industries
   listIndustries: () => db.select().from(industries).orderBy((0, import_drizzle_orm.asc)(industries.sortOrder)),
   getIndustry: (slug) => db.select().from(industries).where((0, import_drizzle_orm.eq)(industries.slug, slug)).then((r) => r[0]),
-  upsertIndustry: async (data) => {
-    const existing = await db.select().from(industries).where((0, import_drizzle_orm.eq)(industries.slug, data.slug)).then((r) => r[0]);
-    if (existing) return db.update(industries).set(data).where((0, import_drizzle_orm.eq)(industries.id, existing.id)).returning().then((r) => r[0]);
-    return db.insert(industries).values(data).returning().then((r) => r[0]);
-  },
+  upsertIndustry: async (data) => db.insert(industries).values(data).onConflictDoUpdate({ target: industries.slug, set: data }).returning().then((r) => r[0]),
   updateIndustry: (id, data) => db.update(industries).set(data).where((0, import_drizzle_orm.eq)(industries.id, id)).returning().then((r) => r[0]),
   deleteIndustry: (id) => db.delete(industries).where((0, import_drizzle_orm.eq)(industries.id, id)),
   // Standards
   listStandards: () => db.select().from(standards).orderBy((0, import_drizzle_orm.asc)(standards.sortOrder)),
   getStandard: (slug) => db.select().from(standards).where((0, import_drizzle_orm.eq)(standards.slug, slug)).then((r) => r[0]),
-  upsertStandard: async (data) => {
-    const existing = await db.select().from(standards).where((0, import_drizzle_orm.eq)(standards.slug, data.slug)).then((r) => r[0]);
-    if (existing) return db.update(standards).set(data).where((0, import_drizzle_orm.eq)(standards.id, existing.id)).returning().then((r) => r[0]);
-    return db.insert(standards).values(data).returning().then((r) => r[0]);
-  },
+  upsertStandard: async (data) => db.insert(standards).values(data).onConflictDoUpdate({ target: standards.slug, set: data }).returning().then((r) => r[0]),
   updateStandard: (id, data) => db.update(standards).set(data).where((0, import_drizzle_orm.eq)(standards.id, id)).returning().then((r) => r[0]),
   deleteStandard: (id) => db.delete(standards).where((0, import_drizzle_orm.eq)(standards.id, id)),
   // Contact
@@ -1428,8 +1416,36 @@ async function backfillProductCategories() {
   }
   if (updated > 0) console.log(`[data-fix] backfilled categories for ${updated} product(s)`);
 }
+async function fixIdSequences() {
+  const tables = [
+    "products",
+    "industries",
+    "standards",
+    "site_content",
+    "page_sections",
+    "media",
+    "floating_images",
+    "customers",
+    "ledger_entries",
+    "contact_submissions",
+    "admin_users",
+    "users"
+  ];
+  let fixed = 0;
+  for (const t of tables) {
+    try {
+      await db.execute(import_drizzle_orm2.sql.raw(
+        `SELECT setval(pg_get_serial_sequence('${t}', 'id'), COALESCE((SELECT MAX(id) FROM ${t}), 0) + 1, false)`
+      ));
+      fixed++;
+    } catch {
+    }
+  }
+  if (fixed > 0) console.log(`[data-fix] reset id sequences for ${fixed} table(s)`);
+}
 async function runDataFixes() {
   try {
+    await fixIdSequences();
     await fixBrokenImages();
     await backfillProductCategories();
   } catch (e) {

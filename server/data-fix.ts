@@ -1,6 +1,6 @@
 import { db } from "./db";
 import { products, industries, standards } from "../shared/schema";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 export const PRODUCT_CATEGORIES = [
   "Bolts",
@@ -116,8 +116,39 @@ export async function backfillProductCategories() {
   if (updated > 0) console.log(`[data-fix] backfilled categories for ${updated} product(s)`);
 }
 
+/**
+ * Reset every `id` SERIAL sequence to (MAX(id) + 1) so future INSERTs never
+ * collide with rows imported from a seed dump or restored backup.
+ *
+ * Why this matters: the original cPanel-side bug was caused by drifted Postgres
+ * sequences — seed data inserted rows with explicit ids like 1..50 but the
+ * sequence still started at 1, so the very first admin save threw a duplicate
+ * primary-key error. Running this once on every boot keeps Replit/cPanel/any
+ * fresh database self-healing.
+ */
+export async function fixIdSequences() {
+  const tables = [
+    "products", "industries", "standards", "site_content", "page_sections",
+    "media", "floating_images", "customers", "ledger_entries",
+    "contact_submissions", "admin_users", "users",
+  ];
+  let fixed = 0;
+  for (const t of tables) {
+    try {
+      await db.execute(sql.raw(
+        `SELECT setval(pg_get_serial_sequence('${t}', 'id'), COALESCE((SELECT MAX(id) FROM ${t}), 0) + 1, false)`
+      ));
+      fixed++;
+    } catch {
+      /* table missing or no serial id — ignore */
+    }
+  }
+  if (fixed > 0) console.log(`[data-fix] reset id sequences for ${fixed} table(s)`);
+}
+
 export async function runDataFixes() {
   try {
+    await fixIdSequences();
     await fixBrokenImages();
     await backfillProductCategories();
   } catch (e) {
