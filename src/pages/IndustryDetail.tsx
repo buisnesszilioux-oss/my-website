@@ -36,6 +36,20 @@ const IndustryDetail = () => {
       <Helmet>
         <title>{`${industry.name} Fasteners | M.I. Engineering Works Mumbai`}</title>
         <meta name="description" content={`${industry.description}`} />
+        <meta name="keywords" content={`${industry.name} fasteners, ${industry.name} bolts, ${industry.name} stud bolts, ${industry.name} hex bolts, ${industry.name} fasteners manufacturer, ${industry.name} fasteners Mumbai, ${industry.name} fasteners supplier India, ${(industry.applications || []).map((a: any) => a.name).join(", ")}`} />
+        <link rel="canonical" href={`${typeof window !== "undefined" ? window.location.origin : "https://miengineeringworks.com"}/industry/${industry.slug}`} />
+        <meta property="og:title" content={`${industry.name} Fasteners | M.I. Engineering Works`} />
+        <meta property="og:description" content={industry.description} />
+        {industry.image && <meta property="og:image" content={industry.image} />}
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Service",
+          serviceType: `${industry.name} Fastener Supply`,
+          provider: { "@type": "Organization", name: "M.I. Engineering Works", url: "https://miengineeringworks.com", telephone: "+919819972301" },
+          areaServed: { "@type": "Country", name: "India" },
+          description: industry.description,
+          image: industry.image,
+        })}</script>
       </Helmet>
 
       <Header />

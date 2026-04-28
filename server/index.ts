@@ -621,6 +621,64 @@ setTimeout(() => {
   runDataFixes().catch((e) => console.error("[data-fix] failed at boot:", e));
 }, 2000);
 
+// ── Dynamic SEO sitemap (lists every product / standard / industry URL) ───────
+// This makes Google index every individual product page so users searching for
+// any specific product (e.g. "ASTM A193 B7 stud bolt") land directly on its page.
+app.get("/sitemap.xml", wrap(async (req, res) => {
+  const proto = (req.headers["x-forwarded-proto"] as string) || req.protocol || "https";
+  const host  = (req.headers["x-forwarded-host"]  as string) || req.headers.host || "miengineeringworks.com";
+  const SITE  = process.env.SITE_URL || `${proto}://${host}`;
+  const today = new Date().toISOString().slice(0, 10);
+
+  const staticUrls = [
+    { loc: "/",                priority: "1.0", change: "weekly" },
+    { loc: "/products",        priority: "0.9", change: "weekly" },
+    { loc: "/applications",    priority: "0.9", change: "weekly" },
+    { loc: "/standards",       priority: "0.9", change: "weekly" },
+    { loc: "/specifications",  priority: "0.8", change: "monthly" },
+    { loc: "/grade-chart",     priority: "0.8", change: "monthly" },
+    { loc: "/gallery",         priority: "0.7", change: "monthly" },
+    { loc: "/about",           priority: "0.7", change: "monthly" },
+    { loc: "/contact",         priority: "0.7", change: "monthly" },
+    { loc: "/quote",           priority: "0.7", change: "monthly" },
+  ];
+
+  let products: any[] = [], industries: any[] = [], standards: any[] = [];
+  try { products  = await storage.listProducts(); }   catch {}
+  try { industries = await storage.listIndustries(); } catch {}
+  try { standards  = await storage.listStandards(); }  catch {}
+
+  const lines: string[] = [];
+  lines.push('<?xml version="1.0" encoding="UTF-8"?>');
+  lines.push('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
+  for (const u of staticUrls) {
+    lines.push(`  <url><loc>${SITE}${u.loc}</loc><lastmod>${today}</lastmod><priority>${u.priority}</priority><changefreq>${u.change}</changefreq></url>`);
+  }
+  for (const p of products) {
+    if (!p?.slug) continue;
+    lines.push(`  <url><loc>${SITE}/product/${p.slug}</loc><lastmod>${today}</lastmod><priority>0.85</priority><changefreq>monthly</changefreq></url>`);
+  }
+  for (const i of industries) {
+    if (!i?.slug) continue;
+    lines.push(`  <url><loc>${SITE}/industry/${i.slug}</loc><lastmod>${today}</lastmod><priority>0.8</priority><changefreq>monthly</changefreq></url>`);
+  }
+  for (const s of standards) {
+    if (!s?.slug) continue;
+    lines.push(`  <url><loc>${SITE}/standards/${s.slug}</loc><lastmod>${today}</lastmod><priority>0.8</priority><changefreq>monthly</changefreq></url>`);
+  }
+  lines.push('</urlset>');
+  res.type("application/xml").send(lines.join("\n"));
+}));
+
+app.get("/robots.txt", (req, res) => {
+  const proto = (req.headers["x-forwarded-proto"] as string) || req.protocol || "https";
+  const host  = (req.headers["x-forwarded-host"]  as string) || req.headers.host || "miengineeringworks.com";
+  const SITE  = process.env.SITE_URL || `${proto}://${host}`;
+  res.type("text/plain").send(
+    `User-agent: *\nAllow: /\n\nUser-agent: Googlebot\nAllow: /\n\nUser-agent: Bingbot\nAllow: /\n\nDisallow: /admin\nDisallow: /api\n\nSitemap: ${SITE}/sitemap.xml\n`
+  );
+});
+
 // ── Production: serve the built React SPA from dist/ ──────────────────────────
 // In dev, Vite serves the frontend separately on its own port (proxied to /api).
 // In production (cPanel / VPS / Render), Express alone serves both the API AND

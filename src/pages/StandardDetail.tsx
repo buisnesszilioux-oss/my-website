@@ -33,6 +33,28 @@ const StandardDetail = () => {
       <Helmet>
         <title>{`${s.code} — ${s.name} | M.I. Engineering Works`}</title>
         <meta name="description" content={s.description.slice(0, 160)} />
+        <meta name="keywords" content={`${s.code}, ${s.name}, ${s.code} fasteners, ${s.code} bolts, ${s.code} stud bolts, ${s.code} manufacturer, ${s.code} supplier India, ${s.code} Mumbai, ${(s.applications || []).join(", ")}, ${(s.materials || []).join(", ")}`} />
+        <link rel="canonical" href={`${typeof window !== "undefined" ? window.location.origin : "https://miengineeringworks.com"}/standards/${s.slug}`} />
+        <meta property="og:title" content={`${s.code} — ${s.name}`} />
+        <meta property="og:description" content={s.description.slice(0, 160)} />
+        {s.image && <meta property="og:image" content={s.image} />}
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "TechArticle",
+          headline: `${s.code} — ${s.name}`,
+          description: s.description,
+          image: s.image,
+          author: { "@type": "Organization", name: "M.I. Engineering Works" },
+          publisher: { "@type": "Organization", name: "M.I. Engineering Works", logo: { "@type": "ImageObject", url: "https://miengineeringworks.com/favicon.png" } },
+          mainEntity: {
+            "@type": "Product",
+            name: `${s.code} ${s.name} Fasteners`,
+            description: s.description,
+            brand: { "@type": "Brand", name: "M.I. Engineering Works" },
+            material: (s.materials || []).join(", "),
+            category: "Industrial Fasteners",
+          },
+        })}</script>
       </Helmet>
       <Header />
 

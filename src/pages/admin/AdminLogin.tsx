@@ -158,6 +158,10 @@ const AdminLogin = () => {
 
         <p className="text-[11px] text-muted-foreground/70 mt-5 text-center leading-relaxed">
           Restricted access. Only the registered admin email can sign in.
+          <br />
+          <span className="text-muted-foreground/60">
+            Use <b>miengineering@gmail.com</b> with the password set in your <b>ADMIN_PASSWORD</b> environment variable.
+          </span>
         </p>
       </form>
     </div>

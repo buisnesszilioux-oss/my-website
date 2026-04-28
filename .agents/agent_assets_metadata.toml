@@ -47,10 +47,10 @@ title = "FRONTEND - public_html folder me upload"
 id = "i3CRj0jjSbH6Tr9bhQt6C"
 uri = "file://cpanel-zips/mi-public_html.zip"
 type = "unspecified"
-title = "Frontend — Upload to public_html (4.3 MB)"
+title = "mi-public_html.zip — Frontend (public_html folder)"
 
 [[outputs]]
 id = "mqjG7YUcuXlbWLrdrFIDb"
 uri = "file://cpanel-zips/mi-backend.zip"
 type = "unspecified"
-title = "Backend — Setup as Node.js App (1.0 MB)"
+title = "mi-backend.zip — Backend (cPanel Node.js App folder)"

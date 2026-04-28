@@ -62,8 +62,19 @@ const Header = () => {
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setMobileOpen(false);
-    if (location.pathname === "/") window.location.reload();
-    else window.location.assign("/");
+    if (location.pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.location.assign("/");
+    }
+  };
+
+  const handleHomeNavClick = (e: React.MouseEvent) => {
+    if (location.pathname === "/") {
+      e.preventDefault();
+      setMobileOpen(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const isActive = (link: NavLink) =>
@@ -86,6 +97,7 @@ const Header = () => {
         <Link
           key={l.label}
           to={l.href}
+          onClick={l.href === "/" ? handleHomeNavClick : undefined}
           data-testid={`nav-${l.label.toLowerCase()}`}
           className={`relative text-sm font-medium transition-colors after:absolute after:left-0 after:right-0 after:-bottom-1.5 after:h-0.5 after:rounded-full after:bg-primary after:transition-transform after:origin-center ${
             isActive(l) ? "text-primary after:scale-x-100" : "text-foreground/80 hover:text-primary after:scale-x-0 hover:after:scale-x-100"
@@ -327,7 +339,10 @@ const Header = () => {
                   <Link
                     key={l.label}
                     to={l.href}
-                    onClick={() => setMobileOpen(false)}
+                    onClick={(e) => {
+                      if (l.href === "/") handleHomeNavClick(e);
+                      setMobileOpen(false);
+                    }}
                     className="block px-6 py-3 text-foreground/80 hover:text-primary hover:bg-secondary/50 transition-colors"
                   >
                     {l.label}
