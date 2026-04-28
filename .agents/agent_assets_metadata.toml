@@ -42,3 +42,15 @@ id = "UrrzG91cMHILbm9vmwbw_"
 uri = "file://mi-frontend-public_html.zip"
 type = "unspecified"
 title = "FRONTEND - public_html folder me upload"
+
+[[outputs]]
+id = "i3CRj0jjSbH6Tr9bhQt6C"
+uri = "file://cpanel-zips/mi-public_html.zip"
+type = "unspecified"
+title = "Frontend — Upload to public_html (4.3 MB)"
+
+[[outputs]]
+id = "mqjG7YUcuXlbWLrdrFIDb"
+uri = "file://cpanel-zips/mi-backend.zip"
+type = "unspecified"
+title = "Backend — Setup as Node.js App (1.0 MB)"

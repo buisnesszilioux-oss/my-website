@@ -4,7 +4,7 @@ import { X, Upload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export type Field =
-  | { name: string; label: string; type: "text" | "textarea" | "image" }
+  | { name: string; label: string; type: "text" | "textarea" | "image" | "images" }
   | { name: string; label: string; type: "select"; options: string[] }
   | { name: string; label: string; type: "list" }       // string[]
   | { name: string; label: string; type: "json"; placeholder?: string }; // free-form jsonb
@@ -93,6 +93,42 @@ export default function EditDialog({
                 </div>
               </div>
             );
+            if (f.type === "images") {
+              const arr: string[] = Array.isArray(v) ? v : [];
+              const setArr = (next: string[]) => set(f.name, next);
+              const handleMulti = async (file: File) => {
+                if (arr.length >= 6) { toast({ title: "Limit", description: "Max 6 images", variant: "destructive" }); return; }
+                try {
+                  setBusy(true);
+                  const { url } = await uploadFile(file);
+                  setArr([...arr, url]);
+                  toast({ title: "Image added", description: file.name });
+                } catch (e: any) { toast({ title: "Upload failed", description: e.message, variant: "destructive" }); }
+                finally { setBusy(false); }
+              };
+              return (
+                <div key={f.name}>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{f.label} <span className="normal-case font-normal text-[11px]">(extra gallery photos — up to 6)</span></span>
+                  <div className="mt-2 grid grid-cols-3 sm:grid-cols-4 gap-2">
+                    {arr.map((url, i) => (
+                      <div key={i} className="relative group rounded-md overflow-hidden border border-border bg-secondary/30 aspect-square">
+                        <img src={url} alt="" className="w-full h-full object-cover" />
+                        <button type="button" onClick={() => setArr(arr.filter((_, j) => j !== i))} className="absolute top-1 right-1 p-1 rounded-full bg-black/70 text-white opacity-0 group-hover:opacity-100 transition" aria-label="Remove">
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+                    {arr.length < 6 && (
+                      <label className="cursor-pointer aspect-square flex flex-col items-center justify-center gap-1 border-2 border-dashed border-border rounded-md text-xs text-muted-foreground hover:border-primary hover:text-primary transition">
+                        <Upload className="w-5 h-5" />
+                        <span>Add Photo</span>
+                        <input type="file" accept="image/*" className="hidden" onChange={(e) => { const file = e.target.files?.[0]; if (file) { handleMulti(file); e.currentTarget.value = ""; } }} />
+                      </label>
+                    )}
+                  </div>
+                </div>
+              );
+            }
             if (f.type === "select") return (
               <label key={f.name} className="block">
                 <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{f.label}</span>

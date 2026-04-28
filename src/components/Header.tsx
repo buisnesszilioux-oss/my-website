@@ -21,7 +21,6 @@ const navLinks: NavLink[] = [
   { label: "Gallery", href: "/gallery" },
   { label: "Specifications", href: "/specifications" },
   { label: "Grade Chart", href: "/grade-chart" },
-  { label: "Calculator", href: "/calculator" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -99,8 +98,8 @@ const Header = () => {
 
     const items =
       l.dropdown === "applications"
-        ? industries.map((i) => ({ key: i.slug, label: i.name, href: `/applications/${i.slug}` }))
-        : standards.map((s) => ({ key: s.slug, label: `${s.code} — ${s.name}`, href: `/standards/${s.slug}` }));
+        ? industries.map((i) => ({ key: i.slug, label: i.name, href: `/industry/${i.slug}` }))
+        : standards.map((s) => ({ key: s.slug, label: s.code, href: `/standards/${s.slug}` }));
 
     const isOpen = openDropdown === l.label;
     return (

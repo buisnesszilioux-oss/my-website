@@ -31,11 +31,6 @@ const QuotePage = lazy(() => import("./pages/QuotePage.tsx"));
 const UserAuthPage = lazy(() => import("./pages/UserAuthPage.tsx"));
 const AccountPage = lazy(() => import("./pages/AccountPage.tsx"));
 
-// Calculator is now an admin-only tool
-const CalculatorPage = lazy(() => import("./pages/CalculatorPage.tsx"));
-// Public-facing metal weight calculator
-const MetalCalculatorPage = lazy(() => import("./pages/MetalCalculatorPage.tsx"));
-
 // Admin pages — lazy loaded (only ever opened by site owner)
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin.tsx"));
 const AdminMedia = lazy(() => import("./pages/admin/AdminMedia.tsx"));
@@ -60,6 +55,7 @@ const AdminBackups = lazy(() => import("./pages/admin/AdminBackups.tsx"));
 const AdminTheme = lazy(() => import("./pages/admin/AdminTheme.tsx"));
 const AdminHero = lazy(() => import("./pages/admin/AdminHero.tsx"));
 const AdminFloatingImages = lazy(() => import("./pages/admin/AdminFloatingImages.tsx"));
+const AdminPreviewEditor = lazy(() => import("./pages/admin/AdminPreviewEditor.tsx"));
 const RequireAdmin = lazy(() => import("./pages/admin/RequireAdmin.tsx"));
 
 const queryClient = new QueryClient({
@@ -101,11 +97,10 @@ const AnimatedRoutes = () => {
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/specifications" element={<SpecificationsPage />} />
           <Route path="/grade-chart" element={<GradeChartPage />} />
-          <Route path="/calculator" element={<MetalCalculatorPage />} />
 
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/calculator" element={<RequireAdmin><CalculatorPage /></RequireAdmin>} />
           <Route path="/admin" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
+          <Route path="/admin/preview-editor" element={<RequireAdmin><AdminPreviewEditor /></RequireAdmin>} />
           <Route path="/admin/products" element={<RequireAdmin><AdminProducts /></RequireAdmin>} />
           <Route path="/admin/industries" element={<RequireAdmin><AdminIndustries /></RequireAdmin>} />
           <Route path="/admin/standards" element={<RequireAdmin><AdminStandards /></RequireAdmin>} />

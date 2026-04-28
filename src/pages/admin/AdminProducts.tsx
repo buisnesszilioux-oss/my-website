@@ -21,7 +21,8 @@ const PRODUCT_CATEGORIES = [
 const fields: Field[] = [
   { name: "slug", label: "Slug", type: "text" },
   { name: "name", label: "Name", type: "text" },
-  { name: "image", label: "Image", type: "image" },
+  { name: "image", label: "Main Image", type: "image" },
+  { name: "images", label: "Gallery Images", type: "images" },
   { name: "category", label: "Category", type: "select", options: PRODUCT_CATEGORIES },
   { name: "standard", label: "Standard", type: "text" },
   { name: "description", label: "Description", type: "textarea" },
@@ -35,7 +36,7 @@ const fields: Field[] = [
   { name: "dimensions", label: "Dimensions", type: "json", placeholder: '[{"label":"Diameter","value":"M6 – M100"}]' },
 ];
 
-const empty: Partial<Product> = { slug: "", name: "", image: "", standard: "", category: "Bolts", description: "", sizes: "", threads: "", length: "", material: "", finish: [], grades: [], applications: [], dimensions: [] };
+const empty: Partial<Product> = { slug: "", name: "", image: "", images: [], standard: "", category: "Bolts", description: "", sizes: "", threads: "", length: "", material: "", finish: [], grades: [], applications: [], dimensions: [] };
 
 const AdminProducts = () => {
   const qc = useQueryClient();

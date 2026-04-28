@@ -146,11 +146,38 @@ export async function fixIdSequences() {
   if (fixed > 0) console.log(`[data-fix] reset id sequences for ${fixed} table(s)`);
 }
 
+// One-time cleanup: replace any stale "Realbolt" / "Real-Bolt" text in DB
+// with the new brand "M.I. Engineering Works" so old seeds get refreshed.
+export async function rebrandLegacyText() {
+  const targets: { table: string; cols: string[] }[] = [
+    { table: "products",          cols: ["name", "description"] },
+    { table: "industries",        cols: ["name", "description", "hero_description"] },
+    { table: "standards",         cols: ["name", "description"] },
+    { table: "site_content",      cols: ["value"] },
+    { table: "page_sections",     cols: ["title", "subtitle", "body"] },
+  ];
+  let touched = 0;
+  for (const t of targets) {
+    for (const col of t.cols) {
+      try {
+        const res: any = await db.execute(sql.raw(
+          `UPDATE ${t.table} SET ${col} = REGEXP_REPLACE(${col}, 'Real[- ]?[Bb]olt', 'M.I. Engineering Works', 'gi')
+           WHERE ${col} ~* 'real[- ]?bolt'`
+        ));
+        const c = (res?.rowCount ?? res?.rows?.length ?? 0);
+        if (c) { touched += c; }
+      } catch { /* col missing — ignore */ }
+    }
+  }
+  if (touched > 0) console.log(`[data-fix] rebranded Realbolt → M.I. Engineering Works in ${touched} row(s)`);
+}
+
 export async function runDataFixes() {
   try {
     await fixIdSequences();
     await fixBrokenImages();
     await backfillProductCategories();
+    await rebrandLegacyText();
   } catch (e) {
     console.warn("[data-fix] failed:", (e as Error).message);
   }

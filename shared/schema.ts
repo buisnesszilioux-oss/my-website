@@ -40,6 +40,7 @@ export const products = pgTable("products", {
   slug: varchar("slug", { length: 128 }).notNull().unique(),
   name: text("name").notNull(),
   image: text("image").notNull(),
+  images: text("images").array().notNull().default([]),
   standard: text("standard").notNull(),
   category: text("category").notNull().default("Bolts"),
   description: text("description").notNull(),

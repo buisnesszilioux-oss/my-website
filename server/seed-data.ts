@@ -1,4 +1,4 @@
-// Seed data extracted/structured from Real-Bolt source HTMLs and existing site data.
+// Seed data extracted/structured from M.I. Engineering Works source HTMLs and existing site data.
 
 export const standardsSeed = [
   {
@@ -168,7 +168,7 @@ export const standardsSeed = [
   },
 ];
 
-// Industries — 60 categories from Real-Bolt Applications page.
+// Industries — 60 categories from M.I. Engineering Works Applications page.
 // Each industry has a concise but information-dense description and a representative image.
 const img = (q: string) => `https://source.unsplash.com/1200x800/?${encodeURIComponent(q)}`;
 
@@ -248,7 +248,7 @@ export const industriesSeed = industryNames.map((i) => ({
   slug: i.slug,
   name: i.name,
   description: `Engineered fastening solutions for the ${i.name} sector — ${i.tag}.`,
-  heroDescription: `Realbolt-grade precision fasteners are engineered for the demanding ${i.name.toLowerCase()} sector. We supply ${i.tag} manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.`,
+  heroDescription: `M.I. Engineering Works-grade precision fasteners are engineered for the demanding ${i.name.toLowerCase()} sector. We supply ${i.tag} manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.`,
   image: img(i.img),
   grades: baseGrades,
   applications: [

@@ -3,6 +3,8 @@ export interface Product {
   slug: string;
   name: string;
   image: string;
+  images?: string[];
+  category?: string;
   standard: string;
   description: string;
   sizes: string;
