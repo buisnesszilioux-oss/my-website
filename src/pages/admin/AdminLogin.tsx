@@ -1,99 +1,46 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { api, setToken } from "@/lib/api";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Loader2, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
-const GOOGLE_CLIENT_ID = (import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined) || "";
-
-declare global {
-  interface Window {
-    google?: any;
-  }
-}
+import { useAuth } from "@/contexts/AuthContext";
+import { ADMIN_EMAIL } from "@/lib/firebase";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
-  const [googleReady, setGoogleReady] = useState(false);
-  const googleBtnRef = useRef<HTMLDivElement | null>(null);
+  const [err, setErr] = useState<string | null>(null);
   const nav = useNavigate();
   const { toast } = useToast();
+  const { login, user } = useAuth();
+
+  // If already signed in, redirect by role
+  useEffect(() => {
+    if (user) nav(user.role === "admin" ? "/admin" : "/dashboard", { replace: true });
+  }, [user, nav]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErr(null);
     setBusy(true);
     try {
-      const res = await api<{ token: string }>("/api/admin/login", {
-        method: "POST",
-        body: JSON.stringify({ username: email.trim().toLowerCase(), password }),
-      });
-      setToken(res.token);
+      const profile = await login(email, password);
+      if (profile.role !== "admin") {
+        setErr("This account is not an admin. Use the customer portal at /auth.");
+        return;
+      }
       toast({ title: "Welcome back" });
-      nav("/admin");
+      nav("/admin", { replace: true });
     } catch (err: any) {
-      toast({ title: "Sign-in failed", description: err.message || "Please try again", variant: "destructive" });
-    } finally { setBusy(false); }
+      const msg =
+        err?.code === "auth/invalid-credential" || err?.code === "auth/wrong-password" || err?.code === "auth/user-not-found"
+          ? "Incorrect email or password."
+          : err?.message || "Sign-in failed. Please try again.";
+      setErr(msg);
+    } finally {
+      setBusy(false);
+    }
   };
-
-  // Load Google Identity Services script + render the button.
-  // Works on any host (dev Replit URL or production custom domain) as long as
-  // the host is added to "Authorised JavaScript origins" in Google Cloud Console.
-  useEffect(() => {
-    if (!GOOGLE_CLIENT_ID) return;
-
-    const handleCredential = async (response: { credential: string }) => {
-      try {
-        setBusy(true);
-        const res = await api<{ token: string }>("/api/admin/google-login", {
-          method: "POST",
-          body: JSON.stringify({ credential: response.credential }),
-        });
-        setToken(res.token);
-        toast({ title: "Signed in with Google" });
-        nav("/admin");
-      } catch (err: any) {
-        toast({ title: "Google sign-in failed", description: err.message || "Please try again", variant: "destructive" });
-      } finally { setBusy(false); }
-    };
-
-    const init = () => {
-      if (!window.google?.accounts?.id || !googleBtnRef.current) return;
-      window.google.accounts.id.initialize({
-        client_id: GOOGLE_CLIENT_ID,
-        callback: handleCredential,
-        auto_select: false,
-        ux_mode: "popup",
-      });
-      window.google.accounts.id.renderButton(googleBtnRef.current, {
-        theme: "outline",
-        size: "large",
-        shape: "rectangular",
-        text: "signin_with",
-        width: 320,
-      });
-      setGoogleReady(true);
-    };
-
-    if (window.google?.accounts?.id) {
-      init();
-      return;
-    }
-
-    const existing = document.getElementById("google-identity-script") as HTMLScriptElement | null;
-    if (existing) {
-      existing.addEventListener("load", init, { once: true });
-      return;
-    }
-    const s = document.createElement("script");
-    s.id = "google-identity-script";
-    s.src = "https://accounts.google.com/gsi/client";
-    s.async = true;
-    s.defer = true;
-    s.onload = init;
-    document.head.appendChild(s);
-  }, [nav, toast]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-dark p-6">
@@ -106,20 +53,12 @@ const AdminLogin = () => {
           <p className="text-sm text-muted-foreground mt-1.5">M.I. Engineering Works · Content Panel</p>
         </div>
 
-        {GOOGLE_CLIENT_ID ? (
-          <>
-            <div className="flex justify-center mb-5 min-h-[44px]" data-testid="google-signin-container">
-              <div ref={googleBtnRef} />
-              {!googleReady && (
-                <div className="text-xs text-muted-foreground self-center">Loading Google sign-in…</div>
-              )}
-            </div>
-            <div className="relative my-5">
-              <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border" /></div>
-              <div className="relative flex justify-center"><span className="bg-card px-3 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Or with password</span></div>
-            </div>
-          </>
-        ) : null}
+        {err && (
+          <div className="mb-4 rounded-md border border-red-500/40 bg-red-500/10 text-red-300 text-sm px-3 py-2 flex items-start gap-2">
+            <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+            <span data-testid="text-admin-login-error">{err}</span>
+          </div>
+        )}
 
         <label className="block mb-4">
           <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-semibold">Admin Email</span>
@@ -129,7 +68,7 @@ const AdminLogin = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
             data-testid="input-username"
-            placeholder="miengineering@gmail.com"
+            placeholder={ADMIN_EMAIL}
             className="mt-2 w-full bg-background border border-border rounded-lg px-4 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition"
           />
         </label>
@@ -151,16 +90,17 @@ const AdminLogin = () => {
           type="submit"
           disabled={busy || !email || !password}
           data-testid="button-login"
-          className="w-full bg-gradient-gold text-charcoal font-semibold py-3 rounded-lg hover:opacity-90 transition disabled:opacity-50 shadow-gold"
+          className="w-full inline-flex items-center justify-center gap-2 bg-gradient-gold text-charcoal font-semibold py-3 rounded-lg hover:opacity-90 transition disabled:opacity-50 shadow-gold"
         >
+          {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
           {busy ? "Signing in…" : "Sign In"}
         </button>
 
         <p className="text-[11px] text-muted-foreground/70 mt-5 text-center leading-relaxed">
-          Restricted access. Only the registered admin email can sign in.
+          Restricted access. Only the admin email <b>{ADMIN_EMAIL}</b> can access the admin panel.
           <br />
           <span className="text-muted-foreground/60">
-            Use <b>miengineering@gmail.com</b> with the password set in your <b>ADMIN_PASSWORD</b> environment variable.
+            Authentication powered by Firebase. Create the admin account from the customer registration page first.
           </span>
         </p>
       </form>

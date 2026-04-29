@@ -83,7 +83,7 @@ const AccountPage = () => {
                 <p className="mt-3 font-semibold" data-testid="text-account-name">{user.name}</p>
                 <p className="text-xs text-muted-foreground" data-testid="text-account-email">{user.email}</p>
                 <span className="inline-flex items-center gap-1 mt-3 text-[10px] uppercase tracking-widest text-primary/90 bg-primary/10 px-2 py-1 rounded">
-                  <ShieldCheck className="w-3 h-3" /> {user.provider === "google" ? "Google account" : "Verified email"}
+                  <ShieldCheck className="w-3 h-3" /> Verified email · {user.role}
                 </span>
               </div>
               <Link

@@ -30,6 +30,8 @@ const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 const QuotePage = lazy(() => import("./pages/QuotePage.tsx"));
 const UserAuthPage = lazy(() => import("./pages/UserAuthPage.tsx"));
 const AccountPage = lazy(() => import("./pages/AccountPage.tsx"));
+const DashboardPage = lazy(() => import("./pages/DashboardPage.tsx"));
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 // Admin pages — lazy loaded (only ever opened by site owner)
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin.tsx"));
@@ -86,8 +88,10 @@ const AnimatedRoutes = () => {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/quote" element={<QuotePage />} />
           <Route path="/login" element={<UserAuthPage />} />
+          <Route path="/auth" element={<UserAuthPage />} />
           <Route path="/register" element={<UserAuthPage />} />
-          <Route path="/account" element={<AccountPage />} />
+          <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
+          <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
           <Route path="/product/:slug" element={<ProductDetail />} />
           <Route path="/industry/:slug" element={<IndustryDetail />} />
           <Route path="/applications" element={<ApplicationsPage />} />

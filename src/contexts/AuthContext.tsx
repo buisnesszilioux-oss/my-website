@@ -1,126 +1,192 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  updateProfile as fbUpdateProfile,
+  type User as FbUser,
+} from "firebase/auth";
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { auth, db, ADMIN_EMAIL } from "@/lib/firebase";
+
+export type UserRole = "admin" | "user";
 
 export type AuthUser = {
-  id: number;
+  uid: string;
   email: string;
   name: string;
   phone: string;
   company: string;
   picture: string;
-  provider: string;
-  createdAt: string;
+  role: UserRole;
+  createdAt: string | null;
+};
+
+type RegisterData = {
+  name: string;
+  email: string;
+  password: string;
+  phone?: string;
+  company?: string;
 };
 
 type AuthContextValue = {
   user: AuthUser | null;
-  token: string | null;
+  firebaseUser: FbUser | null;
   loading: boolean;
+  isAdmin: boolean;
   login: (email: string, password: string) => Promise<AuthUser>;
-  register: (data: { name: string; email: string; password: string; phone?: string; company?: string }) => Promise<AuthUser>;
-  loginWithGoogle: (credential: string) => Promise<AuthUser>;
-  logout: () => void;
+  register: (data: RegisterData) => Promise<AuthUser>;
+  logout: () => Promise<void>;
   refresh: () => Promise<void>;
   updateProfile: (data: { name?: string; phone?: string; company?: string }) => Promise<AuthUser>;
 };
 
-const TOKEN_KEY = "mi_user_token";
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-async function authFetch<T>(path: string, opts: RequestInit = {}, token?: string | null): Promise<T> {
-  const headers: Record<string, string> = { "Content-Type": "application/json", ...(opts.headers as any) };
-  if (token) headers["Authorization"] = `Bearer ${token}`;
-  const res = await fetch(path, { ...opts, headers });
-  const json = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(json?.error || `Request failed (${res.status})`);
-  return json as T;
+function roleForEmail(email: string): UserRole {
+  return email.trim().toLowerCase() === ADMIN_EMAIL ? "admin" : "user";
+}
+
+async function loadOrCreateUserDoc(fbUser: FbUser, defaults?: Partial<AuthUser>): Promise<AuthUser> {
+  const userRef = doc(db, "users", fbUser.uid);
+  const snap = await getDoc(userRef);
+  const email = (fbUser.email ?? defaults?.email ?? "").toLowerCase();
+  const role = roleForEmail(email);
+
+  if (!snap.exists()) {
+    const data = {
+      uid: fbUser.uid,
+      email,
+      name: defaults?.name ?? fbUser.displayName ?? "",
+      phone: defaults?.phone ?? "",
+      company: defaults?.company ?? "",
+      picture: fbUser.photoURL ?? "",
+      role,
+      createdAt: serverTimestamp(),
+    };
+    await setDoc(userRef, data);
+    return { ...data, createdAt: new Date().toISOString() } as AuthUser;
+  }
+
+  const existing = snap.data() as Partial<AuthUser> & { createdAt?: { toDate?: () => Date } };
+  // Always reconcile role with admin email rule (in case admin email changes)
+  if (existing.role !== role) {
+    await setDoc(userRef, { role }, { merge: true });
+  }
+  const createdAtIso =
+    existing.createdAt && typeof (existing.createdAt as any).toDate === "function"
+      ? (existing.createdAt as any).toDate().toISOString()
+      : typeof existing.createdAt === "string"
+        ? existing.createdAt
+        : null;
+  return {
+    uid: fbUser.uid,
+    email,
+    name: existing.name ?? fbUser.displayName ?? "",
+    phone: existing.phone ?? "",
+    company: existing.company ?? "",
+    picture: existing.picture ?? fbUser.photoURL ?? "",
+    role,
+    createdAt: createdAtIso,
+  };
 }
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setTokenState] = useState<string | null>(() => localStorage.getItem(TOKEN_KEY));
+  const [firebaseUser, setFirebaseUser] = useState<FbUser | null>(null);
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [loading, setLoading] = useState<boolean>(!!token);
-
-  const persistToken = (t: string | null) => {
-    if (t) localStorage.setItem(TOKEN_KEY, t);
-    else localStorage.removeItem(TOKEN_KEY);
-    setTokenState(t);
-  };
-
-  const refresh = async () => {
-    if (!token) {
-      setUser(null);
-      setLoading(false);
-      return;
-    }
-    try {
-      const data = await authFetch<{ user: AuthUser }>("/api/auth/me", {}, token);
-      setUser(data.user);
-    } catch {
-      persistToken(null);
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    refresh();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+    const unsub = onAuthStateChanged(auth, async (fbUser) => {
+      setFirebaseUser(fbUser);
+      if (!fbUser) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+      try {
+        const profile = await loadOrCreateUserDoc(fbUser);
+        setUser(profile);
+      } catch (e) {
+        console.error("[auth] failed to load user doc", e);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    });
+    return () => unsub();
+  }, []);
+
+  const refresh = async () => {
+    if (!auth.currentUser) {
+      setUser(null);
+      return;
+    }
+    const profile = await loadOrCreateUserDoc(auth.currentUser);
+    setUser(profile);
+  };
 
   const login = async (email: string, password: string) => {
-    const res = await authFetch<{ token: string; user: AuthUser }>("/api/auth/login", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-    });
-    persistToken(res.token);
-    setUser(res.user);
-    return res.user;
+    const cred = await signInWithEmailAndPassword(auth, email.trim(), password);
+    const profile = await loadOrCreateUserDoc(cred.user);
+    setUser(profile);
+    setFirebaseUser(cred.user);
+    return profile;
   };
 
-  const register = async (data: { name: string; email: string; password: string; phone?: string; company?: string }) => {
-    const res = await authFetch<{ token: string; user: AuthUser }>("/api/auth/register", {
-      method: "POST",
-      body: JSON.stringify(data),
+  const register = async (data: RegisterData) => {
+    const cred = await createUserWithEmailAndPassword(auth, data.email.trim(), data.password);
+    if (data.name) {
+      try { await fbUpdateProfile(cred.user, { displayName: data.name }); } catch { /* non-fatal */ }
+    }
+    const profile = await loadOrCreateUserDoc(cred.user, {
+      name: data.name,
+      phone: data.phone ?? "",
+      company: data.company ?? "",
+      email: data.email,
     });
-    persistToken(res.token);
-    setUser(res.user);
-    return res.user;
+    setUser(profile);
+    setFirebaseUser(cred.user);
+    return profile;
   };
 
-  const loginWithGoogle = async (credential: string) => {
-    const res = await authFetch<{ token: string; user: AuthUser }>("/api/auth/google", {
-      method: "POST",
-      body: JSON.stringify({ credential }),
-    });
-    persistToken(res.token);
-    setUser(res.user);
-    return res.user;
+  const logout = async () => {
+    await signOut(auth);
+    setUser(null);
+    setFirebaseUser(null);
   };
 
   const updateProfile = async (data: { name?: string; phone?: string; company?: string }) => {
-    const res = await authFetch<{ user: AuthUser }>("/api/auth/me", {
-      method: "PATCH",
-      body: JSON.stringify(data),
-    }, token);
-    setUser(res.user);
-    return res.user;
+    if (!auth.currentUser) throw new Error("Not signed in");
+    const userRef = doc(db, "users", auth.currentUser.uid);
+    await setDoc(userRef, data, { merge: true });
+    if (data.name) {
+      try { await fbUpdateProfile(auth.currentUser, { displayName: data.name }); } catch { /* non-fatal */ }
+    }
+    const profile = await loadOrCreateUserDoc(auth.currentUser);
+    setUser(profile);
+    return profile;
   };
 
-  const logout = () => {
-    persistToken(null);
-    setUser(null);
+  const value: AuthContextValue = {
+    user,
+    firebaseUser,
+    loading,
+    isAdmin: user?.role === "admin",
+    login,
+    register,
+    logout,
+    refresh,
+    updateProfile,
   };
 
-  return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, loginWithGoogle, logout, refresh, updateProfile }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = () => {
+export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used inside <AuthProvider>");
   return ctx;
-};
+}

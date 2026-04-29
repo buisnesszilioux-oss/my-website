@@ -1,0 +1,74 @@
+ye mera sk config hai // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+apiKey: "AIzaSyBoAKGgn_Abb8qADt0u_N_-P0ZzR-vGlOE",
+authDomain: "miweb-edaf5.firebaseapp.com",
+projectId: "miweb-edaf5",
+storageBucket: "miweb-edaf5.firebasestorage.app",
+messagingSenderId: "943224981876",
+appId: "1:943224981876:web:c92167e6f873aca4ec0421",
+measurementId: "G-GVVDEHW5N5"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+and I already have a frontend hosted on cPanel. I want to connect it with Firebase backend.
+
+Please build and integrate the following:
+
+🔥 Project Goal:
+Connect existing frontend with Firebase Authentication + Firestore Database.
+
+🔐 Authentication:
+Use Firebase Email/Password Authentication
+Login + Register system
+Logout functionality
+After login:
+If email is "miengineering17@gmail.com" → redirect to /admin
+Else → redirect to /dashboard
+🗄️ Database (Firestore):
+Create "users" collection automatically on signup
+Store:
+uid
+email
+role (admin/user)
+Save user data after login/register
+⚙️ Firebase Setup:
+Create firebaseConfig.js file
+Use Firebase v9 modular SDK
+Include:
+initializeApp
+getAuth
+getFirestore
+🌐 Frontend Integration:
+My frontend is already built (cPanel hosted)
+Only provide JS/React integration code to connect Firebase
+Do NOT rebuild frontend UI completely
+👑 Admin System:
+Admin email: "miengineering17@gmail.com"
+Admin gets /admin dashboard
+Users get /dashboard
+🚀 Features:
+Loading states
+Error handling
+Protected routes (no access without login)
+Clean and production-ready code
+❌ Constraints:
+Do NOT use Node.js backend
+Firebase should handle everything (Auth + DB)
+Keep integration simple for existing frontend
+📦 Output required:
+firebase.js config file
+login/register functions
+Firestore save user logic
+redirect logic
+integration instructions for cPanel frontend
+pura fire base ka setup kro and jo bhi ye application and standard move hora hai home page me usko edit krne ke lie admin pannel me option daldo usme images dalne ke lie and mujhe logo ka bhi animation dlne ka option dalo admin pannel me vha se me jo bhi effect lagau vo lag jauye or animation me jo bhi product ka hai usme upload option daldo taki m tgde tgde animation download krke usme dal ke use kr sku proper working bnana or floating images me bhi upload vala option daldo take m upload krke use kr sku with proer working now make and make our web ui premium ui premium animation theme and in admin pannel hero images i can add there video jo ki hmare web me show hoga ye sb hojane ke bad mujhe fronted file dedena jo cpanel me dalunga or jo bbhi fire base m dalna hoga uska bhi dedo

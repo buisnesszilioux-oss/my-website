@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Loader2, LogIn, UserPlus, Mail, Lock, User as UserIcon, Phone, Building2, AlertCircle } from "lucide-react";
@@ -7,17 +7,11 @@ import Footer from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 
-declare global {
-  interface Window {
-    google?: any;
-  }
-}
-
 const UserAuthPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { login, register, loginWithGoogle, user } = useAuth();
+  const { login, register, user } = useAuth();
   const initialMode = location.pathname === "/register" ? "register" : "login";
   const [mode, setMode] = useState<"login" | "register">(initialMode);
   const [busy, setBusy] = useState(false);
@@ -26,80 +20,33 @@ const UserAuthPage = () => {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [regForm, setRegForm] = useState({ name: "", email: "", phone: "", company: "", password: "" });
 
-  const googleBtnRef = useRef<HTMLDivElement>(null);
-  const clientId = (import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined) || "";
-
   useEffect(() => {
     setMode(location.pathname === "/register" ? "register" : "login");
   }, [location.pathname]);
 
+  // Redirect already-signed-in users based on role
   useEffect(() => {
-    if (user) navigate("/account", { replace: true });
+    if (user) {
+      navigate(user.role === "admin" ? "/admin" : "/dashboard", { replace: true });
+    }
   }, [user, navigate]);
-
-  // Load Google Identity Services script and render button
-  useEffect(() => {
-    if (!clientId) return;
-    const renderBtn = () => {
-      if (!window.google?.accounts?.id || !googleBtnRef.current) return;
-      window.google.accounts.id.initialize({
-        client_id: clientId,
-        callback: async (resp: any) => {
-          try {
-            setBusy(true);
-            setErr(null);
-            await loginWithGoogle(resp.credential);
-            toast({ title: "Welcome!", description: "Signed in with Google." });
-            navigate("/account");
-          } catch (e: any) {
-            setErr(e.message || "Google sign-in failed");
-          } finally {
-            setBusy(false);
-          }
-        },
-      });
-      window.google.accounts.id.renderButton(googleBtnRef.current, {
-        theme: "filled_black",
-        size: "large",
-        text: mode === "register" ? "signup_with" : "signin_with",
-        shape: "rectangular",
-        width: 360,
-      });
-    };
-
-    if (window.google?.accounts?.id) {
-      renderBtn();
-      return;
-    }
-    const existing = document.getElementById("gsi-client") as HTMLScriptElement | null;
-    if (existing) {
-      existing.addEventListener("load", renderBtn, { once: true });
-      return;
-    }
-    const s = document.createElement("script");
-    s.id = "gsi-client";
-    s.src = "https://accounts.google.com/gsi/client";
-    s.async = true;
-    s.defer = true;
-    s.onload = renderBtn;
-    document.head.appendChild(s);
-  }, [clientId, mode, loginWithGoogle, navigate, toast]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErr(null);
     setBusy(true);
     try {
-      if (mode === "login") {
-        await login(loginForm.email, loginForm.password);
-        toast({ title: "Welcome back!" });
-      } else {
-        await register(regForm);
-        toast({ title: "Account created", description: "You are now signed in." });
-      }
-      navigate("/account");
+      const profile =
+        mode === "login"
+          ? await login(loginForm.email, loginForm.password)
+          : await register(regForm);
+      toast({
+        title: mode === "login" ? "Welcome back!" : "Account created",
+        description: mode === "login" ? undefined : "You are now signed in.",
+      });
+      navigate(profile.role === "admin" ? "/admin" : "/dashboard", { replace: true });
     } catch (e: any) {
-      setErr(e.message || "Something went wrong");
+      setErr(humanizeFirebaseError(e?.code, e?.message));
     } finally {
       setBusy(false);
     }
@@ -118,7 +65,6 @@ const UserAuthPage = () => {
 
         <div className="container max-w-md py-16 md:py-24">
           <div className="rounded-2xl border border-primary/20 bg-card/70 backdrop-blur-xl shadow-elegant p-6 md:p-8">
-            {/* Mode tabs */}
             <div className="grid grid-cols-2 mb-6 rounded-lg bg-secondary/40 p-1">
               <button
                 type="button"
@@ -151,22 +97,6 @@ const UserAuthPage = () => {
                 : "Join to request quotes faster and save your details."}
             </p>
 
-            {/* Google sign-in */}
-            <div className="flex justify-center mb-4">
-              <div ref={googleBtnRef} className="min-h-[40px]" />
-            </div>
-            {!clientId && (
-              <p className="text-xs text-amber-300/90 text-center mb-2">
-                Google sign-in is not configured (missing client ID).
-              </p>
-            )}
-
-            <div className="flex items-center gap-3 my-4">
-              <div className="h-px flex-1 bg-border" />
-              <span className="text-[11px] tracking-[0.2em] uppercase text-muted-foreground">or with email</span>
-              <div className="h-px flex-1 bg-border" />
-            </div>
-
             {err && (
               <div className="mb-4 rounded-md border border-red-500/40 bg-red-500/10 text-red-300 text-sm px-3 py-2 flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -191,7 +121,7 @@ const UserAuthPage = () => {
                   ? setLoginForm({ ...loginForm, email: v })
                   : setRegForm({ ...regForm, email: v })}
                 testId={mode === "login" ? "input-login-email" : "input-register-email"} required />
-              <Field icon={<Lock className="w-4 h-4" />} placeholder="Password" type="password"
+              <Field icon={<Lock className="w-4 h-4" />} placeholder="Password (min 6 characters)" type="password"
                 value={mode === "login" ? loginForm.password : regForm.password}
                 onChange={(v) => mode === "login"
                   ? setLoginForm({ ...loginForm, password: v })
@@ -211,9 +141,9 @@ const UserAuthPage = () => {
 
             <p className="text-center text-xs text-muted-foreground mt-6">
               {mode === "login" ? (
-                <>New here? <button type="button" onClick={() => setMode("register")} className="text-primary font-semibold hover:underline">Create an account</button></>
+                <>New here? <button type="button" onClick={() => setMode("register")} className="text-primary font-semibold hover:underline" data-testid="link-switch-register">Create an account</button></>
               ) : (
-                <>Already have an account? <button type="button" onClick={() => setMode("login")} className="text-primary font-semibold hover:underline">Sign in</button></>
+                <>Already have an account? <button type="button" onClick={() => setMode("login")} className="text-primary font-semibold hover:underline" data-testid="link-switch-login">Sign in</button></>
               )}
             </p>
             <p className="text-center text-[11px] text-muted-foreground mt-2">
@@ -252,5 +182,19 @@ const Field = ({
     />
   </label>
 );
+
+function humanizeFirebaseError(code?: string, fallback?: string) {
+  switch (code) {
+    case "auth/invalid-email": return "Please enter a valid email address.";
+    case "auth/user-not-found":
+    case "auth/wrong-password":
+    case "auth/invalid-credential": return "Incorrect email or password.";
+    case "auth/email-already-in-use": return "An account with this email already exists.";
+    case "auth/weak-password": return "Password must be at least 6 characters.";
+    case "auth/too-many-requests": return "Too many attempts. Please try again later.";
+    case "auth/network-request-failed": return "Network error. Check your connection and retry.";
+    default: return fallback || "Something went wrong. Please try again.";
+  }
+}
 
 export default UserAuthPage;

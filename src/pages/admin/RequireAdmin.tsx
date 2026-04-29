@@ -1,34 +1,23 @@
-import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
-import { api, getToken, clearToken } from "@/lib/api";
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const RequireAdmin = ({ children }: { children: React.ReactNode }) => {
-  const [state, setState] = useState<"checking" | "ok" | "denied">("checking");
+  const { user, loading } = useAuth();
+  const location = useLocation();
 
-  useEffect(() => {
-    const t = getToken();
-    if (!t) { setState("denied"); return; }
-    let cancelled = false;
-    (async () => {
-      try {
-        await api("/api/admin/verify");
-        if (!cancelled) setState("ok");
-      } catch {
-        clearToken();
-        if (!cancelled) setState("denied");
-      }
-    })();
-    return () => { cancelled = true; };
-  }, []);
-
-  if (state === "checking") {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-dark">
-        <div className="text-primary-foreground/80 text-sm">Verifying session…</div>
+        <div className="flex flex-col items-center gap-3 text-primary-foreground/80">
+          <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+          <span className="text-sm">Verifying session…</span>
+        </div>
       </div>
     );
   }
-  if (state === "denied") return <Navigate to="/admin/login" replace />;
+
+  if (!user) return <Navigate to="/admin/login" replace state={{ from: location.pathname }} />;
+  if (user.role !== "admin") return <Navigate to="/dashboard" replace />;
   return <>{children}</>;
 };
 
