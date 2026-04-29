@@ -210,7 +210,9 @@ const Header = () => {
             className="logo-glow flex items-center gap-2 leading-tight group flex-shrink-0 cursor-pointer"
           >
             {brandLogo ? (
-              <img src={brandLogo} alt={brandName} className="h-8 md:h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-105" data-testid="img-brand-logo" />
+              <span className="logo-flip h-8 md:h-10 inline-block" aria-hidden={false}>
+                <img src={brandLogo} alt={brandName} className="logo-flip-img h-8 md:h-10 w-auto object-contain" data-testid="img-brand-logo" />
+              </span>
             ) : null}
             <span className="flex flex-col">
               <span className="font-heading text-sm md:text-base lg:text-lg font-bold text-gradient-gold leading-tight">{brandName}</span>

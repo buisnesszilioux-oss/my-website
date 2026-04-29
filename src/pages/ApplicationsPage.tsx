@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ShieldCheck, Globe2, Layers, Award, ArrowDownAZ, ArrowUpAZ } from "lucide-react";
+import { ArrowRight, ShieldCheck, Globe2, Layers, Award, ArrowDownAZ, ArrowUpAZ, Search, X } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { api, type Industry } from "@/lib/api";
 import Header from "@/components/Header";
@@ -13,7 +13,7 @@ const ApplicationsPage = () => {
   const { data, isLoading } = useQuery<Industry[]>({ queryKey: ["/api/industries"], queryFn: () => api("/api/industries") });
   const heroImage = useHeroImage("applications");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
-  const [letter, setLetter] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
 
   const sorted = useMemo(() => {
     const arr = [...(data || [])];
@@ -22,19 +22,15 @@ const ApplicationsPage = () => {
     return arr;
   }, [data, sortDir]);
 
-  const letters = useMemo(() => {
-    const s = new Set<string>();
-    for (const x of data || []) {
-      const ch = (x.name || "").trim().charAt(0).toUpperCase();
-      if (ch) s.add(ch);
-    }
-    return Array.from(s).sort();
-  }, [data]);
-
   const industries = useMemo(() => {
-    if (!letter) return sorted;
-    return sorted.filter((i) => (i.name || "").trim().charAt(0).toUpperCase() === letter);
-  }, [sorted, letter]);
+    const q = query.trim().toLowerCase();
+    if (!q) return sorted;
+    return sorted.filter((i) => {
+      const hay = [i.name, i.description, ...(i.applications || []), ...(i.materials || [])]
+        .filter(Boolean).join(" ").toLowerCase();
+      return hay.includes(q);
+    });
+  }, [sorted, query]);
 
   return (
     <PageTransition>
@@ -111,39 +107,47 @@ const ApplicationsPage = () => {
       {/* Industries Grid */}
       <section id="industries" className="py-10 md:py-16 bg-secondary/20">
         <div className="container">
-          {/* A–Z letter index + sort toggle */}
-          {!isLoading && letters.length > 0 && (
-            <div className="mb-10 flex flex-wrap items-center justify-center gap-2">
-              <button
-                onClick={() => setLetter(null)}
-                data-testid="filter-letter-all"
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition ${
-                  letter === null ? "bg-primary text-foreground border-primary" : "bg-card text-muted-foreground border-border hover:border-primary/50"
-                }`}
-              >
-                All
-              </button>
-              {letters.map((l) => (
-                <button
-                  key={l}
-                  onClick={() => setLetter(l === letter ? null : l)}
-                  data-testid={`filter-letter-${l}`}
-                  className={`w-9 h-9 inline-flex items-center justify-center rounded-full text-sm font-bold border transition ${
-                    letter === l ? "bg-primary text-foreground border-primary shadow-gold" : "bg-card text-foreground border-border hover:border-primary/60"
-                  }`}
-                >
-                  {l}
-                </button>
-              ))}
-              <button
-                onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
-                data-testid="button-sort-applications"
-                className="ml-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border border-border bg-card hover:border-primary/50 transition"
-                title={`Sort ${sortDir === "asc" ? "Z → A" : "A → Z"}`}
-              >
-                {sortDir === "asc" ? <ArrowDownAZ className="w-4 h-4" /> : <ArrowUpAZ className="w-4 h-4" />}
-                {sortDir === "asc" ? "A → Z" : "Z → A"}
-              </button>
+          {/* Search bar + sort toggle */}
+          {!isLoading && (data || []).length > 0 && (
+            <div className="mb-10 max-w-3xl mx-auto">
+              <div className="group relative rounded-2xl bg-card/60 border border-primary/15 shadow-elegant transition focus-within:border-primary/60 focus-within:shadow-[0_0_0_4px_hsl(var(--primary)/0.15),0_18px_45px_-15px_hsl(var(--primary)/0.45)]">
+                <div className="flex items-center gap-2 px-4 py-3">
+                  <Search className="w-5 h-5 text-primary flex-shrink-0" aria-hidden />
+                  <input
+                    type="text"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search industries by name, application or material…"
+                    aria-label="Search industries"
+                    data-testid="input-applications-search"
+                    className="flex-1 bg-transparent border-0 outline-none text-base placeholder:text-muted-foreground/70"
+                  />
+                  {query && (
+                    <button
+                      type="button"
+                      onClick={() => setQuery("")}
+                      aria-label="Clear search"
+                      data-testid="button-applications-search-clear"
+                      className="p-1 rounded-full text-muted-foreground hover:text-primary hover:bg-secondary/60 transition"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
+                    data-testid="button-sort-applications"
+                    title={`Sort ${sortDir === "asc" ? "Z → A" : "A → Z"}`}
+                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border border-border bg-background/60 hover:border-primary/50 transition"
+                  >
+                    {sortDir === "asc" ? <ArrowDownAZ className="w-4 h-4" /> : <ArrowUpAZ className="w-4 h-4" />}
+                    {sortDir === "asc" ? "A → Z" : "Z → A"}
+                  </button>
+                </div>
+              </div>
+              <div className="mt-3 text-center text-xs text-muted-foreground" data-testid="text-applications-count">
+                Showing <span className="text-foreground font-semibold">{industries.length}</span> of {data?.length ?? 0} industries
+              </div>
             </div>
           )}
 
@@ -153,8 +157,8 @@ const ApplicationsPage = () => {
             </div>
           ) : industries.length === 0 ? (
             <div className="text-center text-muted-foreground py-16">
-              No industries found for letter <strong>{letter}</strong>.
-              <button onClick={() => setLetter(null)} className="ml-2 text-primary underline">Show all</button>
+              No industries found for "<strong>{query}</strong>".
+              <button onClick={() => setQuery("")} className="ml-2 text-primary underline">Show all</button>
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">

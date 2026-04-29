@@ -161,8 +161,8 @@ const StandardsPage = () => {
             </div>
           ) : standards.length === 0 ? (
             <div className="text-center text-muted-foreground py-16">
-              No standards found for letter <strong>{letter}</strong>.
-              <button onClick={() => setLetter(null)} className="ml-2 text-primary underline">Show all</button>
+              No standards found for "<strong>{query}</strong>".
+              <button onClick={() => setQuery("")} className="ml-2 text-primary underline">Show all</button>
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

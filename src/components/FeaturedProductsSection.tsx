@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, ImageOff } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ArrowRight, ImageOff, Search, X } from "lucide-react";
 import { categories, PRODUCT_IMAGES } from "@/data/categories";
 
 type Featured = {
@@ -23,6 +24,16 @@ const FEATURED: Featured[] = categories.flatMap((cat) =>
 );
 
 export default function FeaturedProductsSection() {
+  const [query, setQuery] = useState("");
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return FEATURED;
+    return FEATURED.filter((p) =>
+      `${p.name} ${p.category} ${p.blurb}`.toLowerCase().includes(q)
+    );
+  }, [query]);
+
   return (
     <section
       id="featured-products"
@@ -30,7 +41,7 @@ export default function FeaturedProductsSection() {
       data-testid="section-featured-products"
     >
       <div className="container">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
           <div>
             <span className="text-xs font-semibold tracking-[0.25em] text-primary uppercase">
               Premium Industrial Fasteners
@@ -52,8 +63,64 @@ export default function FeaturedProductsSection() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-          {FEATURED.map((p) => (
+        {/* Search bar */}
+        <div className="mb-8 md:mb-10 max-w-2xl mx-auto">
+          <div className="group relative rounded-full bg-card/70 border border-primary/20 shadow-elegant focus-within:border-primary/60 focus-within:shadow-[0_0_0_4px_hsl(var(--primary)/0.18),0_18px_45px_-15px_hsl(var(--primary)/0.45)] transition">
+            <div className="flex items-center gap-2 pl-5 pr-2 py-2">
+              <Search className="w-5 h-5 text-primary flex-shrink-0" aria-hidden />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search products by name, category or description…"
+                aria-label="Search featured products"
+                data-testid="input-home-product-search"
+                className="flex-1 bg-transparent border-0 outline-none text-sm md:text-base placeholder:text-muted-foreground/70 py-2"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={() => setQuery("")}
+                  aria-label="Clear search"
+                  data-testid="button-home-search-clear"
+                  className="p-1.5 rounded-full text-muted-foreground hover:text-primary hover:bg-secondary/60 transition"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => {
+                  document.getElementById("featured-products-grid")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                data-testid="button-home-search-go"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-gold text-charcoal text-sm font-semibold shadow-gold hover:opacity-90 transition"
+              >
+                <Search className="w-4 h-4" /> <span className="hidden sm:inline">Search</span>
+              </button>
+            </div>
+          </div>
+          <div className="mt-3 text-center text-xs text-muted-foreground" data-testid="text-home-search-count">
+            Showing <span className="text-foreground font-semibold">{filtered.length}</span> of {FEATURED.length} products
+            {query && <> matching "<span className="text-primary font-semibold">{query}</span>"</>}
+          </div>
+        </div>
+
+        {filtered.length === 0 ? (
+          <div className="text-center py-14">
+            <p className="text-sm text-muted-foreground mb-4">No products matched your search.</p>
+            <button
+              type="button"
+              onClick={() => setQuery("")}
+              data-testid="button-home-search-reset"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-gold text-charcoal text-sm font-semibold"
+            >
+              Reset search
+            </button>
+          </div>
+        ) : (
+        <div id="featured-products-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+          {filtered.map((p) => (
             <Link
               key={`${p.catSlug}-${p.prodSlug}`}
               to={`/category/${p.catSlug}?p=${p.prodSlug}`}
@@ -94,6 +161,7 @@ export default function FeaturedProductsSection() {
             </Link>
           ))}
         </div>
+        )}
       </div>
     </section>
   );

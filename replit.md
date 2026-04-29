@@ -10,6 +10,15 @@ Marketing + content-managed site for M.I. Engineering Works, manufacturer of AST
 - **Database (current)**: Firestore collections — `users`, `siteContent`, `pageSections`, `floatingImages`, `products`, `industries`, `standards`, `media`, `contacts`. Migrated routes are intercepted transparently by `src/lib/firestoreApi.ts`.
 - **Dev runner**: `concurrently` runs vite (port 5000) + server (port 3001) under one `npm run dev` workflow
 
+## Recent updates (2026-04)
+- **Universal product detail pages**: `src/pages/ProductDetail.tsx` now resolves a slug from either `src/data/products.ts` (rich) **or** `src/data/categories.ts` (sub-products). Sub-products auto-fill sensible defaults (threads, length, finish, dimensions) so every product gets the same rich layout. Page now includes a sticky **category sidebar** listing every product in the same category, plus a "More from {Category}" related grid.
+- **Applications search bar**: replaces the previous A–Z letter index in `src/pages/ApplicationsPage.tsx`. Keeps the A→Z / Z→A sort toggle. Uses the same glass search style as Standards.
+- **Homepage product search**: `src/components/FeaturedProductsSection.tsx` now has an inline glass-morphism search input + gold "Search" button right under the heading, filtering the 67-card featured grid client-side.
+- **Logo flip animation**: new `.logo-flip` / `.logo-flip-img` rules in `src/index.css`. Idle `rotateY` flip every 7s, full 360° spin + scale on hover. `Header.tsx` wraps the brand logo image accordingly. Honors `prefers-reduced-motion`.
+- **Standards hero image**: already wired via `useHeroImage("standards")` — admin can change it from `/admin/hero`.
+- **Contact form Company Name**: `ContactSection.tsx` already includes a "Company Name" input next to Phone Number.
+- **Updated cPanel deployment ZIPs**: `cpanel-zips/mi-backend.zip` (~17 MB) and `cpanel-zips/mi-public_html.zip` (= `mi-frontend.zip`, ~4.4 MB) rebuilt via `node scripts/build-cpanel.cjs` after `npm run build`. See `CPANEL_DEPLOY.md` and `CPANEL_GITHUB_DEPLOY.md` for upload steps.
+
 ## Layout
 - `src/pages/` — public pages and `admin/` subfolder
 - `src/components/` — reusable UI components (Header, Footer, Hero, Gallery, GradeChartSection, SpecificationsSection, …)
