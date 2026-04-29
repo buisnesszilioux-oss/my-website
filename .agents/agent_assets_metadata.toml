@@ -11,7 +11,7 @@ title = "M.I. Engineering Works - Final cPanel Package (bulletproof saves)"
 id = "n60HKxPSdjsahcDnsgNm-"
 uri = "file://CPANEL_DEPLOY.md"
 type = "text"
-title = "cPanel Deployment Guide (Hindi/English)"
+title = "Deployment Guide (Hindi/English step-by-step)"
 
 [[outputs]]
 id = "vtAmHf-R_lgBGGiR2W5dE"
@@ -96,3 +96,9 @@ id = "l--ya6McLziW4NV0RBeel"
 uri = "file://cpanel-zips/mi-frontend-public_html.zip"
 type = "unspecified"
 title = "Frontend ZIP (public_html folder ke liye)"
+
+[[outputs]]
+id = "iMwLZwGn8Scc-im8_3lgR"
+uri = "file://cpanel-zips/mi-fullstack-cpanel.zip"
+type = "unspecified"
+title = "M.I. Engineering — cPanel Single ZIP (frontend + backend)"

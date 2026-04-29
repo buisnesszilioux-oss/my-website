@@ -877,6 +877,20 @@ if (process.env.VERCEL) {
   const PORT = Number(process.env.PORT || process.env.SERVER_PORT || 3001);
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`[server] listening on :${PORT} (${NODE_ENV})`);
+    // Startup diagnostic — makes cPanel debugging trivial.
+    const diag: string[] = [];
+    if (!process.env.DATABASE_URL)  diag.push("DATABASE_URL");
+    if (!process.env.JWT_SECRET)    diag.push("JWT_SECRET");
+    if (!process.env.ADMIN_PASSWORD) diag.push("ADMIN_PASSWORD");
+    if (!process.env.ADMIN_USERNAME) diag.push("ADMIN_USERNAME");
+    if (diag.length) {
+      console.warn(
+        "\n[server] ⚠  MISSING ENV VARS: " + diag.join(", ") +
+        "\n[server] ⚠  Login WILL FAIL until these are set in cPanel → Setup Node.js App → Environment variables.\n"
+      );
+    } else {
+      console.log("[server] ✓  All required env vars present (DATABASE_URL, JWT_SECRET, ADMIN_*).");
+    }
   });
 }
 
