@@ -1,25 +1,18 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  updateProfile as fbUpdateProfile,
-  type User as FbUser,
-} from "firebase/auth";
-import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
-import { auth, db, ADMIN_EMAIL } from "@/lib/firebase";
+
+const TOKEN_KEY = "mi_user_token";
 
 export type UserRole = "admin" | "user";
 
 export type AuthUser = {
-  uid: string;
+  id: number;
   email: string;
   name: string;
   phone: string;
   company: string;
   picture: string;
   role: UserRole;
+  provider: string;
   createdAt: string | null;
 };
 
@@ -33,9 +26,9 @@ type RegisterData = {
 
 type AuthContextValue = {
   user: AuthUser | null;
-  firebaseUser: FbUser | null;
   loading: boolean;
   isAdmin: boolean;
+  token: string | null;
   login: (email: string, password: string) => Promise<AuthUser>;
   register: (data: RegisterData) => Promise<AuthUser>;
   logout: () => Promise<void>;
@@ -45,136 +38,127 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-function roleForEmail(email: string): UserRole {
-  return email.trim().toLowerCase() === ADMIN_EMAIL ? "admin" : "user";
-}
+const realFetch = (input: any, init?: any) =>
+  ((window as any).__realFetch__ || window.fetch).call(window, input, init);
 
-async function loadOrCreateUserDoc(fbUser: FbUser, defaults?: Partial<AuthUser>): Promise<AuthUser> {
-  const userRef = doc(db, "users", fbUser.uid);
-  const snap = await getDoc(userRef);
-  const email = (fbUser.email ?? defaults?.email ?? "").toLowerCase();
-  const role = roleForEmail(email);
-
-  if (!snap.exists()) {
-    const data = {
-      uid: fbUser.uid,
-      email,
-      name: defaults?.name ?? fbUser.displayName ?? "",
-      phone: defaults?.phone ?? "",
-      company: defaults?.company ?? "",
-      picture: fbUser.photoURL ?? "",
-      role,
-      createdAt: serverTimestamp(),
-    };
-    await setDoc(userRef, data);
-    return { ...data, createdAt: new Date().toISOString() } as AuthUser;
-  }
-
-  const existing = snap.data() as Partial<AuthUser> & { createdAt?: { toDate?: () => Date } };
-  // Always reconcile role with admin email rule (in case admin email changes)
-  if (existing.role !== role) {
-    await setDoc(userRef, { role }, { merge: true });
-  }
-  const createdAtIso =
-    existing.createdAt && typeof (existing.createdAt as any).toDate === "function"
-      ? (existing.createdAt as any).toDate().toISOString()
-      : typeof existing.createdAt === "string"
-        ? existing.createdAt
-        : null;
-  return {
-    uid: fbUser.uid,
-    email,
-    name: existing.name ?? fbUser.displayName ?? "",
-    phone: existing.phone ?? "",
-    company: existing.company ?? "",
-    picture: existing.picture ?? fbUser.photoURL ?? "",
-    role,
-    createdAt: createdAtIso,
+async function api<T = any>(path: string, init: RequestInit = {}, token?: string | null): Promise<T> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...(init.headers as Record<string, string> | undefined),
   };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  const res = await realFetch(path, { ...init, headers });
+  const text = await res.text();
+  let data: any = {};
+  try { data = text ? JSON.parse(text) : {}; } catch { data = { error: text }; }
+  if (!res.ok || data?.error) {
+    const err: any = new Error(data?.error || `Request failed (${res.status})`);
+    err.status = res.status;
+    err.payload = data;
+    throw err;
+  }
+  return data as T;
 }
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [firebaseUser, setFirebaseUser] = useState<FbUser | null>(null);
   const [user, setUser] = useState<AuthUser | null>(null);
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem(TOKEN_KEY));
   const [loading, setLoading] = useState<boolean>(true);
 
+  // Keep localStorage in sync
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, async (fbUser) => {
-      setFirebaseUser(fbUser);
-      if (!fbUser) {
-        setUser(null);
-        setLoading(false);
-        return;
-      }
+    if (token) localStorage.setItem(TOKEN_KEY, token);
+    else localStorage.removeItem(TOKEN_KEY);
+  }, [token]);
+
+  // Boot: fetch /api/auth/me if we have a token
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      if (!token) { setLoading(false); return; }
       try {
-        const profile = await loadOrCreateUserDoc(fbUser);
-        setUser(profile);
-      } catch (e) {
-        console.error("[auth] failed to load user doc", e);
-        setUser(null);
+        const data = await api<{ user: AuthUser }>("/api/auth/me", { method: "GET" }, token);
+        if (!cancelled) setUser(data.user);
+      } catch {
+        if (!cancelled) {
+          setToken(null);
+          setUser(null);
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
-    });
-    return () => unsub();
-  }, []);
+    })();
+    return () => { cancelled = true; };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const refresh = async () => {
-    if (!auth.currentUser) {
+    if (!token) { setUser(null); return; }
+    try {
+      const data = await api<{ user: AuthUser }>("/api/auth/me", { method: "GET" }, token);
+      setUser(data.user);
+    } catch {
+      setToken(null);
       setUser(null);
-      return;
     }
-    const profile = await loadOrCreateUserDoc(auth.currentUser);
-    setUser(profile);
   };
 
   const login = async (email: string, password: string) => {
-    const cred = await signInWithEmailAndPassword(auth, email.trim(), password);
-    const profile = await loadOrCreateUserDoc(cred.user);
-    setUser(profile);
-    setFirebaseUser(cred.user);
-    return profile;
+    const data = await api<{ token: string; user: AuthUser }>("/api/auth/login", {
+      method: "POST",
+      body: JSON.stringify({ email: email.trim(), password }),
+    });
+    setToken(data.token);
+    setUser(data.user);
+    return data.user;
   };
 
-  const register = async (data: RegisterData) => {
-    const cred = await createUserWithEmailAndPassword(auth, data.email.trim(), data.password);
-    if (data.name) {
-      try { await fbUpdateProfile(cred.user, { displayName: data.name }); } catch { /* non-fatal */ }
-    }
-    const profile = await loadOrCreateUserDoc(cred.user, {
-      name: data.name,
-      phone: data.phone ?? "",
-      company: data.company ?? "",
-      email: data.email,
+  const register = async (input: RegisterData) => {
+    const data = await api<{ token: string; user: AuthUser; switchToLogin?: boolean }>("/api/auth/register", {
+      method: "POST",
+      body: JSON.stringify({
+        email: input.email.trim(),
+        name: input.name?.trim() || input.email.split("@")[0],
+        password: input.password,
+        phone: input.phone || "",
+        company: input.company || "",
+      }),
+    }).catch(async (err) => {
+      // If backend says "use Sign In", auto-fall-back to login (idempotent).
+      if (err?.payload?.switchToLogin) {
+        return await api<{ token: string; user: AuthUser }>("/api/auth/login", {
+          method: "POST",
+          body: JSON.stringify({ email: input.email.trim(), password: input.password }),
+        });
+      }
+      throw err;
     });
-    setUser(profile);
-    setFirebaseUser(cred.user);
-    return profile;
+    setToken(data.token);
+    setUser(data.user);
+    return data.user;
   };
 
   const logout = async () => {
-    await signOut(auth);
+    setToken(null);
     setUser(null);
-    setFirebaseUser(null);
+    // Clear legacy admin token too
+    try { localStorage.removeItem("admin_token"); } catch {}
+    try { localStorage.removeItem("admin_email"); } catch {}
   };
 
   const updateProfile = async (data: { name?: string; phone?: string; company?: string }) => {
-    if (!auth.currentUser) throw new Error("Not signed in");
-    const userRef = doc(db, "users", auth.currentUser.uid);
-    await setDoc(userRef, data, { merge: true });
-    if (data.name) {
-      try { await fbUpdateProfile(auth.currentUser, { displayName: data.name }); } catch { /* non-fatal */ }
-    }
-    const profile = await loadOrCreateUserDoc(auth.currentUser);
-    setUser(profile);
-    return profile;
+    const r = await api<{ user: AuthUser }>("/api/auth/me", {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    }, token);
+    setUser(r.user);
+    return r.user;
   };
 
   const value: AuthContextValue = {
     user,
-    firebaseUser,
     loading,
     isAdmin: user?.role === "admin",
+    token,
     login,
     register,
     logout,

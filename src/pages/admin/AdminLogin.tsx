@@ -1,15 +1,34 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { Loader2, LogIn, Mail, Lock, AlertCircle, ShieldCheck } from "lucide-react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
+import { setAdminSession } from "@/lib/adminAuth";
+
+const ADMIN_EMAILS = ["miengineering17@gmail.com", "sahilsabirshaikh256@gmail.com"];
 
 const AdminLogin = () => {
-  const location = useLocation();
-  const { isAdmin, loading } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const { login, isAdmin, loading } = useAuth();
+  const [email, setEmail] = useState(ADMIN_EMAILS[0]);
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  // Already an admin? skip login
+  useEffect(() => {
+    if (!loading && isAdmin) navigate("/admin", { replace: true });
+  }, [isAdmin, loading, navigate]);
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-dark">
-        <div className="flex flex-col items-center gap-3 text-primary-foreground/80">
-          <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-charcoal">
+        <div className="flex flex-col items-center gap-3 text-amber-300">
+          <div className="w-10 h-10 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
           <span className="text-sm">Checking session…</span>
         </div>
       </div>
@@ -18,12 +37,115 @@ const AdminLogin = () => {
 
   if (isAdmin) return <Navigate to="/admin" replace />;
 
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErr(null);
+    setBusy(true);
+    try {
+      const profile = await login(email, password);
+      // Mirror the admin token into the legacy storage so any old admin API
+      // calls continue to work without re-login.
+      try {
+        const legacyRes = await fetch("/api/admin/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: email, password }),
+        });
+        const legacyData = await legacyRes.json().catch(() => ({}));
+        if (legacyRes.ok && legacyData?.token) setAdminSession(legacyData.token, email);
+      } catch { /* non-fatal */ }
+      toast({ title: "Welcome", description: profile.role === "admin" ? "Admin access granted." : "Signed in." });
+      navigate(profile.role === "admin" ? "/admin" : "/dashboard", { replace: true });
+    } catch (e: any) {
+      setErr(e?.message || "Sign-in failed. Check email and password.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
-    <Navigate
-      to="/auth"
-      replace
-      state={{ from: location.pathname, requireAdmin: true }}
-    />
+    <div className="min-h-screen flex flex-col bg-charcoal">
+      <Helmet>
+        <title>Admin Sign In — M.I. Engineering Works</title>
+      </Helmet>
+      <Header />
+      <main className="flex-1 relative">
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-charcoal via-charcoal-light to-charcoal" />
+        <div className="container max-w-md py-16 md:py-24">
+          <div className="rounded-2xl border border-amber-400/40 bg-white text-slate-900 shadow-2xl p-6 md:p-8">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <ShieldCheck className="w-6 h-6 text-amber-600" />
+              <h1 className="font-heading text-2xl md:text-3xl font-extrabold text-slate-900">Admin Sign In</h1>
+            </div>
+            <p className="text-center text-sm text-slate-600 mb-5">
+              Sign in with one of the two admin emails to access the dashboard.
+            </p>
+
+            <div className="mb-5 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+              <strong>Admin emails:</strong>{" "}
+              <span className="font-mono">{ADMIN_EMAILS.join(" / ")}</span>
+              <br />
+              <strong>Password:</strong> <span className="font-mono">6392061892</span>
+            </div>
+
+            {err && (
+              <div className="mb-4 rounded-md border border-red-300 bg-red-50 text-red-700 text-sm px-3 py-2 flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <span data-testid="text-admin-login-error">{err}</span>
+              </div>
+            )}
+
+            <form onSubmit={submit} className="space-y-3">
+              <label className="flex items-center gap-2 px-3 py-2.5 rounded-md bg-slate-50 border border-slate-300 focus-within:border-amber-500 focus-within:ring-2 focus-within:ring-amber-300 transition">
+                <Mail className="w-4 h-4 text-slate-500" />
+                <input
+                  data-testid="input-admin-email"
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoComplete="email"
+                  className="flex-1 bg-transparent outline-none text-sm text-slate-900 placeholder:text-slate-400"
+                />
+              </label>
+              <label className="flex items-center gap-2 px-3 py-2.5 rounded-md bg-slate-50 border border-slate-300 focus-within:border-amber-500 focus-within:ring-2 focus-within:ring-amber-300 transition">
+                <Lock className="w-4 h-4 text-slate-500" />
+                <input
+                  data-testid="input-admin-password"
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  autoComplete="current-password"
+                  className="flex-1 bg-transparent outline-none text-sm text-slate-900 placeholder:text-slate-400"
+                />
+              </label>
+              <button
+                type="submit"
+                disabled={busy}
+                data-testid="button-admin-login"
+                className="w-full mt-2 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-md bg-gradient-to-r from-amber-500 to-yellow-600 text-white font-bold shadow-lg hover:from-amber-600 hover:to-yellow-700 transition disabled:opacity-60"
+              >
+                {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />}
+                Sign In
+              </button>
+            </form>
+
+            <p className="text-center text-xs text-slate-500 mt-6">
+              Not an admin?{" "}
+              <Link to="/auth" className="text-amber-600 font-semibold hover:underline">
+                Customer sign-in
+              </Link>{" "}
+              ·{" "}
+              <Link to="/" className="hover:text-amber-600">← Home</Link>
+            </p>
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </div>
   );
 };
 

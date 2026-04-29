@@ -1,37 +1,38 @@
-# Hosting on cPanel — Step by Step
+# Hosting M.I. Engineering Works on cPanel — Step by Step
 
-This guide explains how to put **M.I. Engineering Works** on a cPanel server (Hostinger, Bluehost, Namecheap, GoDaddy cPanel, etc.).
+This guide takes you from the two ZIPs in `cpanel-zips/` to a fully working production site on a cPanel server (Hostinger, Bluehost, Namecheap, GoDaddy cPanel, etc.).
 
-You will get **two ZIP files** from `cpanel-zips/`:
+You only need:
+- A cPanel account with **Setup Node.js App** (Node 18+)
+- A PostgreSQL database — we will use the free **Neon** database below
+- Two ZIP files (built for you in `cpanel-zips/`):
 
 | ZIP | What's inside | Where it goes |
 |-----|---------------|---------------|
-| `mi-public_html.zip` (~4.4 MB) | Built static frontend (`index.html`, JS, CSS, images) | `public_html/` (your domain root) |
-| `mi-backend.zip` (~17 MB) | Node/Express API + dependencies + uploads folder | A separate folder, set up as a **Node.js app** in cPanel (we'll call this app **`miweb`**) |
-
-You need cPanel with **Setup Node.js App** enabled (Node 18+) and a PostgreSQL database (cPanel's own, or external like Neon / Supabase / Railway).
+| `mi-public_html.zip` (~4.3 MB) | Built static frontend (`index.html`, JS, CSS, images) | `public_html/` (your domain root) |
+| `mi-backend.zip` (~16.6 MB) | Node/Express API + dependencies + uploads folder | A separate folder, set up as a **Node.js app** in cPanel — name it **`miweb`** |
 
 ---
 
-## 1. Upload the frontend (public_html.zip)
+## 1. Upload the frontend → `public_html/`
 
 1. Open **cPanel → File Manager → public_html**.
-2. (Optional) back up anything already in `public_html` and delete it.
-3. Upload `mi-public_html.zip` into `public_html/`.
-4. Right-click the zip → **Extract** (extract into `public_html/`, not into a sub-folder).
-5. Delete the zip file after extracting.
+2. (Optional) back up anything already there and delete it.
+3. Upload `mi-public_html.zip`.
+4. Right-click → **Extract** (extract into `public_html/`, not into a sub-folder).
+5. Delete the zip after extracting.
 
-You should now see `index.html`, `assets/`, `favicon.ico`, etc. directly inside `public_html/`.
+You should see `index.html`, `assets/`, `favicon.png`, `.htaccess`, etc. directly inside `public_html/`.
 
 ---
 
-## 2. Upload the backend (backend.zip)
+## 2. Upload the backend → `~/miweb/`
 
 1. In **File Manager**, go to your home folder `/home/<your-cpanel-user>/`.
 2. Create a new folder called **`miweb`**.
 3. Upload `mi-backend.zip` into `miweb/`.
-4. Right-click the zip → **Extract**.
-5. Delete the zip file after extracting.
+4. Right-click → **Extract**.
+5. Delete the zip.
 
 You should see `package.json`, `dist/server.cjs`, `server/`, `shared/`, `uploads/`, `node_modules/` inside `miweb/`.
 
@@ -39,60 +40,58 @@ You should see `package.json`, `dist/server.cjs`, `server/`, `shared/`, `uploads
 
 ## 3. Create the Node.js app in cPanel
 
-1. Open **cPanel → Setup Node.js App** (sometimes called "Node.js Selector").
+1. Open **cPanel → Setup Node.js App**.
 2. Click **Create Application** and fill in:
    - **Node.js version:** 18.x or higher
    - **Application mode:** Production
    - **Application root:** `miweb`
-   - **Application URL:** leave the path empty so it serves from `/api` on your domain (e.g. `www.miengineeringworks.com`). If your host forces a path, use something like `/node`.
+   - **Application URL:** leave the path empty so it serves from `/api` on your main domain
    - **Application startup file:** `dist/server.cjs`
 3. Click **Create**.
 
-> The app **name** in cPanel is **`miweb`** to match the folder.
+> The cPanel app **name** is **`miweb`** to match the folder.
 
 ---
 
-## 4. (Skip if node_modules already shipped) Install dependencies
+## 4. (Skip if `node_modules` ships) Install dependencies
 
-The backend ZIP already includes `node_modules`, so you usually don't need to do anything here. If anything is missing or you upgraded Node:
+The backend ZIP already includes `node_modules`, so usually nothing to do. If anything is missing or you upgraded Node:
 
-1. In the same **Setup Node.js App** page, scroll to **Detected configuration files**.
-2. Click **Run NPM Install** and wait 1–3 minutes.
+1. Same Node.js App page → **Run NPM Install** (1–3 minutes).
 
 ---
 
 ## 5. Set environment variables
 
-Still on the Node.js App page, scroll to **Environment variables** and add these (click **+** for each):
+Still on the Node.js App page → **Environment variables** → click **+** for each row:
 
 | Variable | Value |
 |---|---|
 | `NODE_ENV` | `production` |
-| `PORT` | (leave blank — cPanel sets this automatically) |
-| `DATABASE_URL` | Your PostgreSQL URL, e.g. `postgresql://user:pass@host:5432/dbname` |
-| `JWT_SECRET` | A long random string (40+ characters). Used for session tokens. |
-| `ADMIN_USERNAME` | `miengineering@gmail.com,miengineering17@gmail.com` |
-| `ADMIN_PASSWORD` | `6392061892` *(or your own password — keep this and Firebase password identical for the admin email so the admin panel auto-unlocks)* |
-| `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_FIREBASE_MESSAGING_SENDER_ID`, `VITE_FIREBASE_APP_ID` | Your Firebase project credentials (also need to be baked into the frontend build — see step 9) |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `MAIL_TO` | Optional — for the contact form to send email notifications |
+| `PORT` | (leave blank — cPanel sets this) |
+| `DATABASE_URL` | `postgresql://neondb_owner:npg_N8afFxsjA4ke@ep-shy-shadow-am3cyaj3-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require` |
+| `JWT_SECRET` | `miweb-prod-jwt-2026-d4f7a92e1b3c8e5f9a7b2c4d6e8f0a1b3c5d7e9f1a2b4c6d8e0` *(or any long random string)* |
+| `ADMIN_USERNAME` | `miengineering17@gmail.com,sahilsabirshaikh256@gmail.com` |
+| `ADMIN_PASSWORD` | `6392061892` |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `MAIL_TO` | *Optional* — only needed if you want the contact form to email you |
 
-Click **Save** after adding.
+Click **Save** after adding each.
 
 ---
 
-## 6. Initialise the database (one-time)
+## 6. Initialise the Neon database (one-time)
 
 Open **cPanel → Terminal** (or SSH) and run:
 
 ```bash
 cd ~/miweb
-source /home/<your-cpanel-user>/nodevenv/miweb/18/bin/activate   # path shown in cPanel
+source /home/<your-cpanel-user>/nodevenv/miweb/18/bin/activate   # exact path is shown by cPanel
 npm run db:push
 ```
 
-If it asks "Is this correct?" → answer `yes`. This creates every table.
+Answer `yes` if it asks "Is this correct?". This creates every table on Neon.
 
-The server auto-seeds 11 product categories, ~80 sub-products, applications/industries and standards on first boot. To disable: set `AUTO_SEED=false` in the env vars.
+The server **auto-seeds** all 11 product categories, ~80 sub-products, applications/industries and standards on first boot. To disable: set `AUTO_SEED=false`.
 
 To re-seed manually later:
 ```bash
@@ -107,53 +106,78 @@ Back in **Setup Node.js App** click **Restart**.
 
 ---
 
-## 8. Make `/api`, `/uploads`, `/api/catalog.pdf` reach the Node app
+## 8. Make `/api` and `/uploads` reach the Node app
 
-Your domain (`public_html`) serves the static frontend, but API calls (`/api/...`) and file uploads (`/uploads/...`) must reach the Node app. The frontend ZIP ships an **`.htaccess`** file in `public_html/` that does this automatically using **mod_proxy**.
+The frontend ZIP ships an `.htaccess` that proxies `/api/...` and `/uploads/...` to the `miweb` Node app via mod_proxy.
 
-If your cPanel host disables proxying, instead add a **Reverse Proxy** in cPanel (some hosts call it "Application Manager → URL mapping") so that `/api` and `/uploads` point to the `miweb` Node app's port.
+If your host disables mod_proxy, instead add a **Reverse Proxy / URL Mapping** in cPanel → **Application Manager** so that `/api` and `/uploads` point to the `miweb` app's port.
 
-Quick test from your domain root: open `https://www.your-domain.com/api/health` — you should see a JSON response, not a 404.
-
----
-
-## 9. Tell Firebase about your domain
-
-In **Firebase Console → Authentication → Settings → Authorized domains**, add:
-- `www.miengineeringworks.com`
-- `miengineeringworks.com`
-
-Without this, sign-in will fail with an "auth domain not authorised" error.
-
-The frontend ZIP was built with the Firebase keys present in this Replit environment. If you ever swap to a different Firebase project, set the new `VITE_FIREBASE_*` variables in this project, run `npm run build`, then re-zip the frontend with `node scripts/build-cpanel.cjs`.
+Quick test from your domain root:
+```
+https://www.your-domain.com/api/health
+```
+→ should return JSON like `{"ok":true,"databaseConnected":true,"productCount":80,…}`. If you see HTML or a 404, the proxy isn't active.
 
 ---
 
-## 10. Sign in as Admin (NEW SIMPLIFIED FLOW)
+## 9. Sign in (NEW SIMPLIFIED FLOW — no Firebase!)
 
-There is **no separate admin login page anymore**. The admin panel automatically unlocks for the admin email.
+Authentication runs **entirely on the Neon Postgres database** — no Firebase keys, no Firestore rules, no "Missing or insufficient permissions" errors.
 
+You have **TWO admin emails**, both with password **`6392061892`**:
+
+| Admin email | Password |
+|---|---|
+| `miengineering17@gmail.com` | `6392061892` |
+| `sahilsabirshaikh256@gmail.com` | `6392061892` |
+
+There are **two equally valid sign-in routes** — use whichever you prefer:
+
+### A. Customer sign-in page (`/auth`)
 1. Open `https://www.your-domain.com/auth`
-2. Sign in with `miengineering17@gmail.com` and your password.
-3. Immediately go to `https://www.your-domain.com/admin` — you're already in. No second password.
+2. Sign in with either admin email + `6392061892`.
+3. You'll be auto-redirected to `/admin`.
 
-If this is the first time you use this email on the new build, click **Create Account** on `/auth` and register with `miengineering17@gmail.com` and a password (use the same password as `ADMIN_PASSWORD` so the admin API also accepts it). The system automatically marks anyone signing in with that email as **admin**.
+### B. Dedicated admin sign-in page (`/admin/login`)
+1. Open `https://www.your-domain.com/admin/login`
+2. Sign in with either admin email + `6392061892`.
+3. You're taken straight to `/admin`.
+
+> **No more "An account with this email already exists" error** — re-registering with the correct password just signs you in. No more "Missing or insufficient permissions" — that was a Firestore rule problem and Firestore is gone.
+
+The first time you sign in with a brand-new admin email, the user row is **auto-created** in the Neon `users` table and immediately marked as admin. After that, you can change the admin password from the admin panel if you wish — but `6392061892` will *always* keep working as a master admin password (controlled by the `ADMIN_PASSWORD` env var).
+
+Normal customers sign up at `/auth → Create Account` and end up at `/dashboard` (no admin access).
+
+---
+
+## 10. Clear old user data on cPanel (only if migrating)
+
+If your Neon database had old test users you want to wipe:
+
+```bash
+cd ~/miweb
+source /home/<your-cpanel-user>/nodevenv/miweb/18/bin/activate
+psql "$DATABASE_URL" -c "TRUNCATE users RESTART IDENTITY CASCADE; TRUNCATE admin_users RESTART IDENTITY CASCADE;"
+```
+
+Then sign in again — the admin row is auto-created on next sign-in.
 
 ---
 
 ## Common issues
 
-**Calls to `/api/...` return 404 / HTML** → the `.htaccess` proxy isn't active. Either enable mod_proxy via cPanel, or use Application Manager URL mapping (step 8).
+**`/api/...` returns HTML or 404** → mod_proxy not active. Use cPanel **Application Manager** URL mapping instead (step 8).
 
-**"Cannot reach the database."** → `DATABASE_URL` is wrong, or the DB host blocks your cPanel server. If using cPanel's PostgreSQL, add your cPanel user to the database under **PostgreSQL Databases**.
+**"Cannot reach the database"** → check `DATABASE_URL` is exactly the Neon string above. Open `/api/health` in a browser; `databaseConnected` should be `true`.
 
-**Site shows blank page** → check the browser DevTools console for errors; most often a missing `VITE_FIREBASE_*` value at build time.
+**Sign-in says "Invalid email or password"** → email isn't in `ADMIN_USERNAME` env var, or password isn't `6392061892` (or whatever you set `ADMIN_PASSWORD` to).
+
+**Site shows blank page** → check the browser DevTools console; usually a missing static file (re-upload `mi-public_html.zip`).
 
 **Port already in use** → leave `PORT` blank; cPanel passes its own port via `process.env.PORT`.
 
-**Uploads disappear after restart** → they shouldn't; `uploads/` is real disk on cPanel. Don't delete the folder.
-
-**Admin panel says "Unauthorized" on some pages** → the email you signed in with isn't in `ADMIN_USERNAME`. Update the env var, or sign in with one of the listed admin emails.
+**Uploads disappear after restart** → `uploads/` is real disk on cPanel. Don't delete the folder.
 
 ---
 
@@ -161,6 +185,23 @@ If this is the first time you use this email on the new build, click **Create Ac
 
 1. Make changes locally and run `npm run build`.
 2. Run `node scripts/build-cpanel.cjs` to rebuild both ZIPs.
-3. **Frontend update:** delete everything in `public_html/` (except `.htaccess` if you customised it), upload + extract the new `mi-public_html.zip`.
+3. **Frontend update:** delete everything in `public_html/` (keep your custom `.htaccess` if you tweaked it), upload + extract the new `mi-public_html.zip`.
 4. **Backend update:** in `miweb/`, replace `dist/`, `server/`, `shared/` (and `package.json` if it changed). Skip `node_modules` unless dependencies changed.
-5. In cPanel **Setup Node.js App** → **Restart** the `miweb` app.
+5. **Setup Node.js App → Restart** the `miweb` app.
+
+---
+
+## Quick reference card
+
+```
+cPanel Node app name:     miweb
+Application root:         /home/<user>/miweb
+Startup file:             dist/server.cjs
+Database (Neon):          postgresql://neondb_owner:npg_N8afFxsjA4ke@ep-shy-shadow-am3cyaj3-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+Admin emails:             miengineering17@gmail.com  /  sahilsabirshaikh256@gmail.com
+Admin password:           6392061892
+Customer sign-in URL:     https://your-domain.com/auth
+Admin sign-in URL:        https://your-domain.com/admin/login
+Admin dashboard URL:      https://your-domain.com/admin
+Health check URL:         https://your-domain.com/api/health
+```

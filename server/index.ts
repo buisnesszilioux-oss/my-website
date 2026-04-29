@@ -223,24 +223,57 @@ app.post("/api/admin/google-login", async (req, res) => {
 });
 
 // ── User accounts (normal customers) ──────────────────────────────────────────
+const ADMIN_EMAILS = () =>
+  (process.env.ADMIN_USERNAME || "miengineering17@gmail.com,sahilsabirshaikh256@gmail.com")
+    .split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
+
+const ADMIN_MASTER_PASSWORD = () => process.env.ADMIN_PASSWORD || "6392061892";
+
+const isAdminEmail = (email: string) => ADMIN_EMAILS().includes(email.trim().toLowerCase());
+
 const sanitiseUser = (u: any) => ({
   id: u.id, email: u.email, name: u.name, phone: u.phone,
   company: u.company, picture: u.picture, provider: u.provider,
+  role: isAdminEmail(u.email) ? "admin" : "user",
   createdAt: u.createdAt,
 });
 
+// Universal register endpoint — never returns "already exists" error.
+// Behaviour:
+//   • If email is new            → create + sign in
+//   • If email exists & pw OK    → sign in (treat register-with-correct-pw as login)
+//   • If email is admin & pw is master pw → create-or-update + sign in
+//   • If email exists & pw wrong → return a friendly "use Sign In" message
 app.post("/api/auth/register", wrap(async (req, res) => {
   const parsed = insertUserSchema.safeParse(req.body);
   if (!parsed.success) {
     return res.status(400).json({ error: parsed.error.issues[0]?.message || "Invalid data" });
   }
   const data = parsed.data;
-  const existing = await storage.getUserByEmail(data.email);
-  if (existing) return res.status(409).json({ error: "An account with this email already exists" });
-  const passwordHash = await hashPassword(data.password);
-  const user = await storage.createUser({
+  const adminPath = isAdminEmail(data.email) && data.password === ADMIN_MASTER_PASSWORD();
+
+  let user = await storage.getUserByEmail(data.email);
+  if (user) {
+    let ok = false;
+    try {
+      if (user.passwordHash && user.passwordHash.startsWith("$2")) {
+        ok = await verifyPassword(data.password, user.passwordHash);
+      }
+    } catch { /* ignore bcrypt corruption */ }
+    if (adminPath || ok) {
+      const token = signToken({ id: user.id, email: user.email, kind: "user" });
+      return res.json({ token, user: sanitiseUser(user) });
+    }
+    return res.status(200).json({
+      error: "An account with this email exists. Please use Sign In instead.",
+      switchToLogin: true,
+    });
+  }
+
+  const passwordHash = await hashPassword(adminPath ? ADMIN_MASTER_PASSWORD() : data.password);
+  user = await storage.createUser({
     email: data.email,
-    name: data.name,
+    name: data.name || data.email.split("@")[0],
     phone: data.phone || "",
     company: data.company || "",
     passwordHash,
@@ -250,18 +283,44 @@ app.post("/api/auth/register", wrap(async (req, res) => {
   res.json({ token, user: sanitiseUser(user) });
 }));
 
+// Universal login endpoint — accepts:
+//   • Correct bcrypt password match for the user
+//   • Master ADMIN_PASSWORD for any admin email (auto-creates user row if missing)
+//   • Master ADMIN_PASSWORD for any user that has lost their password (admin-only emails)
 app.post("/api/auth/login", wrap(async (req, res) => {
   const parsed = loginUserSchema.safeParse(req.body);
   if (!parsed.success) {
     return res.status(400).json({ error: parsed.error.issues[0]?.message || "Invalid data" });
   }
   const { email, password } = parsed.data;
-  const user = await storage.getUserByEmail(email);
-  if (!user || !user.passwordHash) {
-    return res.status(401).json({ error: "Invalid email or password" });
+  const isAdmin = isAdminEmail(email);
+  const masterOk = isAdmin && password === ADMIN_MASTER_PASSWORD();
+
+  let user = await storage.getUserByEmail(email);
+
+  // Auto-create admin user on first sign-in with master password
+  if (!user && masterOk) {
+    const passwordHash = await hashPassword(ADMIN_MASTER_PASSWORD());
+    user = await storage.createUser({
+      email,
+      name: email.split("@")[0],
+      passwordHash,
+      provider: "password",
+    });
   }
-  const ok = await verifyPassword(password, user.passwordHash);
+
+  if (!user) return res.status(401).json({ error: "Invalid email or password" });
+
+  let ok = masterOk;
+  if (!ok && user.passwordHash) {
+    try {
+      if (user.passwordHash.startsWith("$2")) {
+        ok = await verifyPassword(password, user.passwordHash);
+      }
+    } catch { /* ignore */ }
+  }
   if (!ok) return res.status(401).json({ error: "Invalid email or password" });
+
   const token = signToken({ id: user.id, email: user.email, kind: "user" });
   res.json({ token, user: sanitiseUser(user) });
 }));

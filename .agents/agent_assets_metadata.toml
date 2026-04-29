@@ -11,7 +11,7 @@ title = "M.I. Engineering Works - Final cPanel Package (bulletproof saves)"
 id = "n60HKxPSdjsahcDnsgNm-"
 uri = "file://CPANEL_DEPLOY.md"
 type = "text"
-title = "cPanel Deployment Guide (updated for miweb + new admin flow)"
+title = "cPanel Deploy Guide (Neon DB + 2 admin emails, no Firebase)"
 
 [[outputs]]
 id = "vtAmHf-R_lgBGGiR2W5dE"
@@ -47,13 +47,13 @@ title = "FRONTEND - public_html folder me upload"
 id = "i3CRj0jjSbH6Tr9bhQt6C"
 uri = "file://cpanel-zips/mi-public_html.zip"
 type = "unspecified"
-title = "Frontend (public_html.zip) — upload to public_html"
+title = "Frontend ZIP — upload to public_html/"
 
 [[outputs]]
 id = "mqjG7YUcuXlbWLrdrFIDb"
 uri = "file://cpanel-zips/mi-backend.zip"
 type = "unspecified"
-title = "Backend (backend.zip) — extract into the miweb folder"
+title = "Backend ZIP — extract into ~/miweb/ (Node.js app)"
 
 [[outputs]]
 id = "_dkxWgBtmqi2iLSjUcPE_"

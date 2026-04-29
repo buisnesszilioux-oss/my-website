@@ -8,10 +8,9 @@
  */
 
 import { tryFirestoreFetch, AdapterError, installFetchInterceptor } from "./firestoreApi";
-import { auth } from "./firebase";
 
-// Install the global fetch interceptor at module load so even raw fetch()
-// calls scattered across the codebase get routed through Firestore.
+// Preserve the original window.fetch for callers that explicitly want to bypass
+// any future interceptors. The Firestore adapter is now a no-op stub.
 installFetchInterceptor();
 
 export interface Product {
