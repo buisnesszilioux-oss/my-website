@@ -1,207 +1,250 @@
-# Hosting M.I. Engineering Works on cPanel — Step by Step
+# M.I. Engineering Works — cPanel Deployment Guide
 
-This guide takes you from the two ZIPs in `cpanel-zips/` to a fully working production site on a cPanel server (Hostinger, Bluehost, Namecheap, GoDaddy cPanel, etc.).
-
-You only need:
-- A cPanel account with **Setup Node.js App** (Node 18+)
-- A PostgreSQL database — we will use the free **Neon** database below
-- Two ZIP files (built for you in `cpanel-zips/`):
-
-| ZIP | What's inside | Where it goes |
-|-----|---------------|---------------|
-| `mi-public_html.zip` (~4.3 MB) | Built static frontend (`index.html`, JS, CSS, images) | `public_html/` (your domain root) |
-| `mi-backend.zip` (~16.6 MB) | Node/Express API + dependencies + uploads folder | A separate folder, set up as a **Node.js app** in cPanel — name it **`miweb`** |
+Yeh guide aapke website ko cPanel par deploy karne ke liye step-by-step
+instructions deti hai. Do alag-alag ZIP files use hoti hain — ek backend
+ke liye, ek frontend ke liye.
 
 ---
 
-## 1. Upload the frontend → `public_html/`
+## Aapke paas kya hona chahiye
 
-1. Open **cPanel → File Manager → public_html**.
-2. (Optional) back up anything already there and delete it.
-3. Upload `mi-public_html.zip`.
-4. Right-click → **Extract** (extract into `public_html/`, not into a sub-folder).
-5. Delete the zip after extracting.
+**ZIP Files (`cpanel-zips/` folder me):**
 
-You should see `index.html`, `assets/`, `favicon.png`, `.htaccess`, etc. directly inside `public_html/`.
+| File | Kahaan jaata hai | Size |
+| --- | --- | --- |
+| `mi-backend-nodeapp.zip` | cPanel ka Node.js app folder | ~17 MB |
+| `mi-frontend-public_html.zip` | cPanel ka `public_html` folder | ~4 MB |
 
----
+**cPanel par chahiye:**
 
-## 2. Upload the backend → `~/miweb/`
-
-1. In **File Manager**, go to your home folder `/home/<your-cpanel-user>/`.
-2. Create a new folder called **`miweb`**.
-3. Upload `mi-backend.zip` into `miweb/`.
-4. Right-click → **Extract**.
-5. Delete the zip.
-
-You should see `package.json`, `dist/server.cjs`, `server/`, `shared/`, `uploads/`, `node_modules/` inside `miweb/`.
+- Node.js App support (cPanel ke "Setup Node.js App" feature)
+- PostgreSQL database connection string (Neon / Supabase / cPanel Postgres)
+- Domain ya subdomain set up kiya hua
 
 ---
 
-## 3. Create the Node.js app in cPanel
+## STEP 1 — Database ready karo
 
-1. Open **cPanel → Setup Node.js App**.
-2. Click **Create Application** and fill in:
-   - **Node.js version:** 18.x or higher
+Aapko ek PostgreSQL database chahiye. Free options:
+
+- **Neon** ([neon.tech](https://neon.tech)) — sabse easy, 1 minute me ban jaata hai
+- **Supabase** ([supabase.com](https://supabase.com)) — free tier
+- **cPanel** ka built-in PostgreSQL (agar available ho)
+
+Database banane ke baad `connection string` copy karke rakho. Format:
+```
+postgresql://user:password@host:5432/dbname?sslmode=require
+```
+
+---
+
+## STEP 2 — Backend deploy karo
+
+### 2.1 Node.js App banao
+
+1. cPanel kholo → **"Setup Node.js App"** dhundo
+2. **CREATE APPLICATION** dabao:
+   - **Node.js version:** 18.x ya 20.x
    - **Application mode:** Production
-   - **Application root:** `miweb`
-   - **Application URL:** leave the path empty so it serves from `/api` on your main domain
-   - **Application startup file:** `dist/server.cjs`
-3. Click **Create**.
+   - **Application root:** `nodeapp` (ya jo bhi naam pasand)
+   - **Application URL:** Decide karo:
+     - Single domain: `yourdomain.com/api` (frontend + backend ek hi domain par)
+     - Subdomain: `api.yourdomain.com` (alag subdomain banaya ho to)
+   - **Application startup file:** `app.js`
+3. CREATE dabao
 
-> The cPanel app **name** is **`miweb`** to match the folder.
+### 2.2 Backend ZIP upload aur extract karo
 
----
+1. cPanel → **File Manager** kholo
+2. Folder `/home/USERNAME/nodeapp/` ke andar jao
+3. **Upload** dabao → `mi-backend-nodeapp.zip` upload karo
+4. ZIP par right-click → **Extract** (current folder me)
+5. ZIP file delete kar do
 
-## 4. (Skip if `node_modules` ships) Install dependencies
+### 2.3 Environment Variables daalo (SABSE ZAROORI)
 
-The backend ZIP already includes `node_modules`, so usually nothing to do. If anything is missing or you upgraded Node:
+"Setup Node.js App" me wapas jao → apni app par click → **"Environment
+variables"** section me yeh values daalo:
 
-1. Same Node.js App page → **Run NPM Install** (1–3 minutes).
+| Variable | Value | Detail |
+| --- | --- | --- |
+| `DATABASE_URL` | `postgresql://...` | Step 1 wala connection string |
+| `ADMIN_USERNAME` | `you@example.com` | Comma-separated admin emails |
+| `ADMIN_PASSWORD` | `<strong password>` | 12+ characters, unique |
+| `JWT_SECRET` | `<random 96-char string>` | Niche se generate karo |
+| `NODE_ENV` | `production` | Hamesha production |
 
----
-
-## 5. Set environment variables
-
-Still on the Node.js App page → **Environment variables** → click **+** for each row:
-
-| Variable | Value |
-|---|---|
-| `NODE_ENV` | `production` |
-| `PORT` | (leave blank — cPanel sets this) |
-| `DATABASE_URL` | `postgresql://neondb_owner:npg_N8afFxsjA4ke@ep-shy-shadow-am3cyaj3-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require` |
-| `JWT_SECRET` | `miweb-prod-jwt-2026-d4f7a92e1b3c8e5f9a7b2c4d6e8f0a1b3c5d7e9f1a2b4c6d8e0` *(or any long random string)* |
-| `ADMIN_USERNAME` | `miengineering17@gmail.com,sahilsabirshaikh256@gmail.com` |
-| `ADMIN_PASSWORD` | `6392061892` |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `MAIL_TO` | *Optional* — only needed if you want the contact form to email you |
-
-Click **Save** after adding each.
-
----
-
-## 6. Initialise the Neon database (one-time)
-
-Open **cPanel → Terminal** (or SSH) and run:
-
+**JWT_SECRET generate karne ke liye:** Apne computer ke terminal me chalao:
 ```bash
-cd ~/miweb
-source /home/<your-cpanel-user>/nodevenv/miweb/18/bin/activate   # exact path is shown by cPanel
-npm run db:push
+node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
+```
+Output ko copy karke `JWT_SECRET` me paste kar do.
+
+**Optional variables:**
+
+| Variable | Kab chahiye |
+| --- | --- |
+| `GOOGLE_CLIENT_ID` | Google sign-in chalana ho |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | Contact form ke email |
+| `CONTACT_TO_EMAIL` | Quote requests jisko mile |
+
+### 2.4 Backend start karo
+
+1. "Setup Node.js App" me wapas jao
+2. **"Run NPM Install" DABANA NAHI hai** — sab kuch bundled hai
+3. **"Restart"** button dabao
+4. Status "Running" dikhna chahiye
+
+### 2.5 Backend test karo
+
+Browser me kholo:
+```
+https://yourdomain.com/api/health
 ```
 
-Answer `yes` if it asks "Is this correct?". This creates every table on Neon.
-
-The server **auto-seeds** all 11 product categories, ~80 sub-products, applications/industries and standards on first boot. To disable: set `AUTO_SEED=false`.
-
-To re-seed manually later:
-```bash
-npm run db:seed -- --force
+Aisa JSON dikhna chahiye:
+```json
+{
+  "ok": true,
+  "node": "v20.x.x",
+  "env": "production",
+  "hasDatabaseUrl": true,
+  "hasJwtSecret": true,
+  "hasAdminPassword": true,
+  "adminEmailsConfigured": 1,
+  "databaseConnected": true,
+  "productCount": 85
+}
 ```
+
+❌ Agar `"ok": false` aaye → `error` field padho, wahi batayega kya missing hai.
 
 ---
 
-## 7. Start the app
+## STEP 3 — Frontend deploy karo
 
-Back in **Setup Node.js App** click **Restart**.
+### 3.1 public_html clean karo
 
----
+1. cPanel → **File Manager** → `public_html` me jao
+2. Purani files (jo M.I. Engineering ki hain) backup le ke hata do
+3. `cgi-bin` folder mat chhuna
 
-## 8. Make `/api` and `/uploads` reach the Node app
+### 3.2 Frontend ZIP upload aur extract karo
 
-The frontend ZIP ships an `.htaccess` that proxies `/api/...` and `/uploads/...` to the `miweb` Node app via mod_proxy.
+1. **Upload** → `mi-frontend-public_html.zip` upload karo
+2. ZIP par right-click → **Extract** (public_html me)
+3. ⚠️ **Verify:** Saari files seedha `public_html/` me honi chahiye —
+   `public_html/mi-frontend/` ke andar NAHI. Agar sub-folder bana ho to
+   uske andar ki saari files cut karke `public_html/` me paste karo.
+4. ZIP delete kar do
 
-If your host disables mod_proxy, instead add a **Reverse Proxy / URL Mapping** in cPanel → **Application Manager** so that `/api` and `/uploads` point to the `miweb` app's port.
+### 3.3 .htaccess check karo
 
-Quick test from your domain root:
+`public_html/.htaccess` file honi chahiye. Agar nahi dikhe to:
+- File Manager → **Settings** → "Show Hidden Files (dotfiles)" enable karo
+
+Yeh file 2 kaam karti hai:
+1. `/api/*` requests ko Node.js backend ko bhejti hai
+2. React Router ke saare routes ko `index.html` par bhejti hai
+
+**Agar backend SUBDOMAIN par hai** (e.g. `api.yourdomain.com`), to `.htaccess`
+me pehle 2 RewriteRule lines edit karo:
 ```
-https://www.your-domain.com/api/health
-```
-→ should return JSON like `{"ok":true,"databaseConnected":true,"productCount":80,…}`. If you see HTML or a 404, the proxy isn't active.
-
----
-
-## 9. Sign in (NEW SIMPLIFIED FLOW — no Firebase!)
-
-Authentication runs **entirely on the Neon Postgres database** — no Firebase keys, no Firestore rules, no "Missing or insufficient permissions" errors.
-
-You have **TWO admin emails**, both with password **`6392061892`**:
-
-| Admin email | Password |
-|---|---|
-| `miengineering17@gmail.com` | `6392061892` |
-| `sahilsabirshaikh256@gmail.com` | `6392061892` |
-
-There are **two equally valid sign-in routes** — use whichever you prefer:
-
-### A. Customer sign-in page (`/auth`)
-1. Open `https://www.your-domain.com/auth`
-2. Sign in with either admin email + `6392061892`.
-3. You'll be auto-redirected to `/admin`.
-
-### B. Dedicated admin sign-in page (`/admin/login`)
-1. Open `https://www.your-domain.com/admin/login`
-2. Sign in with either admin email + `6392061892`.
-3. You're taken straight to `/admin`.
-
-> **No more "An account with this email already exists" error** — re-registering with the correct password just signs you in. No more "Missing or insufficient permissions" — that was a Firestore rule problem and Firestore is gone.
-
-The first time you sign in with a brand-new admin email, the user row is **auto-created** in the Neon `users` table and immediately marked as admin. After that, you can change the admin password from the admin panel if you wish — but `6392061892` will *always* keep working as a master admin password (controlled by the `ADMIN_PASSWORD` env var).
-
-Normal customers sign up at `/auth → Create Account` and end up at `/dashboard` (no admin access).
-
----
-
-## 10. Clear old user data on cPanel (only if migrating)
-
-If your Neon database had old test users you want to wipe:
-
-```bash
-cd ~/miweb
-source /home/<your-cpanel-user>/nodevenv/miweb/18/bin/activate
-psql "$DATABASE_URL" -c "TRUNCATE users RESTART IDENTITY CASCADE; TRUNCATE admin_users RESTART IDENTITY CASCADE;"
+RewriteRule ^api/(.*)$       https://api.yourdomain.com/api/$1 [P,L]
+RewriteRule ^uploads/(.*)$   https://api.yourdomain.com/uploads/$1 [P,L]
 ```
 
-Then sign in again — the admin row is auto-created on next sign-in.
+### 3.4 Frontend test karo
+
+Browser me kholo: `https://yourdomain.com`
+
+Home page khulna chahiye. Phir:
+- Products page → product list dikhe
+- About page → reload karne par bhi khule (404 nahi)
 
 ---
 
-## Common issues
+## STEP 4 — Login test karo
 
-**`/api/...` returns HTML or 404** → mod_proxy not active. Use cPanel **Application Manager** URL mapping instead (step 8).
+1. Browser me kholo: `https://yourdomain.com/admin/login`
+2. Apna admin email + `ADMIN_PASSWORD` (jo Step 2.3 me set kiya tha) daalo
+3. Sign in dabao
+4. `/admin` dashboard khulna chahiye
 
-**"Cannot reach the database"** → check `DATABASE_URL` is exactly the Neon string above. Open `/api/health` in a browser; `databaseConnected` should be `true`.
-
-**Sign-in says "Invalid email or password"** → email isn't in `ADMIN_USERNAME` env var, or password isn't `6392061892` (or whatever you set `ADMIN_PASSWORD` to).
-
-**Site shows blank page** → check the browser DevTools console; usually a missing static file (re-upload `mi-public_html.zip`).
-
-**Port already in use** → leave `PORT` blank; cPanel passes its own port via `process.env.PORT`.
-
-**Uploads disappear after restart** → `uploads/` is real disk on cPanel. Don't delete the folder.
+✅ Login working hai → deployment complete!
 
 ---
 
-## Updating the site later
+## Common Problems & Solutions
 
-1. Make changes locally and run `npm run build`.
-2. Run `node scripts/build-cpanel.cjs` to rebuild both ZIPs.
-3. **Frontend update:** delete everything in `public_html/` (keep your custom `.htaccess` if you tweaked it), upload + extract the new `mi-public_html.zip`.
-4. **Backend update:** in `miweb/`, replace `dist/`, `server/`, `shared/` (and `package.json` if it changed). Skip `node_modules` unless dependencies changed.
-5. **Setup Node.js App → Restart** the `miweb` app.
+### "Invalid email or password"
+- Backend me `ADMIN_USERNAME` ya `ADMIN_PASSWORD` set nahi hai
+- Solution: Step 2.3 wapas check karo, env vars dobara save karo,
+  Node app **Restart** karo
+
+### Frontend white/blank screen
+- Files galat folder me extract huin
+- Solution: Browser me F12 → Console kholo. Agar 404 errors aa rahe
+  hain assets ke liye — sab files `public_html/` me seedha honi chahiye
+
+### `/api/*` calls 502 / 504 dete hain
+- Backend Node.js app start nahi hai
+- Solution: cPanel "Setup Node.js App" → **Restart** dabao →
+  Logs check karo
+
+### Routes pe reload karne par 404
+- `.htaccess` missing ya galat hai
+- Solution: Step 3.3 wapas karo, hidden files dikhane ka option enable karo
+
+### Database "ECONNREFUSED" ya timeout
+- `DATABASE_URL` galat ya database band hai
+- Solution: Neon/Supabase dashboard me database active check karo,
+  connection string copy karke wapas paste karo
 
 ---
 
-## Quick reference card
+## Update karna ho to
 
-```
-cPanel Node app name:     miweb
-Application root:         /home/<user>/miweb
-Startup file:             dist/server.cjs
-Database (Neon):          postgresql://neondb_owner:npg_N8afFxsjA4ke@ep-shy-shadow-am3cyaj3-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
-Admin emails:             miengineering17@gmail.com  /  sahilsabirshaikh256@gmail.com
-Admin password:           6392061892
-Customer sign-in URL:     https://your-domain.com/auth
-Admin sign-in URL:        https://your-domain.com/admin/login
-Admin dashboard URL:      https://your-domain.com/admin
-Health check URL:         https://your-domain.com/api/health
-```
+Agar code me changes kiye hain aur dobara deploy karna hai:
+
+1. **Backend update:** Naya `mi-backend-nodeapp.zip` banao
+   (`node scripts/build-cpanel.cjs` chala ke), cPanel par `server.cjs`
+   replace karo, "Restart" dabao
+2. **Frontend update:** Naya `mi-frontend-public_html.zip` upload karo,
+   `public_html` me extract karo (overwrite YES)
+
+Env variables wahi rahenge — unko dobara nahi daalna.
+
+---
+
+## Security Checklist ✓
+
+- [x] `ADMIN_PASSWORD` strong hai (12+ chars, unique)
+- [x] `JWT_SECRET` random hai (48+ random bytes)
+- [x] Source code me kahin koi password / secret hardcoded NAHI hai
+- [x] Login pages par koi credential SHOW NAHI hota
+- [x] `.htaccess` me hidden files (`.env`) blocked hain
+- [x] HTTPS enabled hai (cPanel "SSL/TLS Status" → AutoSSL)
+
+---
+
+## Files included in build
+
+**Backend ZIP (`mi-backend-nodeapp.zip`):**
+- `app.js` — cPanel startup file
+- `server.cjs` — Pura backend bundled (3.7 MB, single file, no npm install needed)
+- `package.json` — Sirf "main" entry
+- `dist/` — Built frontend (fallback agar public_html alag se nahi rakhna)
+- `uploads/` — Empty folder for user-uploaded files
+- `README-BACKEND.txt`, `README-FRONTEND.txt`
+
+**Frontend ZIP (`mi-frontend-public_html.zip`):**
+- `index.html`
+- `assets/` — Built JS + CSS chunks
+- `favicon.png`, `robots.txt`, `sitemap.xml`, `placeholder.svg`
+- `.htaccess` — SPA routing + API proxy
+
+---
+
+Koi problem aaye to backend ke logs cPanel "Setup Node.js App" → "Logs"
+section me dekho, frontend ke errors browser DevTools (F12) → Console me.

@@ -1,78 +1,120 @@
-M.I. ENGINEERING WORKS — BACKEND (Node.js app for cPanel)
-===========================================================
+============================================================
+M.I. ENGINEERING WORKS — BACKEND  (Node.js app for cPanel)
+============================================================
 
-YEH ZIP CPANEL KE NODE.JS APP FOLDER ME UPLOAD KARNI HAI.
-(Frontend ka alag zip hai jo public_html me jaata hai.)
-
-------------------------------------------------------------
-STEPS:
-------------------------------------------------------------
-1. cPanel > "Setup Node.js App" kholo
-2. CREATE APPLICATION:
-   - Node.js version: 18.x ya 20.x
-   - Application mode: Production
-   - Application root: nodeapp  (ya jo aap chaho)
-   - Application URL: miengineeringworks.in
-   - Application startup file:  app.js
-3. Application banao, phir File Manager me jao
-4. App folder (jaise /home/USER/nodeapp/) ke ANDAR yeh zip extract karo
-5. Setup Node.js App me wapas jao:
-   - "Run NPM Install" button DABANE KI ZAROORAT NAHI HAI.
-     (Sab dependencies pehle se bundled hain server.cjs me.)
-   - Environment variables daalo (neeche di gayi list)
-   - "Restart" dabao
-6. Done. Site live ho jaani chahiye.
+Yeh ZIP cPanel ke "Setup Node.js App" folder ke andar
+extract karna hai. Frontend ka alag ZIP hai jo public_html
+me jaata hai.
 
 ------------------------------------------------------------
-ZAROORI ENVIRONMENT VARIABLES (Setup Node.js App ke andar):
+ANDAR KYA HAI
 ------------------------------------------------------------
-
-NAME              VALUE
-----              -----
-DATABASE_URL      postgresql://neondb_owner:npg_N8afFxsjA4ke@ep-shy-shadow-am3cyaj3-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require
-JWT_SECRET        change-this-to-a-long-random-string-32chars-or-more
-ADMIN_USERNAME    miengineering@gmail.com,miengineering17@gmail.com
-ADMIN_PASSWORD    6392061892
-GOOGLE_CLIENT_ID  374744007598-plgqj6s9ds83v5aij2ehtm60ad2k86er.apps.googleusercontent.com
-NODE_ENV          production
-
-NOTE — DATABASE_URL waala value ekdam wahi rakhna jo upar diya hai
-(Neon PostgreSQL — saare products, applications, standards, images
-yahin store hain). cPanel me "Add Variable" pe click karke ek-ek karke
-saare 6 variables daalo. Phir "Save" → "Restart" dabao.
+  app.js              -> cPanel ka startup file (yeh select karna hai)
+  server.cjs          -> Pura backend bundled (ek file me — npm install nahi chahiye)
+  package.json        -> Sirf "main" / "start" entries
+  dist/               -> Built frontend (fallback ke liye, agar public_html
+                         alag se nahi rakhna chahte)
+  uploads/            -> Empty folder. Yahaan customer ki uploaded files
+                         (PDFs, images) save hoti hain. Backups ke time
+                         is folder ka backup zaroor lena.
 
 ------------------------------------------------------------
-LOGIN CREDENTIALS:
+STEP 1 — cPanel me Node.js App banao
 ------------------------------------------------------------
-URL:       https://miengineeringworks.in/admin/login
-Email:     miengineering@gmail.com
-Password:  6392061892   (ya jo ADMIN_PASSWORD me set kiya hai)
-
-Agar login fail ho to is URL ko browser me kholo:
-  https://miengineeringworks.in/api/health
-
-Yeh ek JSON return karega jisme batayega ki DB connect hua ki nahi,
-kitne products mile, kya environment variable missing hai, etc.
-Yahi se pata chal jaayega kya galti hai.
-
-------------------------------------------------------------
-CONTENTS:
-------------------------------------------------------------
-app.js              - cPanel startup entry (just requires server.cjs)
-server.cjs          - Bundled server (~3.6 MB, includes ALL dependencies)
-package.json        - Minimal manifest (start = node app.js)
-dist/               - Frontend build (Express serves this for /)
-uploads/            - Existing uploaded images (carry-over)
-README-BACKEND.txt  - This file
+  1. cPanel kholo -> "Setup Node.js App"
+  2. CREATE APPLICATION dabao:
+       Node.js version       : 18.x ya 20.x
+       Application mode      : Production
+       Application root      : nodeapp
+       Application URL       : api.yourdomain.com    (subdomain banaya ho to)
+                               ya /api               (ek hi domain par chalana ho to)
+       Application startup   : app.js
+  3. CREATE dabao. Ek folder ban jayega: /home/USERNAME/nodeapp/
 
 ------------------------------------------------------------
-FEATURES INCLUDED:
+STEP 2 — File Manager se ZIP upload + extract
 ------------------------------------------------------------
-- Bulletproof admin login (works even if DB is briefly down)
-- Auto SSL detection for Neon / Supabase / managed PG
-- /api/health endpoint for one-click debugging
-- Dynamic /sitemap.xml (every product / standard / industry URL)
-- /robots.txt that points to the sitemap
-- JSON-LD structured data on every product / standard / industry page
-- Daily auto-backup (DB + uploaded images, single .json file)
-- Logo + Home click → smooth scroll to top
+  1. cPanel -> File Manager kholo
+  2. Folder /home/USERNAME/nodeapp/ ke andar jao
+  3. Upload button -> mi-backend-nodeapp.zip upload karo
+  4. Right-click -> Extract (current folder me)
+  5. ZIP delete kar do (jagah bachane ke liye)
+
+------------------------------------------------------------
+STEP 3 — Environment variables daalo (ZAROORI)
+------------------------------------------------------------
+  Wapas "Setup Node.js App" me jao -> apni app -> "Environment
+  variables" section me yeh values daalo:
+
+    DATABASE_URL      <apna PostgreSQL connection string>
+                      (Neon / Supabase / cPanel Postgres — koi bhi)
+
+    ADMIN_USERNAME    <admin email(s) — comma-separated>
+                      e.g.  owner@example.com,manager@example.com
+
+    ADMIN_PASSWORD    <strong password — kam se kam 12 chars>
+                      Yeh master password hai, isse koi bhi admin
+                      apne email se sign-in kar sakta hai.
+
+    JWT_SECRET        <random 48+ characters string>
+                      Generate karne ke liye terminal me chalao:
+                        node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
+
+    NODE_ENV          production
+
+  Optional (Google sign-in chalana ho to):
+    GOOGLE_CLIENT_ID  <apna Google OAuth client ID>
+
+  Optional (contact form ke emails ke liye):
+    SMTP_HOST         smtp.gmail.com
+    SMTP_PORT         465
+    SMTP_USER         yourapp@gmail.com
+    SMTP_PASS         <Gmail app-password — normal password nahi>
+    CONTACT_TO_EMAIL  jisko quotes mile
+
+  ⚠️  IMPORTANT: Yeh values KISI KE SAATH share mat karna.
+      Source code me kahin nahi likhi hain — sirf cPanel ke
+      env-vars panel me rehni chahiye.
+
+------------------------------------------------------------
+STEP 4 — App start karo
+------------------------------------------------------------
+  1. "Setup Node.js App" me wapas jao
+  2. "Run NPM Install" DABANA NAHI hai. Sab kuch server.cjs me
+     bundled hai — ek bhi external package install nahi karna.
+  3. "Restart" button dabao
+  4. Status "Running" dikhe to tick.
+
+------------------------------------------------------------
+STEP 5 — Test
+------------------------------------------------------------
+  Browser me kholo:
+    https://api.yourdomain.com/api/health
+
+  Aisa JSON dikhna chahiye:
+    {
+      "ok": true,
+      "node": "v20.x.x",
+      "env": "production",
+      "hasDatabaseUrl": true,
+      "hasJwtSecret": true,
+      "hasAdminPassword": true,
+      "adminEmailsConfigured": 2,
+      "databaseConnected": true,
+      "productCount": 85
+    }
+
+  Agar "ok": false aaye to "error" field padho — wahi bata raha
+  hoga ki kya missing hai (DB URL, password, ya kuch aur).
+
+------------------------------------------------------------
+LOGIN TESTING
+------------------------------------------------------------
+  Frontend par /admin/login ya /auth khol ke apna admin email +
+  ADMIN_PASSWORD se sign-in karo. Admin panel khulega.
+
+------------------------------------------------------------
+UPDATE KARNA HO TO
+------------------------------------------------------------
+  Sirf naya server.cjs file replace karo. Baaki kuch mat chedna.
+  cPanel me "Restart" button dabao. Bas.

@@ -11,7 +11,7 @@ title = "M.I. Engineering Works - Final cPanel Package (bulletproof saves)"
 id = "n60HKxPSdjsahcDnsgNm-"
 uri = "file://CPANEL_DEPLOY.md"
 type = "text"
-title = "cPanel Deploy Guide (Neon DB + 2 admin emails, no Firebase)"
+title = "cPanel Deployment Guide (Hindi/English)"
 
 [[outputs]]
 id = "vtAmHf-R_lgBGGiR2W5dE"
@@ -84,3 +84,15 @@ id = "XF9DhZMUf60W9voD4BL0-"
 uri = "file://cpanel-zips/mi-backend/CPANEL_DEPLOY.md"
 type = "text"
 title = "Deployment guide (step-by-step for both files)"
+
+[[outputs]]
+id = "zhBK8KXB8KMZaLO5w1-at"
+uri = "file://cpanel-zips/mi-backend-nodeapp.zip"
+type = "unspecified"
+title = "Backend ZIP (cPanel Node.js app folder ke liye)"
+
+[[outputs]]
+id = "l--ya6McLziW4NV0RBeel"
+uri = "file://cpanel-zips/mi-frontend-public_html.zip"
+type = "unspecified"
+title = "Frontend ZIP (public_html folder ke liye)"
