@@ -350,6 +350,10 @@ export class AdapterError extends Error {
 
 /** Returns the response payload, or `null` if no Firestore route matches. */
 export async function tryFirestoreFetch(path: string, opts: RequestInit = {}): Promise<any | null> {
+  // Firestore adapter is OFF — Node backend with JWT auth is the source of truth.
+  // This avoids "permission denied" / key required errors in the admin panel.
+  return null;
+  // eslint-disable-next-line no-unreachable
   const method = (opts.method || "GET").toUpperCase() as Method;
   const stripped = path.split("?")[0];
   for (const route of ROUTES) {
@@ -387,6 +391,8 @@ export function installFetchInterceptor() {
   // Expose the un-intercepted fetch so admin tools (e.g. migration) can
   // bypass the adapter and pull live data from the Node backend.
   (window as any).__realFetch__ = originalFetch;
+  // Adapter is OFF — leave window.fetch untouched.
+  return;
 
   window.fetch = (async (input: any, init?: RequestInit) => {
     try {

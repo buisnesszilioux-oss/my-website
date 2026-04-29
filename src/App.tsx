@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import WhatsAppButton from "./components/WhatsAppButton.tsx";
+import FloatingLogo from "./components/FloatingLogo.tsx";
 import ScrollToTop from "./components/ScrollToTop";
 import BrandingHead from "./components/BrandingHead";
 import { useApplyBackgroundAnimation } from "@/hooks/useActiveAnimations";
@@ -157,6 +158,7 @@ const App = () => (
               <ScrollToTop />
               <AnimatedRoutes />
               <WhatsAppButton />
+              <FloatingLogo />
             </AuthProvider>
           </BrowserRouter>
         </TooltipProvider>

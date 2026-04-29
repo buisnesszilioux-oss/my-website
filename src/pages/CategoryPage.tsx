@@ -72,9 +72,6 @@ export default function CategoryPage() {
             <span className="text-primary font-semibold">{cat.name}</span>
           </div>
           <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-lg bg-gradient-gold text-charcoal text-2xl flex items-center justify-center shrink-0 shadow-gold">
-              <span aria-hidden>{cat.icon}</span>
-            </div>
             <div className="flex-1 min-w-0">
               <h1 className="font-heading text-2xl md:text-3xl font-bold text-foreground">{cat.name}</h1>
               <p className="text-sm text-primary font-semibold mt-1">{cat.tagline}</p>
@@ -196,7 +193,6 @@ export default function CategoryPage() {
                 data-testid={`link-cat-${c.slug}`}
                 className="flex items-center gap-2 px-3 py-2 rounded-lg border border-border hover:border-primary/40 hover:bg-secondary/40 transition text-sm"
               >
-                <span aria-hidden>{c.icon}</span>
                 <span className="truncate">{c.name}</span>
               </Link>
             ))}
