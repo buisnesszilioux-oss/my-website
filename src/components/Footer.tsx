@@ -54,7 +54,7 @@ const Footer = () => {
     } catch { return []; }
   }, [content]);
 
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", company: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -71,13 +71,14 @@ const Footer = () => {
           fullName: formData.name,
           email: formData.email,
           phone: formData.phone || "N/A",
-          company: "",
+          company: formData.company || "",
+          companyName: formData.company || "",
           message: formData.message,
         }),
       });
       if (r.ok) {
         setSubmitted(true);
-        setFormData({ name: "", email: "", phone: "", message: "" });
+        setFormData({ name: "", email: "", phone: "", company: "", message: "" });
       } else {
         setError("Failed to send message. Please try again.");
       }
@@ -116,9 +117,14 @@ const Footer = () => {
                     <input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} placeholder="your@email.com" className={inputCls} data-testid="footer-input-email" />
                   </Field>
                 </div>
-                <Field label="Phone Number">
-                  <input type="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} placeholder="+91 XXXXX XXXXX" className={inputCls} data-testid="footer-input-phone" />
-                </Field>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <Field label="Phone Number">
+                    <input type="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} placeholder="+91 XXXXX XXXXX" className={inputCls} data-testid="footer-input-phone" />
+                  </Field>
+                  <Field label="Company Name">
+                    <input type="text" value={formData.company} onChange={(e) => setFormData({ ...formData, company: e.target.value })} placeholder="Acme Pvt Ltd" className={inputCls} data-testid="footer-input-company" />
+                  </Field>
+                </div>
                 <Field label="Message *">
                   <textarea required rows={4} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} placeholder="Tell us about your requirements (product, size, quantity, grade…)" className={`${inputCls} resize-none`} data-testid="footer-input-message" />
                 </Field>

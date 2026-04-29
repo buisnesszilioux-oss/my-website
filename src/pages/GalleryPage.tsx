@@ -40,10 +40,10 @@ const GalleryPage = () => {
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal/40 via-charcoal/55 to-charcoal/85" />
         <div className="container relative z-10 text-center">
-          <span className="text-xs md:text-sm font-semibold tracking-[0.4em] uppercase text-primary">Inside Our Workshop</span>
-          <h1 className="font-heading text-4xl md:text-6xl font-bold mt-4 leading-[1.1] tracking-tight">Photos & <span className="text-gradient-gold">Videos</span></h1>
+          <span className="text-xs md:text-sm font-semibold tracking-[0.4em] uppercase text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">Inside Our Workshop</span>
+          <h1 className="font-heading text-4xl md:text-6xl font-bold mt-4 leading-[1.1] tracking-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.7)]">Photos & <span className="text-gradient-gold">Videos</span></h1>
           <div className="gold-divider w-24 mx-auto mt-5" />
-          <p className="mt-5 max-w-2xl mx-auto text-foreground/80 leading-relaxed">A behind-the-scenes look at our manufacturing operations, finished products, and project deliveries.</p>
+          <p className="mt-5 max-w-2xl mx-auto text-white/90 leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">A behind-the-scenes look at our manufacturing operations, finished products, and project deliveries.</p>
         </div>
       </section>
 
