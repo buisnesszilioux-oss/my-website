@@ -8,13 +8,11 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { setAdminSession } from "@/lib/adminAuth";
 
-const ADMIN_EMAILS = ["miengineering17@gmail.com", "sahilsabirshaikh256@gmail.com"];
-
 const AdminLogin = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { login, isAdmin, loading } = useAuth();
-  const [email, setEmail] = useState(ADMIN_EMAILS[0]);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -78,15 +76,8 @@ const AdminLogin = () => {
               <h1 className="font-heading text-2xl md:text-3xl font-extrabold text-slate-900">Admin Sign In</h1>
             </div>
             <p className="text-center text-sm text-slate-600 mb-5">
-              Sign in with one of the two admin emails to access the dashboard.
+              Authorised personnel only. Please enter your admin credentials.
             </p>
-
-            <div className="mb-5 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-900">
-              <strong>Admin emails:</strong>{" "}
-              <span className="font-mono">{ADMIN_EMAILS.join(" / ")}</span>
-              <br />
-              <strong>Password:</strong> <span className="font-mono">6392061892</span>
-            </div>
 
             {err && (
               <div className="mb-4 rounded-md border border-red-300 bg-red-50 text-red-700 text-sm px-3 py-2 flex items-start gap-2">

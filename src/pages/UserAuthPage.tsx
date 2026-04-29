@@ -7,8 +7,6 @@ import Footer from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 
-const ADMIN_EMAILS = ["miengineering17@gmail.com", "sahilsabirshaikh256@gmail.com"];
-
 const UserAuthPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -103,16 +101,6 @@ const UserAuthPage = () => {
                 ? "Sign in to track quotes and orders."
                 : "Join to request quotes faster and save your details."}
             </p>
-
-            <div className="mb-5 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-xs text-amber-900 flex gap-2">
-              <ShieldCheck className="w-4 h-4 mt-0.5 flex-shrink-0" />
-              <span>
-                <strong>Admin?</strong> Sign in with{" "}
-                <span className="font-mono">{ADMIN_EMAILS.join(" or ")}</span> using
-                password <span className="font-mono font-semibold">6392061892</span> — you'll
-                be sent straight to the admin panel.
-              </span>
-            </div>
 
             {err && (
               <div className="mb-4 rounded-md border border-red-300 bg-red-50 text-red-700 text-sm px-3 py-2 flex items-start gap-2">

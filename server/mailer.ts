@@ -4,7 +4,7 @@ const HOST = process.env.SMTP_HOST || "smtp.gmail.com";
 const PORT = Number(process.env.SMTP_PORT || 465);
 const USER = process.env.SMTP_USER || "";
 const PASS = process.env.SMTP_PASS || "";
-const TO = process.env.CONTACT_TO_EMAIL || "miengineering17@gmail.com";
+const TO = (process.env.CONTACT_TO_EMAIL || process.env.ADMIN_USERNAME?.split(",")[0] || "").trim();
 const FROM = process.env.SMTP_FROM || `M.I. Engineering Works <${USER || TO}>`;
 
 let transporter: nodemailer.Transporter | null = null;

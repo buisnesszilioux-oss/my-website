@@ -1,1 +1,0 @@
-const t="mi_admin_token",e="mi_admin_email";function o(){try{return localStorage.getItem(t)}catch{return null}}function c(){try{return localStorage.getItem(e)}catch{return null}}function r(a,n){try{localStorage.setItem(t,a),localStorage.setItem(e,n)}catch{}}function l(){try{localStorage.removeItem(t),localStorage.removeItem(e)}catch{}}export{o as a,l as c,c as g,r as s};

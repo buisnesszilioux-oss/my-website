@@ -109,6 +109,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     });
     setToken(data.token);
     setUser(data.user);
+    // If this user is an admin, silently mint the legacy admin token using
+    // their actual password so admin-side endpoints continue to work.
+    if (data.user?.role === "admin") {
+      try {
+        const r = await realFetch("/api/admin/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: email.trim(), password }),
+        });
+        const payload = await r.json().catch(() => ({} as any));
+        if (r.ok && payload?.token) {
+          try {
+            localStorage.setItem("mi_admin_token", payload.token);
+            localStorage.setItem("mi_admin_email", email.trim().toLowerCase());
+          } catch { /* ignore */ }
+        }
+      } catch { /* non-fatal */ }
+    }
     return data.user;
   };
 

@@ -12,6 +12,7 @@ import { generateCatalogPdf } from "./catalog-pdf";
 import { sendContactEmail } from "./mailer";
 import { handleChat, createBackup, createFullBackup, listBackups, restoreBackup, deleteBackup, saveUploadedBackup, healthCheck, ensureFirstRunBackup, startBackupScheduler } from "./mi-service";
 import { runDataFixes } from "./data-fix";
+import { adminEmails, adminMasterPassword, isAdminEmail } from "./config";
 
 const app = express();
 app.use(cors());
@@ -74,14 +75,19 @@ app.post("/api/admin/login", async (req, res) => {
       return safeJson(400, { error: "Email and password are required" });
     }
 
-    const allowedEmails = (process.env.ADMIN_USERNAME || "miengineering@gmail.com,miengineering17@gmail.com")
-      .split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
+    const allowedEmails = adminEmails();
 
+    if (allowedEmails.length === 0) {
+      return safeJson(503, { error: "Admin login is not configured on this server." });
+    }
     if (!allowedEmails.includes(submitted)) {
-      return safeJson(401, { error: "Only the registered admin email can sign in." });
+      return safeJson(401, { error: "Invalid email or password" });
     }
 
-    const envPass = process.env.ADMIN_PASSWORD || "6392061892";
+    const envPass = adminMasterPassword();
+    if (!envPass) {
+      return safeJson(503, { error: "Admin login is not configured on this server." });
+    }
 
     // Try DB with an explicit timeout so we never hang.
     let dbUser: { id: number; username: string; passwordHash: string } | null = null;
@@ -126,10 +132,9 @@ app.post("/api/admin/login", async (req, res) => {
     try {
       const submitted = String(req.body?.username || "").trim().toLowerCase();
       const password  = String(req.body?.password  || "");
-      const envPass = process.env.ADMIN_PASSWORD || "6392061892";
-      const allowed = (process.env.ADMIN_USERNAME || "miengineering@gmail.com,miengineering17@gmail.com")
-        .split(",").map((s) => s.trim().toLowerCase());
-      if (allowed.includes(submitted) && password === envPass) {
+      const envPass = adminMasterPassword();
+      const allowed = adminEmails();
+      if (envPass && allowed.includes(submitted) && password === envPass) {
         return safeJson(200, { token: signToken({ id: 0, username: submitted }) });
       }
     } catch {}
@@ -150,7 +155,7 @@ app.get("/api/health", async (_req, res) => {
     hasDatabaseUrl: Boolean(process.env.DATABASE_URL),
     hasJwtSecret: Boolean(process.env.JWT_SECRET),
     hasAdminPassword: Boolean(process.env.ADMIN_PASSWORD),
-    adminEmails: (process.env.ADMIN_USERNAME || "miengineering@gmail.com,miengineering17@gmail.com").split(","),
+    adminEmailsConfigured: adminEmails().length,
     databaseHost: null as string | null,
     databaseConnected: false,
     productCount: null as number | null,
@@ -202,9 +207,7 @@ app.post("/api/admin/google-login", async (req, res) => {
     }
 
     const email = String(payload.email || "").trim().toLowerCase();
-    const allowedEmails = (process.env.ADMIN_USERNAME || "miengineering@gmail.com,miengineering17@gmail.com")
-      .split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
-    if (!allowedEmails.includes(email)) {
+    if (!isAdminEmail(email)) {
       return res.status(403).json({ error: "This Google account is not authorised for admin access." });
     }
 
@@ -223,14 +226,6 @@ app.post("/api/admin/google-login", async (req, res) => {
 });
 
 // ── User accounts (normal customers) ──────────────────────────────────────────
-const ADMIN_EMAILS = () =>
-  (process.env.ADMIN_USERNAME || "miengineering17@gmail.com,sahilsabirshaikh256@gmail.com")
-    .split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
-
-const ADMIN_MASTER_PASSWORD = () => process.env.ADMIN_PASSWORD || "6392061892";
-
-const isAdminEmail = (email: string) => ADMIN_EMAILS().includes(email.trim().toLowerCase());
-
 const sanitiseUser = (u: any) => ({
   id: u.id, email: u.email, name: u.name, phone: u.phone,
   company: u.company, picture: u.picture, provider: u.provider,
@@ -250,7 +245,7 @@ app.post("/api/auth/register", wrap(async (req, res) => {
     return res.status(400).json({ error: parsed.error.issues[0]?.message || "Invalid data" });
   }
   const data = parsed.data;
-  const adminPath = isAdminEmail(data.email) && data.password === ADMIN_MASTER_PASSWORD();
+  const adminPath = isAdminEmail(data.email) && data.password === (adminMasterPassword() || "");
 
   let user = await storage.getUserByEmail(data.email);
   if (user) {
@@ -270,7 +265,7 @@ app.post("/api/auth/register", wrap(async (req, res) => {
     });
   }
 
-  const passwordHash = await hashPassword(adminPath ? ADMIN_MASTER_PASSWORD() : data.password);
+  const passwordHash = await hashPassword(adminPath ? (adminMasterPassword() || "") : data.password);
   user = await storage.createUser({
     email: data.email,
     name: data.name || data.email.split("@")[0],
@@ -294,13 +289,13 @@ app.post("/api/auth/login", wrap(async (req, res) => {
   }
   const { email, password } = parsed.data;
   const isAdmin = isAdminEmail(email);
-  const masterOk = isAdmin && password === ADMIN_MASTER_PASSWORD();
+  const masterOk = isAdmin && password === (adminMasterPassword() || "");
 
   let user = await storage.getUserByEmail(email);
 
   // Auto-create admin user on first sign-in with master password
   if (!user && masterOk) {
-    const passwordHash = await hashPassword(ADMIN_MASTER_PASSWORD());
+    const passwordHash = await hashPassword((adminMasterPassword() || ""));
     user = await storage.createUser({
       email,
       name: email.split("@")[0],
@@ -620,11 +615,14 @@ app.delete("/api/admin/floating-images/:id", requireAuth, wrap(async (req, res) 
   res.json({ ok: true });
 }));
 
-// Bootstrap default admin (email + password)
+// Bootstrap default admin (email + password) — only when both env vars are set.
 async function ensureDefaultAdmin() {
-  const password = process.env.ADMIN_PASSWORD || "6392061892";
-  const allowedEmails = (process.env.ADMIN_USERNAME || "miengineering@gmail.com,miengineering17@gmail.com")
-    .split(",").map((s) => s.trim().toLowerCase()).filter(Boolean);
+  const password = adminMasterPassword();
+  const allowedEmails = adminEmails();
+  if (!password || allowedEmails.length === 0) {
+    console.warn("[admin] Skipping admin bootstrap — ADMIN_USERNAME / ADMIN_PASSWORD not configured.");
+    return;
+  }
   const hash = await hashPassword(password);
   for (const email of allowedEmails) {
     const existing = await storage.getAdminByUsername(email);
