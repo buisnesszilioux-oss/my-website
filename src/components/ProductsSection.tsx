@@ -1,7 +1,7 @@
 import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useMemo, useRef, useState } from "react";
-import { Search, X } from "lucide-react";
+import { Search, X, ImageOff } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { api, type Product } from "@/lib/api";
 import { useActiveAnimations } from "@/hooks/useActiveAnimations";
@@ -62,23 +62,31 @@ const Product3DCard = ({ product, animClass }: { product: Product; animClass: st
             className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             style={{ transform: "translateZ(20px)" }}
           />
-          <motion.img
-            src={product.image}
-            alt={`${product.name} - ${product.standard}`}
-            loading="lazy"
-            width={512}
-            height={512}
-            className="w-full h-full object-contain"
-            whileHover={{ scale: 1.12, rotate: 2 }}
-            transition={{ type: "spring", stiffness: 300, damping: 15 }}
-            onError={(e) => {
-              const img = e.currentTarget as HTMLImageElement;
-              if (!img.dataset.fallback) {
-                img.dataset.fallback = "1";
-                img.src = `https://placehold.co/512x512/1f2937/d4af37/png?text=${encodeURIComponent(product.name)}`;
-              }
-            }}
-          />
+          {product.image ? (
+            <motion.img
+              src={product.image}
+              alt={`${product.name} - ${product.standard}`}
+              loading="lazy"
+              width={512}
+              height={512}
+              className="w-full h-full object-contain"
+              whileHover={{ scale: 1.12, rotate: 2 }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
+              onError={(e) => {
+                const img = e.currentTarget as HTMLImageElement;
+                img.style.display = "none";
+                const ph = img.parentElement?.querySelector(".img-fallback") as HTMLElement | null;
+                if (ph) ph.style.display = "flex";
+              }}
+            />
+          ) : null}
+          <div
+            className="img-fallback flex-col items-center justify-center text-muted-foreground/60 text-center p-4"
+            style={{ display: product.image ? "none" : "flex" }}
+          >
+            <ImageOff className="w-10 h-10 mb-2" strokeWidth={1.4} />
+            <span className="text-[10px] uppercase tracking-wider">Image coming soon</span>
+          </div>
         </div>
         <motion.div className="p-4 text-center border-t border-border" whileHover={{ backgroundColor: "hsl(var(--primary) / 0.05)" }}>
           <h3 className="font-heading text-sm md:text-base font-semibold text-foreground line-clamp-1">{product.name}</h3>

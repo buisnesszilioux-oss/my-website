@@ -89,22 +89,22 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gradient-dark text-gold-light/80">
+    <footer className="bg-gradient-to-b from-secondary/40 to-background text-foreground border-t border-border">
       {/* Contact Form + Map */}
       <div className="container py-14 md:py-16">
         <div className="grid lg:grid-cols-2 gap-8 mb-14">
           <motion.div
-            className="bg-[hsl(30,10%,16%)] rounded-2xl border border-primary/10 p-6 md:p-8"
+            className="bg-card rounded-2xl border border-primary/10 p-6 md:p-8"
             initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}
           >
-            <h3 className="font-heading text-2xl md:text-3xl font-bold text-gradient-gold mb-2">Send Us a Message</h3>
-            <p className="text-sm text-gold-light/50 mb-6">Tell us what you need — we typically respond within one business day.</p>
+            <h3 className="font-heading text-2xl md:text-3xl font-bold text-primary mb-2">Send Us a Message</h3>
+            <p className="text-sm text-foreground/65 mb-6">Tell us what you need — we typically respond within one business day.</p>
 
             {submitted ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <CheckCircle2 className="w-16 h-16 text-primary mb-4" />
-                <h4 className="font-heading text-xl font-bold text-gold-light mb-2">Thank You!</h4>
-                <p className="text-sm text-gold-light/60">Your enquiry has been delivered to our team. We'll get back to you shortly.</p>
+                <h4 className="font-heading text-xl font-bold text-foreground mb-2">Thank You!</h4>
+                <p className="text-sm text-foreground/75">Your enquiry has been delivered to our team. We'll get back to you shortly.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -124,7 +124,7 @@ const Footer = () => {
                 </Field>
                 {error && <p className="text-sm text-red-400">{error}</p>}
                 <button type="submit" disabled={loading} data-testid="footer-button-send"
-                  className="inline-flex items-center gap-2 bg-gradient-gold text-charcoal font-semibold py-3 px-8 rounded-lg hover:opacity-90 transition shadow-gold text-sm disabled:opacity-60">
+                  className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-semibold py-3 px-8 rounded-lg hover:opacity-90 transition shadow-gold text-sm disabled:opacity-60">
                   {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                   {loading ? "Sending…" : "Send Enquiry"}
                 </button>
@@ -138,7 +138,7 @@ const Footer = () => {
                 <MessageCircle className="w-4 h-4" /> WhatsApp Us
               </a>
               <a href={`tel:${phone1.replace(/\s/g, "")}`} data-testid="footer-call"
-                className="inline-flex items-center justify-center gap-2 border border-primary/40 text-gold-light font-semibold py-2.5 rounded-lg hover:bg-primary/10 text-sm">
+                className="inline-flex items-center justify-center gap-2 border border-primary/40 text-foreground font-semibold py-2.5 rounded-lg hover:bg-primary/10 text-sm">
                 <Phone className="w-4 h-4" /> Call Now
               </a>
             </div>
@@ -160,12 +160,12 @@ const Footer = () => {
         {/* Footer columns */}
         <div className="grid md:grid-cols-12 gap-10 border-t border-primary/10 pt-12">
           <div className="md:col-span-4">
-            <h3 className="font-heading text-2xl font-bold text-gradient-gold mb-3" data-testid="text-footer-brand">{brandName}</h3>
-            <p className="text-sm leading-relaxed text-gold-light/60 mb-3">
+            <h3 className="font-heading text-2xl font-bold text-primary mb-3" data-testid="text-footer-brand">{brandName}</h3>
+            <p className="text-sm leading-relaxed text-foreground/75 mb-3">
               Mumbai-based manufacturer & supplier of premium industrial fasteners — engineered, tested, and trusted across oil & gas, power, infrastructure and heavy engineering worldwide.
             </p>
             {gst && (
-              <p className="text-xs text-gold-light/70 mb-5" data-testid="text-footer-gst">
+              <p className="text-xs text-foreground/80 mb-5" data-testid="text-footer-gst">
                 <span className="font-semibold text-primary">GSTIN:</span> {gst}
               </p>
             )}
@@ -176,7 +176,7 @@ const Footer = () => {
                 return (
                   <a key={`${s.label}-${idx}`} href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.label} title={s.label}
                     data-testid={`social-${s.label.toLowerCase().replace(/\W+/g, "-")}`}
-                    className={`w-10 h-10 inline-flex items-center justify-center rounded-full border border-primary/20 text-gold-light/80 transition-all hover:border-primary hover:scale-110 ${colorCls}`}>
+                    className={`w-10 h-10 inline-flex items-center justify-center rounded-full border border-primary/20 text-foreground/85 transition-all hover:border-primary hover:scale-110 ${colorCls}`}>
                     <Icon className="w-4 h-4" />
                   </a>
                 );
@@ -185,8 +185,8 @@ const Footer = () => {
           </div>
 
           <div className="md:col-span-3">
-            <h4 className="font-heading text-lg font-semibold text-gold-light mb-4">Our Products</h4>
-            <ul className="space-y-2 text-sm text-gold-light/60">
+            <h4 className="font-heading text-lg font-semibold text-foreground mb-4">Our Products</h4>
+            <ul className="space-y-2 text-sm text-foreground/75">
               {products.slice(0, 8).map((p) => (
                 <li key={p.slug}>
                   <Link to={`/product/${p.slug}`} className="hover:text-primary transition-colors hover:translate-x-1 inline-block">{p.name}</Link>
@@ -196,8 +196,8 @@ const Footer = () => {
           </div>
 
           <div className="md:col-span-2">
-            <h4 className="font-heading text-lg font-semibold text-gold-light mb-4">Company</h4>
-            <ul className="space-y-2 text-sm text-gold-light/60">
+            <h4 className="font-heading text-lg font-semibold text-foreground mb-4">Company</h4>
+            <ul className="space-y-2 text-sm text-foreground/75">
               <li><Link to="/applications" className="hover:text-primary transition-colors">Applications</Link></li>
               <li><Link to="/standards" className="hover:text-primary transition-colors">Standards</Link></li>
               <li><Link to="/specifications" className="hover:text-primary transition-colors">Specifications</Link></li>
@@ -208,8 +208,8 @@ const Footer = () => {
           </div>
 
           <div className="md:col-span-3">
-            <h4 className="font-heading text-lg font-semibold text-gold-light mb-4">Reach Us</h4>
-            <ul className="space-y-3 text-sm text-gold-light/60">
+            <h4 className="font-heading text-lg font-semibold text-foreground mb-4">Reach Us</h4>
+            <ul className="space-y-3 text-sm text-foreground/75">
               <li className="flex items-start gap-2">
                 <Mail className="w-4 h-4 mt-0.5 text-primary/70 shrink-0" />
                 <a href={`mailto:${email}`} className="hover:text-primary transition-colors break-all">{email}</a>
@@ -235,7 +235,7 @@ const Footer = () => {
       </div>
 
       <div className="border-t border-primary/10">
-        <div className="container py-5 flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-gold-light/40">
+        <div className="container py-5 flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-foreground/60">
           <p>© {new Date().getFullYear()} {brandName}. All rights reserved.{gst ? <span className="ml-2">· GSTIN {gst}</span> : null}</p>
           <p>Engineered Quality · ASTM · DIN · ISO · BS · IS Compliant</p>
         </div>
@@ -244,10 +244,10 @@ const Footer = () => {
   );
 };
 
-const inputCls = "w-full bg-[hsl(30,10%,12%)] border border-primary/20 rounded-lg px-4 py-2.5 text-sm text-gold-light placeholder:text-gold-light/30 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition";
+const inputCls = "w-full bg-background border border-primary/20 rounded-lg px-4 py-2.5 text-sm text-foreground placeholder:text-foreground/30 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition";
 const Field = ({ label, children }: { label: string; children: React.ReactNode }) => (
   <div>
-    <label className="block text-xs font-semibold text-gold-light/70 mb-1.5">{label}</label>
+    <label className="block text-xs font-semibold text-foreground/80 mb-1.5">{label}</label>
     {children}
   </div>
 );

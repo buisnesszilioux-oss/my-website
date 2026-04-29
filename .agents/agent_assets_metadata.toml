@@ -60,3 +60,15 @@ id = "_dkxWgBtmqi2iLSjUcPE_"
 uri = "file://downloads/mi-engineering-cpanel-build.zip"
 type = "unspecified"
 title = "M.I. Engineering – cPanel Build (Firebase ready)"
+
+[[outputs]]
+id = "5jdPcxo0qtuIwcErSvbcJ"
+uri = "file://cpanel-zips/mi-engineering-cpanel.zip"
+type = "unspecified"
+title = "M.I. Engineering — cPanel deploy package (frontend + backend, 4.5 MB)"
+
+[[outputs]]
+id = "t4swqGaEjrjWg-_VKsSHF"
+uri = "file://cpanel-zips/mi-engineering-cpanel/CPANEL_DEPLOY.md"
+type = "text"
+title = "Step-by-step cPanel deployment guide"

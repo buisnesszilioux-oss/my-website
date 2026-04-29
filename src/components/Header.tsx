@@ -181,19 +181,19 @@ const Header = () => {
   return (
     <>
       {/* Top bar */}
-      <div className="bg-charcoal/95 text-foreground/80 py-2 text-xs hidden md:block border-b border-primary/10">
+      <div className="bg-[hsl(222,47%,11%)] text-white py-2 text-xs hidden md:block border-b border-primary/30">
         <div className="container flex justify-between items-center">
           <div className="flex items-center gap-6">
-            <a href="mailto:mienginering17@gmail.com" className="flex items-center gap-1.5 text-foreground/70 hover:text-primary transition-colors">
+            <a href="mailto:mienginering17@gmail.com" className="flex items-center gap-1.5 text-white hover:text-[hsl(195,100%,70%)] transition-colors font-medium">
               <Mail className="w-3.5 h-3.5" /> mienginering17@gmail.com
             </a>
           </div>
           <div className="flex items-center gap-4">
-            <a href="tel:9819972301" className="flex items-center gap-1.5 text-foreground/70 hover:text-primary transition-colors">
+            <a href="tel:9819972301" className="flex items-center gap-1.5 text-white hover:text-[hsl(195,100%,70%)] transition-colors font-medium">
               <Phone className="w-3.5 h-3.5" /> +91 98199 72301
             </a>
-            <span className="text-muted-foreground">|</span>
-            <a href="tel:9137658733" className="flex items-center gap-1.5 text-foreground/70 hover:text-primary transition-colors">
+            <span className="text-white/50">|</span>
+            <a href="tel:9137658733" className="flex items-center gap-1.5 text-white hover:text-[hsl(195,100%,70%)] transition-colors font-medium">
               <Phone className="w-3.5 h-3.5" /> +91 91376 58733
             </a>
           </div>
