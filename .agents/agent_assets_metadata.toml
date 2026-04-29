@@ -54,3 +54,9 @@ id = "mqjG7YUcuXlbWLrdrFIDb"
 uri = "file://cpanel-zips/mi-backend.zip"
 type = "unspecified"
 title = "mi-backend.zip — Backend (cPanel Node.js App folder)"
+
+[[outputs]]
+id = "_dkxWgBtmqi2iLSjUcPE_"
+uri = "file://downloads/mi-engineering-cpanel-build.zip"
+type = "unspecified"
+title = "M.I. Engineering – cPanel Build (Firebase ready)"
