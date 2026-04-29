@@ -1,0 +1,132 @@
+ye mere web ka admin pannel login fix kro or ye jo auto fill krne vala dala hai adminn login me auto email put auto pasword ye hata do manually hi rhne do ye fix kro or mujhe or m jb bhi login kru login hojae admin pannel ye fix krd issue email : miengineering17@gmail.com , pasword 6392061892 or data base ka spring snippet ye hai postgresql://neondb_owner:npg_N8afFxsjA4ke@ep-shy-shadow-am3cyaj3-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require ye hai or pura website admin login me kru to begair koi error ke login hojae and add all these product and make catogry in the heading product heading ke baju me with proper detail 🏗️ 🔩 FASTENERS FULL CATALOGUE (MI ENGINEERING STYLE)
+🧰 1. Bolts (All Types)
+Hex Bolt
+Heavy Hex Bolt
+Anchor Bolt (Foundation Bolt)
+U-Bolt (Pipe Clamp)
+J-Bolt
+Eye Bolt
+T-Bolt
+Carriage Bolt
+Stud Bolt
+🧲 2. Nuts
+Hex Nut
+Heavy Hex Nut
+Lock Nut (Nylock)
+Flange Nut
+Cap Nut
+Square Nut
+Wing Nut
+🧷 3. Washers
+Plain Washer
+Spring Washer
+Lock Washer
+Star Washer
+Fender Washer
+Taper Washer
+🔩 4. Screws
+Machine Screw
+Self-Tapping Screw
+Self-Drilling Screw
+Wood Screw
+Socket Head Cap Screw
+Drywall Screw
+🏗️ 5. Flanges (VERY IMPORTANT for your business)
+Slip On Flange
+Weld Neck Flange
+Blind Flange
+Threaded Flange
+Socket Weld Flange
+Lap Joint Flange
+
+👉 Used in: pipelines, oil & gas, chemical plants
+
+🚰 6. Pipe Fittings
+Elbow (45°, 90°)
+Tee (Equal / Reducing)
+Reducer (Concentric / Eccentric)
+Coupling
+Union
+Cap
+Nipple
+🧱 7. Sheet Metal Items
+Sheet Metal Screws
+Sheet Fasteners
+Clamps
+Brackets
+Angle Supports
+Perforated Sheets (custom fabrication)
+🌀 8. Spring Items
+Compression Springs
+Tension Springs
+Torsion Springs
+Disc Springs (Belleville)
+Coil Springs
+Wire Springs (custom)
+🏭 9. Raw Materials (VERY IMPORTANT FOR SALES)
+MS (Mild Steel) Rods
+SS (304 / 316) Rods
+Alloy Steel Bars
+Hex Bars
+Flat Bars
+Plates / Sheets
+Coils
+Pipes & Tubes
+🧪 10. Material Grades (Show on website)
+Mild Steel (MS)
+Stainless Steel (SS304 / SS316 / SS310)
+High Tensile (8.8 / 10.9 / 12.9)
+Carbon Steel
+Alloy Steel
+Galvanized (GI)
+⚙️ 11. Special Fasteners
+Rivets (Solid / Blind)
+Pins (Dowel / Taper / Split)
+Circlips
+Threaded Rods
+Inserts
+Anchor Fasteners
+and add aa grade chart suggestion to all the product and add a dropdown in catogry and when i click on any product catogry then open a page jaha pr us catogry ke sare product ho or me jo bhi product pe click kru vo mere catogry ka product baju me rhe or page khule product ka agr na smjhe to ye padhlo Build a modern industrial fasteners website UI.
+
+Requirements:
+
+Create a CATEGORY section with a dropdown or sidebar menu.
+Categories should include:
+
+Bolts
+Nuts
+Washers
+Screws
+Flanges
+Pipe Fittings
+Sheet Metal
+Springs
+Raw Material
+When user clicks any category:
+
+Open a new product listing page OR dynamic view
+Show all products of that category
+Product listing page layout:
+
+Left side: vertical product list (scrollable group style)
+Right side: product detail panel
+When user clicks any product:
+
+Show product details in right panel (NOT new tab)
+Include: name, material, size, description
+UI design:
+
+Modern industrial style
+Clean layout (like B2B engineering website)
+Responsive for mobile
+Data structure:
+Use dummy JSON data for now:
+categories → products → details
+
+Navigation:
+
+Category → product list page
+Product click → update right side panel dynamically (no full page reload)
+Make it clean, professional and production-ready UI.
+
+and sare product me available grade ko hata ke vha add krdo grade chart button jo bhi click kre to usse grade chart ka page khule or vo vha dekh ske fir add quote kre esa system

@@ -6,16 +6,17 @@ import SearchDialog from "@/components/SearchDialog";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import { api, type Industry, type Standard } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
+import { categories as productCategories } from "@/data/categories";
 
 type NavLink = {
   label: string;
   href: string;
-  dropdown?: "applications" | "standards";
+  dropdown?: "applications" | "standards" | "categories";
 };
 
 const navLinks: NavLink[] = [
   { label: "Home", href: "/" },
-  { label: "Products", href: "/products" },
+  { label: "Products", href: "/products", dropdown: "categories" },
   { label: "Applications", href: "/applications", dropdown: "applications" },
   { label: "Standards", href: "/standards", dropdown: "standards" },
   { label: "Gallery", href: "/gallery" },
@@ -111,7 +112,9 @@ const Header = () => {
     const items =
       l.dropdown === "applications"
         ? industries.map((i) => ({ key: i.slug, label: i.name, href: `/industry/${i.slug}` }))
-        : standards.map((s) => ({ key: s.slug, label: s.code, href: `/standards/${s.slug}` }));
+        : l.dropdown === "categories"
+          ? productCategories.map((c) => ({ key: c.slug, label: `${c.icon}  ${c.name}`, href: `/category/${c.slug}` }))
+          : standards.map((s) => ({ key: s.slug, label: s.code, href: `/standards/${s.slug}` }));
 
     const isOpen = openDropdown === l.label;
     return (
@@ -352,7 +355,9 @@ const Header = () => {
               const items =
                 l.dropdown === "applications"
                   ? industries.map((i) => ({ key: i.slug, label: i.name, href: `/applications/${i.slug}` }))
-                  : standards.map((s) => ({ key: s.slug, label: `${s.code} — ${s.name}`, href: `/standards/${s.slug}` }));
+                  : l.dropdown === "categories"
+                    ? productCategories.map((c) => ({ key: c.slug, label: `${c.icon}  ${c.name}`, href: `/category/${c.slug}` }))
+                    : standards.map((s) => ({ key: s.slug, label: `${s.code} — ${s.name}`, href: `/standards/${s.slug}` }));
               const expanded = mobileSubmenu === l.label;
               return (
                 <div key={l.label} className="border-b border-border/40 last:border-0">

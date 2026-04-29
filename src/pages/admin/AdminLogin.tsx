@@ -2,53 +2,30 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShieldCheck, Loader2, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/contexts/AuthContext";
-import { ADMIN_EMAIL } from "@/lib/firebase";
-
-const DEFAULT_ADMIN_PASSWORD = "6392061892";
+import { adminLogin, isAdminLoggedIn } from "@/lib/adminAuth";
 
 const AdminLogin = () => {
-  const [email, setEmail] = useState(ADMIN_EMAIL);
-  const [password, setPassword] = useState(DEFAULT_ADMIN_PASSWORD);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const nav = useNavigate();
   const { toast } = useToast();
-  const { login, user } = useAuth();
 
-  // If already signed in, redirect by role
   useEffect(() => {
-    if (user) nav(user.role === "admin" ? "/admin" : "/dashboard", { replace: true });
-  }, [user, nav]);
+    if (isAdminLoggedIn()) nav("/admin", { replace: true });
+  }, [nav]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErr(null);
     setBusy(true);
     try {
-      const profile = await login(email, password);
-      if (profile.role !== "admin") {
-        setErr("This account is not an admin. Use the customer portal at /auth.");
-        return;
-      }
+      await adminLogin(email, password);
       toast({ title: "Welcome back" });
       nav("/admin", { replace: true });
     } catch (err: any) {
-      const code = err?.code as string | undefined;
-      let msg: string;
-      if (code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/user-not-found") {
-        msg = "Incorrect email or password. If this is your first time, create the admin account at /auth first.";
-      } else if (code === "auth/too-many-requests") {
-        msg =
-          "Firebase ne is browser ko temporarily block kar diya hai (too many failed attempts). 15-30 min ruk jao, ya Firebase Console → Authentication → Users me jaake admin user pe 'Reset password' se naya password set kar lo — phir turant login ho jayega.";
-      } else if (code === "auth/network-request-failed") {
-        msg = "Network problem. Internet check karo aur dobara try karo.";
-      } else if (code === "auth/operation-not-allowed") {
-        msg = "Firebase Console me Email/Password authentication enable nahi hai. Authentication → Sign-in method → Email/Password ko ON karo.";
-      } else {
-        msg = err?.message || "Sign-in failed. Please try again.";
-      }
-      setErr(msg);
+      setErr(err?.message || "Sign-in failed. Please try again.");
     } finally {
       setBusy(false);
     }
@@ -56,7 +33,7 @@ const AdminLogin = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-dark p-6">
-      <form onSubmit={submit} className="bg-card rounded-2xl shadow-elegant p-8 w-full max-w-md border border-border">
+      <form onSubmit={submit} className="bg-card rounded-2xl shadow-elegant p-8 w-full max-w-md border border-border" autoComplete="off">
         <div className="text-center mb-7">
           <div className="w-16 h-16 rounded-full bg-gradient-gold flex items-center justify-center mx-auto mb-4 shadow-gold">
             <ShieldCheck className="w-7 h-7 text-charcoal" />
@@ -79,8 +56,9 @@ const AdminLogin = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            autoComplete="off"
             data-testid="input-username"
-            placeholder={ADMIN_EMAIL}
+            placeholder="Enter admin email"
             className="mt-2 w-full bg-background border border-border rounded-lg px-4 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition"
           />
         </label>
@@ -92,6 +70,7 @@ const AdminLogin = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            autoComplete="new-password"
             data-testid="input-password"
             placeholder="Enter your password"
             className="mt-2 w-full bg-background border border-border rounded-lg px-4 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary transition"
@@ -109,11 +88,7 @@ const AdminLogin = () => {
         </button>
 
         <p className="text-[11px] text-muted-foreground/70 mt-5 text-center leading-relaxed">
-          Restricted access. Only the admin email <b>{ADMIN_EMAIL}</b> can access the admin panel.
-          <br />
-          <span className="text-muted-foreground/60">
-            Authentication powered by Firebase. Create the admin account from the customer registration page first.
-          </span>
+          Restricted access. For authorised administrators only.
         </p>
       </form>
     </div>

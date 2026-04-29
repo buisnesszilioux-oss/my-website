@@ -17,6 +17,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 // Public pages — lazy loaded for faster initial paint
 const ProductDetail = lazy(() => import("./pages/ProductDetail.tsx"));
 const ProductsPage = lazy(() => import("./pages/ProductsPage.tsx"));
+const CategoryPage = lazy(() => import("./pages/CategoryPage.tsx"));
 const AboutPage = lazy(() => import("./pages/AboutPage.tsx"));
 const ContactPage = lazy(() => import("./pages/ContactPage.tsx"));
 const IndustryDetail = lazy(() => import("./pages/IndustryDetail.tsx"));
@@ -85,6 +86,7 @@ const AnimatedRoutes = () => {
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Index />} />
           <Route path="/products" element={<ProductsPage />} />
+          <Route path="/category/:slug" element={<CategoryPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/quote" element={<QuotePage />} />

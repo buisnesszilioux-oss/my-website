@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LayoutDashboard, Package, Factory, Award, Mail, LogOut, Home, Image, FileText, LayoutGrid, Table2, FileBarChart, BookOpen, Sparkles, Palette, Notebook, Layers, Bot, HardDriveDownload, ImagePlus, Database } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { clearAdminSession, getAdminEmail } from "@/lib/adminAuth";
 
 const links = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -32,14 +33,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const nav = useNavigate();
   const { logout, user } = useAuth();
   const { toast } = useToast();
+  const adminEmail = getAdminEmail() || user?.email || "";
 
   const handleLogout = async () => {
-    try {
-      await logout();
-      toast({ title: "Signed out" });
-    } catch {
-      /* ignore */
-    }
+    clearAdminSession();
+    try { await logout(); } catch { /* ignore */ }
+    toast({ title: "Signed out" });
     nav("/admin/login", { replace: true });
   };
 
@@ -49,8 +48,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="p-5 border-b border-white/10">
           <div className="font-heading text-lg font-bold text-gradient-gold">M.I. Admin</div>
           <div className="text-[10px] uppercase tracking-widest text-white/70 mt-1">Content Manager</div>
-          {user?.email && (
-            <div className="mt-2 text-[10px] text-white/60 truncate" title={user.email}>{user.email}</div>
+          {adminEmail && (
+            <div className="mt-2 text-[10px] text-white/60 truncate" title={adminEmail}>{adminEmail}</div>
           )}
         </div>
         <nav className="flex-1 py-3 overflow-y-auto">

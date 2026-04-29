@@ -263,23 +263,20 @@ const ProductDetail = () => {
               },
               {
                 icon: "🏷️",
-                title: "Available Grades",
+                title: "Material Grades",
                 content: (
                   <>
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {product.grades.map((g, i) => (
-                        <motion.span
-                          key={g}
-                          className="text-xs font-semibold px-3 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20"
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: i * 0.05 }}
-                          whileHover={{ scale: 1.1 }}
-                        >
-                          {g}
-                        </motion.span>
-                      ))}
+                    <div className="mb-6">
+                      <p className="text-sm text-muted-foreground mb-3">
+                        This product is supplied in a wide range of standard material grades. Refer to our complete grade chart for tensile strength, yield strength and chemical composition details.
+                      </p>
+                      <Link
+                        to="/grade-chart"
+                        data-testid="btn-detail-grade-chart"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-gradient-gold text-charcoal text-sm font-bold hover:opacity-90 transition shadow-gold"
+                      >
+                        📊 View Grade Chart
+                      </Link>
                     </div>
                     <h3 className="font-heading text-sm font-bold text-foreground mb-3">Surface Finish</h3>
                     <ul className="space-y-2">

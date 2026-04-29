@@ -1,11 +1,24 @@
+import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import { isAdminLoggedIn, verifyAdminToken, clearAdminSession } from "@/lib/adminAuth";
 
 const RequireAdmin = ({ children }: { children: React.ReactNode }) => {
-  const { user, loading } = useAuth();
   const location = useLocation();
+  const [state, setState] = useState<"checking" | "ok" | "no">(isAdminLoggedIn() ? "checking" : "no");
 
-  if (loading) {
+  useEffect(() => {
+    let cancelled = false;
+    if (!isAdminLoggedIn()) { setState("no"); return; }
+    (async () => {
+      const ok = await verifyAdminToken();
+      if (cancelled) return;
+      if (ok) setState("ok");
+      else { clearAdminSession(); setState("no"); }
+    })();
+    return () => { cancelled = true; };
+  }, [location.pathname]);
+
+  if (state === "checking") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-dark">
         <div className="flex flex-col items-center gap-3 text-primary-foreground/80">
@@ -16,8 +29,7 @@ const RequireAdmin = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  if (!user) return <Navigate to="/admin/login" replace state={{ from: location.pathname }} />;
-  if (user.role !== "admin") return <Navigate to="/dashboard" replace />;
+  if (state === "no") return <Navigate to="/admin/login" replace state={{ from: location.pathname }} />;
   return <>{children}</>;
 };
 

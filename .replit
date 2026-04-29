@@ -76,3 +76,6 @@ externalPort = 3002
 [userenv.shared]
 GOOGLE_CLIENT_ID = "374744007598-plgqj6s9ds83v5aij2ehtm60ad2k86er.apps.googleusercontent.com"
 VITE_GOOGLE_CLIENT_ID = "374744007598-plgqj6s9ds83v5aij2ehtm60ad2k86er.apps.googleusercontent.com"
+ADMIN_PASSWORD = "6392061892"
+ADMIN_USERNAME = "miengineering@gmail.com,miengineering17@gmail.com"
+JWT_SECRET = "mi-engineering-jwt-secret-2026-prod-9f4a8b2c1e7d-fastener-works"
