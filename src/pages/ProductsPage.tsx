@@ -112,7 +112,6 @@ export default function ProductsPage() {
                     data-testid={`chip-cat-${cat.slug}`}
                     className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-primary/20 bg-card hover:bg-primary/10 hover:border-primary text-xs font-semibold text-foreground transition"
                   >
-                    <span>{cat.icon}</span>
                     <span>{cat.name}</span>
                     <span className="text-[10px] text-muted-foreground">
                       ({cat.products.length})
@@ -146,23 +145,20 @@ export default function ProductsPage() {
               >
                 {/* Category header */}
                 <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-5 pb-4 border-b border-primary/15">
-                  <div className="flex items-start gap-3">
-                    <span className="text-3xl md:text-4xl">{cat.icon}</span>
-                    <div>
-                      <h2
-                        className="font-heading text-2xl md:text-3xl font-bold text-foreground"
-                        data-testid={`heading-cat-${cat.slug}`}
-                      >
-                        {cat.name}{" "}
-                        <span className="text-sm font-normal text-muted-foreground">
-                          ({cat.products.length} products)
-                        </span>
-                      </h2>
-                      <p className="text-sm text-primary font-semibold mt-0.5">{cat.tagline}</p>
-                      <p className="text-sm text-muted-foreground mt-1 max-w-3xl">
-                        {cat.description}
-                      </p>
-                    </div>
+                  <div className="flex-1">
+                    <h2
+                      className="font-heading text-2xl md:text-3xl font-bold text-foreground"
+                      data-testid={`heading-cat-${cat.slug}`}
+                    >
+                      {cat.name}{" "}
+                      <span className="text-sm font-normal text-muted-foreground">
+                        ({cat.products.length} products)
+                      </span>
+                    </h2>
+                    <p className="text-sm text-primary font-semibold mt-0.5">{cat.tagline}</p>
+                    <p className="text-sm text-muted-foreground mt-1 max-w-3xl">
+                      {cat.description}
+                    </p>
                   </div>
                   <Link
                     to={`/category/${cat.slug}`}

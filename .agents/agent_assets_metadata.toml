@@ -11,7 +11,7 @@ title = "M.I. Engineering Works - Final cPanel Package (bulletproof saves)"
 id = "n60HKxPSdjsahcDnsgNm-"
 uri = "file://CPANEL_DEPLOY.md"
 type = "text"
-title = "cPanel Deployment Guide"
+title = "cPanel Deployment Guide (read first)"
 
 [[outputs]]
 id = "vtAmHf-R_lgBGGiR2W5dE"
@@ -47,13 +47,13 @@ title = "FRONTEND - public_html folder me upload"
 id = "i3CRj0jjSbH6Tr9bhQt6C"
 uri = "file://cpanel-zips/mi-public_html.zip"
 type = "unspecified"
-title = "Frontend (public_html) — for cPanel static hosting"
+title = "Frontend (public_html) — cPanel static upload"
 
 [[outputs]]
 id = "mqjG7YUcuXlbWLrdrFIDb"
 uri = "file://cpanel-zips/mi-backend.zip"
 type = "unspecified"
-title = "Backend (Node app) — for cPanel Node.js"
+title = "Backend (Node app) — cPanel Node.js setup"
 
 [[outputs]]
 id = "_dkxWgBtmqi2iLSjUcPE_"
