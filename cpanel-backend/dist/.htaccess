@@ -1,0 +1,46 @@
+# M.I. Engineering Works — public_html
+# This .htaccess goes alongside the React build in cPanel public_html.
+#
+# IMPORTANT: This file does NOT proxy /api/* via mod_proxy (which is disabled
+# on most shared cPanel hosts). Instead, cPanel's Setup Node.js App auto-routes
+# /api/* to your Node app via Phusion Passenger WHEN your app's "Application
+# URL" is set to https://yourdomain.com/api.
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Old /uploads/* URLs → new /api/uploads/* (handled by Node via Passenger).
+  RewriteRule ^uploads/(.*)$ /api/uploads/$1 [L]
+
+  # React Router fallback: non-existing files → index.html.
+  # /api/* is intentionally excluded so Passenger handles it.
+  RewriteCond %{REQUEST_URI} !^/api/
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html               "access plus 0 seconds"
+  ExpiresByType image/png               "access plus 1 year"
+  ExpiresByType image/jpg               "access plus 1 year"
+  ExpiresByType image/jpeg              "access plus 1 year"
+  ExpiresByType image/webp              "access plus 1 year"
+  ExpiresByType image/svg+xml           "access plus 1 month"
+  ExpiresByType image/x-icon            "access plus 1 year"
+  ExpiresByType text/css                "access plus 1 year"
+  ExpiresByType application/javascript  "access plus 1 year"
+  ExpiresByType application/font-woff2  "access plus 1 year"
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>

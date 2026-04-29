@@ -273364,6 +273364,7 @@ app.use(import_express.default.json({ limit: "20mb" }));
 var UPLOAD_DIR2 = process.env.VERCEL ? "/tmp/uploads" : import_path2.default.resolve("uploads");
 if (!import_fs2.default.existsSync(UPLOAD_DIR2)) import_fs2.default.mkdirSync(UPLOAD_DIR2, { recursive: true });
 app.use("/uploads", import_express.default.static(UPLOAD_DIR2));
+app.use("/api/uploads", import_express.default.static(UPLOAD_DIR2));
 var storageMulter = import_multer.default.diskStorage({
   destination: UPLOAD_DIR2,
   filename: (_req, file2, cb) => {
@@ -273692,7 +273693,7 @@ app.post("/api/contact", wrap(async (req, res) => {
 }));
 app.post("/api/admin/upload", requireAuth, upload.single("file"), (req, res) => {
   if (!req.file) return res.status(400).json({ error: "No file" });
-  res.json({ url: `/uploads/${req.file.filename}` });
+  res.json({ url: `/api/uploads/${req.file.filename}` });
 });
 app.post("/api/admin/products", requireAuth, wrap(async (req, res) => {
   const parsed = insertProductSchema.safeParse(req.body);

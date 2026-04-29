@@ -1,75 +1,85 @@
 # M.I. Engineering Works — cPanel Deployment Guide
 
-**Single-app deployment** — ek hi Node.js app frontend + backend dono serve
-karega. Koi `public_html` setup nahi, koi proxy nahi, koi `.htaccess`
-mod_proxy chahiye nahi. Sabse simple aur foolproof method.
+**Two-ZIP deployment** — backend cPanel ke Node.js app folder me, frontend
+public_html me. cPanel khud `/api/*` requests Node app pe route karega
+(Phusion Passenger se), koi proxy / mod_proxy nahi chahiye.
 
 ---
 
-## Aapke paas yeh file hai
+## Aapke paas yeh files hain
 
 | File | Size | Kahaan jaata hai |
 | --- | --- | --- |
-| `cpanel-zips/mi-fullstack-cpanel.zip` | ~29 MB | cPanel Node.js app folder me |
+| `cpanel-zips/mi-backend-nodeapp.zip` | ~24 MB | cPanel Node.js app folder (e.g. `nodeapp/`) |
+| `cpanel-zips/mi-frontend-public_html.zip` | ~4 MB | cPanel `public_html/` folder |
 
-Iske andar hai:
-- `app.js` — startup file
-- `server.cjs` — pura backend bundled (6.8 MB, single file)
-- `dist/` — built React frontend (Express se serve hoga)
-- `package.json`, `uploads/`, `.env.example`, `README-DEPLOY.txt`
+Bonus (single-app fallback, agar 2-zip approach na chale): `mi-fullstack-cpanel.zip`
 
 ---
 
 ## STEP 1 — Database ready karo (Neon recommended)
 
 1. [neon.tech](https://neon.tech) → free account → "Create project"
-2. Region apne paas ka choose karo (e.g. AWS US-East)
-3. Bana lo. **"Connection string" → "Pooled connection"** copy karo:
+2. Region apne paas ka choose karo
+3. **"Connection string" → "Pooled connection"** copy karo:
    ```
    postgresql://user:password@ep-xxx-pooler.region.aws.neon.tech/neondb?sslmode=require
    ```
-4. Notepad me save karo — Step 3 me paste karna hai
+4. Notepad me save karo
 
-⚠️ **Agar aapne database password ya URL kabhi bhi public chat / screenshot
-me share kiya hai, to Neon dashboard → "Reset password" se turant naya
-password generate karo. Purana URL leak ho chuka hai.**
+⚠️ **Agar database password public chat / screenshot me share kiya hai,
+Neon dashboard → "Reset password" se naya generate karo. Purana leak ho chuka.**
 
 ---
 
-## STEP 2 — cPanel pe Node.js App banao
+## STEP 2 — cPanel pe Node.js App banao (Application URL = `/api`)
 
-1. cPanel kholo → search box me **"Setup Node.js App"** type karo → kholo
-2. **CREATE APPLICATION** button dabao:
+1. cPanel kholo → **"Setup Node.js App"** open karo
+2. **CREATE APPLICATION** dabao:
 
    | Field | Value |
    |---|---|
    | Node.js version | **20.x** (ya 18.x) |
    | Application mode | **Production** |
-   | Application root | `nodeapp` (folder ka naam, kuch bhi rakh sakte ho) |
-   | Application URL | **`https://yourdomain.com/`** ← root domain, koi sub-path nahi |
+   | Application root | `nodeapp` (folder ka naam) |
+   | **Application URL** | **`https://yourdomain.com/api`** ← YEH IMPORTANT |
    | Application startup file | `app.js` |
 
-3. CREATE dabao. cPanel automatically `public_html/.htaccess` set kar dega
-   jo saari requests Node.js app ko bhejega — koi manual config nahi.
+3. CREATE dabao. cPanel automatically `public_html/api/.htaccess` create kar
+   dega jo `/api/*` ke saare requests Node app ko bhejega.
 
 ---
 
-## STEP 3 — ZIP upload aur extract karo
+## STEP 3 — Backend ZIP upload karo
 
-1. cPanel → **File Manager** kholo
-2. `/home/USERNAME/nodeapp/` folder me jao
-3. **Upload** dabao → `mi-fullstack-cpanel.zip` upload karo
-4. Upload complete hone ke baad ZIP par right-click → **Extract** (current folder)
-5. Verify: `nodeapp/app.js`, `nodeapp/server.cjs`, `nodeapp/dist/index.html`
-   honi chahiye direct `nodeapp/` ke andar (kisi sub-folder me NAHI)
-6. ZIP file delete kar do
+1. cPanel → **File Manager** → `/home/USERNAME/nodeapp/` folder me jao
+2. **Upload** dabao → `mi-backend-nodeapp.zip` upload karo
+3. Right-click ZIP → **Extract** (current folder me)
+4. Verify: `nodeapp/app.js`, `nodeapp/server.cjs`, `nodeapp/package.json`,
+   `nodeapp/uploads/` honi chahiye direct `nodeapp/` me
+5. ZIP file delete kar do
 
 ---
 
-## STEP 4 — Environment variables daalo (SABSE ZAROORI)
+## STEP 4 — Frontend ZIP upload karo
+
+1. cPanel → **File Manager** → `public_html/` me jao
+2. Purani files (agar M.I. Engineering ki hain) backup le ke hata do.
+   **`api/` folder mat chhuna** — woh cPanel ne backend ke liye banaya hai
+3. **Upload** dabao → `mi-frontend-public_html.zip` upload karo
+4. Right-click ZIP → **Extract** (current folder me — `public_html/`)
+5. Verify: `public_html/index.html`, `public_html/.htaccess`, `public_html/assets/`
+   honi chahiye direct `public_html/` me (kisi sub-folder me NAHI)
+6. Hidden files dikhane ke liye: File Manager → **Settings** → ✓ "Show
+   Hidden Files (dotfiles)" — `.htaccess` dikhna chahiye
+7. ZIP file delete kar do
+
+---
+
+## STEP 5 — Environment variables daalo (SABSE ZAROORI)
 
 cPanel → "Setup Node.js App" → apni app par click → **"Environment variables"**
-section open karo. **5 variables** add karo:
+section. **5 variables** add karo:
 
 | Variable Name | Value |
 |---|---|
@@ -84,18 +94,13 @@ Apne computer ke terminal me chalao:
 ```bash
 node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
 ```
-96 characters ka random hex output milega. Wahi paste karo `JWT_SECRET` me.
+Output paste karo `JWT_SECRET` me.
 
 Har variable add karne ke baad **SAVE** dabana mat bhoolna.
 
-**Optional variables (zarurat ho to):**
-- `GOOGLE_CLIENT_ID` — agar Google sign-in chalana ho
-- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` — contact form emails ke liye
-- `CONTACT_TO_EMAIL` — quote requests jisko mile
-
 ---
 
-## STEP 5 — App start karo
+## STEP 6 — App start karo
 
 1. "Setup Node.js App" panel me wapas jao
 2. **"Run NPM Install" DABANA NAHI hai** — sab kuch already bundled hai
@@ -104,15 +109,15 @@ Har variable add karne ke baad **SAVE** dabana mat bhoolna.
 
 ---
 
-## STEP 6 — Test karo
+## STEP 7 — Test karo
 
 Browser me yeh 3 URLs khol ke verify karo:
 
-### 6a. Health check
+### 7a. Backend health
 ```
 https://yourdomain.com/api/health
 ```
-Expected response (JSON):
+Expected response:
 ```json
 {
   "ok": true,
@@ -127,78 +132,96 @@ Expected response (JSON):
 }
 ```
 
-❌ Agar `"ok": false` aaye → `error` field padho, exact problem batayega.
+❌ Agar `"ok": false` aaye → `error` field exact problem batayega.
+❌ Agar 503 / "Cannot GET" aaye → Node app start nahi hua, cPanel "Logs" check karo.
+❌ Agar 404 aaye → Application URL `/api` set nahi hai. Step 2 dobara karo.
 
-### 6b. Frontend
+### 7b. Frontend
 ```
 https://yourdomain.com/
 ```
-M.I. Engineering home page khulna chahiye. Products page, About, sab routes
-working honi chahiye (reload karne par bhi).
+M.I. Engineering home page khulna chahiye.
+Products / About / kisi bhi page pe **reload** karne par bhi page khulni
+chahiye (`.htaccess` ka SPA fallback kaam kar raha hai).
 
-### 6c. Login
+### 7c. Login
 ```
 https://yourdomain.com/admin/login
 ```
-Apna `ADMIN_USERNAME` email + `ADMIN_PASSWORD` daalo → Sign In →
+Apna `ADMIN_USERNAME` + `ADMIN_PASSWORD` daalo → Sign In →
 `/admin` dashboard khulna chahiye.
 
 ✅ **Sab working = deployment complete!**
 
 ---
 
-## Common Errors & Solutions
+## Common Errors & Fixes
 
-### "Invalid email or password" (admin ya user)
-**Reason:** `ADMIN_USERNAME` ya `ADMIN_PASSWORD` env var set nahi hai, ya
-extra space ke saath save hua hai.
+### Frontend khulta hi nahi (white page / 404)
+**Reason:** ZIP `public_html/mi-frontend/` jaise sub-folder me extract ho gaya.
 
-**Fix:** Step 4 wapas check karo. Save → Restart → dobara try karo.
-Confirmation: `/api/health` me `"hasAdminPassword": true` aur
+**Fix:** File Manager me check karo `public_html/index.html` direct hona chahiye.
+Agar sub-folder me hai, sab files cut karke `public_html/` me paste karo, sub-folder
+delete karo.
+
+### "Invalid email or password" (admin ya user dono)
+**Reason:** `ADMIN_USERNAME` ya `ADMIN_PASSWORD` env var set nahi.
+
+**Fix:** Step 5 wapas check karo. Save → Restart → dobara try karo.
+Verify: `/api/health` response me `"hasAdminPassword": true` aur
 `"adminEmailsConfigured": 1+` honi chahiye.
 
-### Frontend white / blank page
-**Reason:** `dist/` folder properly extract nahi hua.
+### `/api/health` 404 / "Cannot GET /api/health"
+**Reason:** cPanel ne `/api/*` ko Node app pe route nahi kiya — Application URL
+galat hai.
 
-**Fix:** File Manager me check karo `nodeapp/dist/index.html` exist karta hai.
-Nahi hai to ZIP dobara extract karo.
+**Fix:** "Setup Node.js App" → app par click → "Edit application" →
+**Application URL** ko exactly `https://yourdomain.com/api` rakho (slash sahi place pe).
+Save → Restart.
 
-### `/api/health` me `"ok": false, "error": "ECONNREFUSED"`
+### `/api/health` me `"ok": false, "error": "ECONNREFUSED"` ya timeout
 **Reason:** `DATABASE_URL` galat hai ya database band hai.
 
-**Fix:** Neon dashboard me database "active" check karo. Connection string
-copy karke wapas paste karo. Make sure URL me `?sslmode=require` ho.
+**Fix:** Neon dashboard pe database "active" check karo. Connection string
+copy karke wapas paste karo. URL me `?sslmode=require` zaroor ho.
 
-### "Cannot GET /" ya 503 Service Unavailable
-**Reason:** Node.js app start nahi ho rahi.
+### Login button click karne par "Network Error" ya CORS error
+**Reason:** Frontend `/api/*` ko reach nahi kar paa raha.
 
-**Fix:** "Setup Node.js App" → click app → **"Logs"** dekho. Logs me exact
-error message dikhega — usually missing env var ya wrong startup file path.
+**Fix:**
+1. Browser me F12 → Network tab kholo
+2. Login dabao
+3. Failing request ka URL dekho — `https://yourdomain.com/api/auth/login`
+   honi chahiye (full URL)
+4. Agar 404 aa raha hai us URL pe → cPanel Application URL `/api` set nahi
+5. Agar request hi nahi ja rahi → public_html me `.htaccess` missing/wrong
+
+### Admin pe login hone ke baad data nahi dikh raha
+**Reason:** Backend chal raha hai but DB connect nahi.
+
+**Fix:** `/api/health` me `"databaseConnected": false` ho to wahi se
+debug karo. `error` field padho.
 
 ### Routes pe reload karne par 404
-**Reason:** cPanel ka auto-generated `.htaccess` overwrite ho gaya.
+**Reason:** `public_html/.htaccess` missing.
 
-**Fix:** "Setup Node.js App" → click app → "Edit application" → SAVE
-(without changes). cPanel `.htaccess` regenerate kar dega.
-
-### Login ka button click karne par "Network Error"
-**Reason:** Frontend backend tak nahi pahuch raha. (Yeh tab hota hai jab
-"Application URL" sub-path par set tha jaise `yourdomain.com/api`).
-
-**Fix:** "Setup Node.js App" → "Edit" → **Application URL** ko purely root
-domain `https://yourdomain.com/` rakho (koi `/api` suffix nahi). Save → Restart.
+**Fix:** File Manager Settings → "Show Hidden Files" enable karo.
+Agar `.htaccess` nahi hai → frontend ZIP dobara extract karo.
 
 ---
 
 ## Update karna (next time)
 
-Code badla? Sirf 3 commands:
+Code change kiya? 
 ```bash
-node scripts/build-cpanel.cjs    # naya zip banayega
+node scripts/build-cpanel.cjs
 ```
 Phir cPanel par:
-1. `nodeapp/server.cjs` aur `nodeapp/dist/` replace karo (overwrite YES)
-2. "Setup Node.js App" → **Restart**
+- **Backend update:** `nodeapp/server.cjs` aur `nodeapp/app.js` replace karo
+  (overwrite YES). "Setup Node.js App" → **Restart**.
+- **Frontend update:** `public_html/index.html`, `public_html/assets/`,
+  `public_html/.htaccess` replace karo (overwrite YES). Browser me
+  **Ctrl+Shift+R** se hard reload karo.
 
 Env variables wahi rahenge — dobara nahi daalna.
 
@@ -209,31 +232,39 @@ Env variables wahi rahenge — dobara nahi daalna.
 - [x] Source code me kahin koi password / secret hardcoded NAHI hai
 - [x] Login pages par koi credential SHOW NAHI hota
 - [x] Bundle me sirf code hai, koi env value nahi
-- [ ] `ADMIN_PASSWORD` strong + unique hai (12+ chars)
-- [ ] `JWT_SECRET` fresh random 96-char hex hai
-- [ ] `DATABASE_URL` ka password rotated hai (agar kabhi share kiya ho)
-- [ ] HTTPS enabled hai (cPanel → SSL/TLS Status → AutoSSL run karo)
+- [ ] `ADMIN_PASSWORD` strong + unique (12+ chars)
+- [ ] `JWT_SECRET` fresh random 96-char hex
+- [ ] `DATABASE_URL` ka password rotated (agar kabhi share kiya ho)
+- [ ] HTTPS enabled (cPanel → SSL/TLS Status → AutoSSL run karo)
 
 ---
 
-## What changed (login error fix)
+## What changed from previous attempt
 
-**Pehla error tha:**
-- Login page par admin ka email aur password DIRECT screen pe dikh raha tha
-- Source code me bhi hardcoded password tha 5+ jagah par
-- `.htaccess` proxy approach use kar raha tha jo cPanel pe disable hota hai —
-  isliye admin AND normal user dono ka login fail ho raha tha (ek hi error)
+**Pichla single-zip approach kyu nahi chala:**
+- cPanel Application URL "root" (`/`) pe set karna padta tha — har shared
+  host pe yeh allow nahi hota (some hosts force a sub-path)
 
-**Ab kya theek hai:**
-- Frontend se sab visible credentials hata diye gaye
-- Source code zero hardcoded passwords / emails / secrets — sirf env vars
-- Backend ab khud frontend serve karta hai (NO proxy needed) — yahi single-app
-  approach hai jo ab use kar rahe hain
-- Startup pe diagnostic message print hota hai jo batata hai env vars set
-  hain ya nahi (cPanel "Logs" me dikhega)
-- 14-step end-to-end test pass: health, products, industries, standards,
-  admin login, user register, user login, protected routes, SPA fallback —
-  sab working
+**Ab kya theek hai (this 2-zip approach):**
+- Backend Application URL = `/api` (universally supported)
+- cPanel khud `/api/*` requests ko Node app pe route karta hai (Passenger,
+  not mod_proxy — isliye reliable hai shared hosts pe)
+- Frontend public_html me sirf static files + simple `.htaccess` (sirf SPA
+  fallback + uploads alias)
+- Old `/uploads/foo.png` URLs auto-redirect ho jaate hain `/api/uploads/foo.png`
+  pe (.htaccess rewrite se)
 
-Aapke Neon database se connect karke local pe test kiya gaya hai —
-sab kuch chal raha hai. Bas cPanel pe upload + 5 env vars + Restart.
+**Tested locally with your Neon DB:**
+```
+[200] /api/health           → ok:true, db connected, 129 products
+[200] /api/products         → product list
+[200] /api/admin/login      → JWT token (correct password)
+[200] /api/admin/contacts   → protected route works
+[200] /api/auth/register    → new user + token
+[200] /api/auth/login       → existing user login
+[200] /api/auth/me          → user profile
+[404] /api/uploads/*        → alias mounted correctly
+```
+```
+
+Sab kuch kaam kar raha hai. Bas cPanel pe upload + 5 env vars + Restart.

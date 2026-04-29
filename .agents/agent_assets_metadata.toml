@@ -89,13 +89,13 @@ title = "Deployment guide (step-by-step for both files)"
 id = "zhBK8KXB8KMZaLO5w1-at"
 uri = "file://cpanel-zips/mi-backend-nodeapp.zip"
 type = "unspecified"
-title = "Backend ZIP (cPanel Node.js app folder ke liye)"
+title = "Backend ZIP — cPanel Node.js app folder ke liye"
 
 [[outputs]]
 id = "l--ya6McLziW4NV0RBeel"
 uri = "file://cpanel-zips/mi-frontend-public_html.zip"
 type = "unspecified"
-title = "Frontend ZIP (public_html folder ke liye)"
+title = "Frontend ZIP — public_html folder ke liye"
 
 [[outputs]]
 id = "iMwLZwGn8Scc-im8_3lgR"

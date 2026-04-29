@@ -21,7 +21,11 @@ app.use(express.json({ limit: "20mb" }));
 // On Vercel serverless the real filesystem is read-only; use /tmp instead.
 const UPLOAD_DIR = process.env.VERCEL ? "/tmp/uploads" : path.resolve("uploads");
 if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+// Serve uploads at BOTH paths so deployments work whether the cPanel Node app
+// is mounted at root (uses /uploads) or at /api (Apache only routes /api/* to
+// Passenger, so we need the /api/uploads alias too).
 app.use("/uploads", express.static(UPLOAD_DIR));
+app.use("/api/uploads", express.static(UPLOAD_DIR));
 
 const storageMulter = multer.diskStorage({
   destination: UPLOAD_DIR,
@@ -408,7 +412,9 @@ app.post("/api/contact", wrap(async (req, res) => {
 // Admin: upload
 app.post("/api/admin/upload", requireAuth, upload.single("file"), (req, res) => {
   if (!req.file) return res.status(400).json({ error: "No file" });
-  res.json({ url: `/uploads/${req.file.filename}` });
+  // Use /api/uploads so the URL works regardless of whether the backend is
+  // mounted at root (single-app) or at /api (split-zip cPanel deployment).
+  res.json({ url: `/api/uploads/${req.file.filename}` });
 });
 
 // Admin: products CRUD
