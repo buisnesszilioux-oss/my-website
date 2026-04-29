@@ -53,7 +53,7 @@ title = "Frontend (upload to public_html)"
 id = "mqjG7YUcuXlbWLrdrFIDb"
 uri = "file://cpanel-zips/mi-backend.zip"
 type = "unspecified"
-title = "Backend (Express + Drizzle + admin + backups — 50 KB)"
+title = "Backend (Express + admin + backups — 50 KB)"
 
 [[outputs]]
 id = "_dkxWgBtmqi2iLSjUcPE_"
@@ -77,10 +77,10 @@ title = "Step-by-step cPanel deployment guide"
 id = "fhOYhkoOGYy8TCx0FGW71"
 uri = "file://cpanel-zips/mi-frontend.zip"
 type = "unspecified"
-title = "Frontend (built static site — 4.4 MB)"
+title = "Frontend (with fixed hero text — 4.4 MB)"
 
 [[outputs]]
 id = "XF9DhZMUf60W9voD4BL0-"
 uri = "file://cpanel-zips/mi-backend/CPANEL_DEPLOY.md"
 type = "text"
-title = "Deployment guide (covers both deployment options)"
+title = "Deployment guide (step-by-step for both files)"

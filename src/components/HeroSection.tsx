@@ -60,20 +60,20 @@ const HeroSection = () => {
             style={{ transformOrigin: "left" }}
           />
           {get("hero.eyebrow") && (
-            <div className="mb-3 text-xs font-semibold tracking-[0.4em] uppercase text-gold-light/80" data-testid="text-hero-eyebrow">
+            <div className="mb-3 text-xs md:text-sm font-semibold tracking-[0.4em] uppercase text-[hsl(195,100%,75%)] drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]" data-testid="text-hero-eyebrow">
               {get("hero.eyebrow")}
             </div>
           )}
           <motion.h1
-            className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight text-glow-gold"
+            className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.7)]"
             initial={{ opacity: 0, y: 40, rotateX: 15 }}
             animate={{ opacity: 1, y: 0, rotateX: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <span data-testid="text-hero-title">{get("hero.title")}</span>{get("hero.titleAccent") && " "}
+            <span data-testid="text-hero-title" className="text-white">{get("hero.title")}</span>{get("hero.titleAccent") && " "}
             {get("hero.titleAccent") && (
               <motion.span
-                className="text-gradient-gold inline-block"
+                className="inline-block text-[hsl(195,100%,70%)] drop-shadow-[0_4px_18px_rgba(0,150,255,0.55)]"
                 initial={{ opacity: 0, y: 30, rotateX: 15 }}
                 animate={{ opacity: 1, y: 0, rotateX: 0 }}
                 transition={{ duration: 0.8, delay: 0.7 }}
@@ -84,7 +84,7 @@ const HeroSection = () => {
             )}
           </motion.h1>
           <motion.p
-            className="mt-6 text-lg md:text-xl text-foreground/80 max-w-2xl leading-relaxed"
+            className="mt-6 text-lg md:text-xl text-white/95 max-w-2xl leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]"
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.9 }}
