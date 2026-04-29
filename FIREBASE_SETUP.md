@@ -76,17 +76,33 @@ service cloud.firestore {
 
     // /users/{uid}
     match /users/{uid} {
-      // a user can read their own doc; admin can read any
       allow read:   if isOwner(uid) || isAdminEmail();
-      // a user can create only their own doc, with role forced to 'user' (admin gets 'admin' on first read)
       allow create: if isOwner(uid)
                     && request.resource.data.uid == uid
                     && request.resource.data.email is string
                     && request.resource.data.role in ['user', 'admin'];
-      // a user can update their own profile fields except role; admin can update any field
       allow update: if (isOwner(uid) && !('role' in request.resource.data.diff(resource.data).affectedKeys()))
                     || isAdminEmail();
       allow delete: if isAdminEmail();
+    }
+
+    // ── Public-readable site content (drives the public website) ──────────
+    // Anyone can READ; only admin can WRITE.
+    match /siteContent/{doc}      { allow read: if true; allow write: if isAdminEmail(); }
+    match /pageSections/{doc}     { allow read: if true; allow write: if isAdminEmail(); }
+    match /floatingImages/{doc}   { allow read: if true; allow write: if isAdminEmail(); }
+    match /products/{doc}         { allow read: if true; allow write: if isAdminEmail(); }
+    match /industries/{doc}       { allow read: if true; allow write: if isAdminEmail(); }
+    match /standards/{doc}        { allow read: if true; allow write: if isAdminEmail(); }
+    match /media/{doc}            { allow read: if true; allow write: if isAdminEmail(); }
+
+    // ── Contact-form submissions ──────────────────────────────────────────
+    // Anyone may CREATE a submission; only admin may read/update/delete.
+    match /contacts/{doc} {
+      allow create: if request.resource.data.fullName is string
+                    && request.resource.data.email is string
+                    && request.resource.data.message is string;
+      allow read, update, delete: if isAdminEmail();
     }
 
     // default: deny everything else

@@ -1,5 +1,21 @@
+/**
+ * Thin API client. Tries the Firestore adapter first for migrated routes,
+ * then falls back to the Node backend for things still served there
+ * (uploads, PDF generation, MI chat, backups, ledger, applications, etc.).
+ *
+ * The Firebase ID token is attached as a Bearer token on admin requests
+ * so any remaining Node-backed admin endpoints can validate the caller.
+ */
+
+import { tryFirestoreFetch, AdapterError, installFetchInterceptor } from "./firestoreApi";
+import { auth } from "./firebase";
+
+// Install the global fetch interceptor at module load so even raw fetch()
+// calls scattered across the codebase get routed through Firestore.
+installFetchInterceptor();
+
 export interface Product {
-  id: number;
+  id: string;
   slug: string;
   name: string;
   image: string;
@@ -18,7 +34,7 @@ export interface Product {
 }
 
 export interface Industry {
-  id: number;
+  id: string;
   slug: string;
   name: string;
   description: string;
@@ -30,7 +46,7 @@ export interface Industry {
 }
 
 export interface Standard {
-  id: number;
+  id: string;
   slug: string;
   code: string;
   name: string;
@@ -44,7 +60,7 @@ export interface Standard {
 }
 
 export interface ContactSubmission {
-  id: number;
+  id: string;
   fullName: string;
   email: string;
   phone: string;
@@ -53,23 +69,49 @@ export interface ContactSubmission {
   createdAt: string;
 }
 
-const TOKEN_KEY = "mi_admin_token";
-export const getToken = () => localStorage.getItem(TOKEN_KEY);
-export const setToken = (t: string) => localStorage.setItem(TOKEN_KEY, t);
-export const clearToken = () => localStorage.removeItem(TOKEN_KEY);
+// Legacy token helpers — kept as no-ops so existing admin pages that import
+// them continue to compile. Real auth is now Firebase Auth via AuthContext.
+const LEGACY_TOKEN_KEY = "mi_admin_token";
+export const getToken = () => localStorage.getItem(LEGACY_TOKEN_KEY);
+export const setToken = (t: string) => localStorage.setItem(LEGACY_TOKEN_KEY, t);
+export const clearToken = () => localStorage.removeItem(LEGACY_TOKEN_KEY);
+
+async function bearerHeaders(): Promise<Record<string, string>> {
+  const headers: Record<string, string> = {};
+  try {
+    if (auth.currentUser) {
+      const idToken = await auth.currentUser.getIdToken();
+      headers["Authorization"] = `Bearer ${idToken}`;
+    } else {
+      const legacy = getToken();
+      if (legacy) headers["Authorization"] = `Bearer ${legacy}`;
+    }
+  } catch {
+    /* non-fatal */
+  }
+  return headers;
+}
 
 export async function api<T = any>(path: string, opts: RequestInit = {}): Promise<T> {
-  const headers: Record<string, string> = { "Content-Type": "application/json", ...(opts.headers as any) };
-  const token = getToken();
-  if (token) headers["Authorization"] = `Bearer ${token}`;
+  // Firestore adapter takes precedence for migrated routes.
+  try {
+    const fsResult = await tryFirestoreFetch(path, opts);
+    if (fsResult !== null) return fsResult as T;
+  } catch (e) {
+    if (e instanceof AdapterError) throw new Error(e.message);
+    throw e;
+  }
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...(await bearerHeaders()),
+    ...(opts.headers as any),
+  };
   const res = await fetch(path, { ...opts, headers });
   if (!res.ok) {
-    // If admin call returns 401/403, the token is stale or missing -> force re-login
     if ((res.status === 401 || res.status === 403) && path.startsWith("/api/admin")) {
-      clearToken();
-      if (typeof window !== "undefined" && !window.location.pathname.startsWith("/admin/login")) {
-        window.location.replace("/admin/login");
-      }
+      // Don't auto-redirect when we're on Firebase auth — let the page handle it.
+      console.warn("[api] admin request returned", res.status, "for", path);
     }
     const err = await res.json().catch(() => ({}));
     throw new Error(err.error || `Request failed (${res.status})`);
@@ -80,9 +122,7 @@ export async function api<T = any>(path: string, opts: RequestInit = {}): Promis
 export async function uploadFile(file: File): Promise<{ url: string }> {
   const fd = new FormData();
   fd.append("file", file);
-  const headers: Record<string, string> = {};
-  const token = getToken();
-  if (token) headers["Authorization"] = `Bearer ${token}`;
+  const headers = await bearerHeaders();
   const res = await fetch("/api/admin/upload", { method: "POST", body: fd, headers });
   if (!res.ok) throw new Error("Upload failed");
   return res.json();

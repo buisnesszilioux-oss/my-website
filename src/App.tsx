@@ -57,6 +57,7 @@ const AdminBackups = lazy(() => import("./pages/admin/AdminBackups.tsx"));
 const AdminTheme = lazy(() => import("./pages/admin/AdminTheme.tsx"));
 const AdminHero = lazy(() => import("./pages/admin/AdminHero.tsx"));
 const AdminFloatingImages = lazy(() => import("./pages/admin/AdminFloatingImages.tsx"));
+const AdminMigrate = lazy(() => import("./pages/admin/AdminMigrate.tsx"));
 const RequireAdmin = lazy(() => import("./pages/admin/RequireAdmin.tsx"));
 
 const queryClient = new QueryClient({
@@ -124,6 +125,7 @@ const AnimatedRoutes = () => {
           <Route path="/admin/theme" element={<RequireAdmin><AdminTheme /></RequireAdmin>} />
           <Route path="/admin/hero" element={<RequireAdmin><AdminHero /></RequireAdmin>} />
           <Route path="/admin/floating-images" element={<RequireAdmin><AdminFloatingImages /></RequireAdmin>} />
+          <Route path="/admin/migrate" element={<RequireAdmin><AdminMigrate /></RequireAdmin>} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -1,9 +1,11 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Package, Factory, Award, Mail, LogOut, Home, Image, FileText, LayoutGrid, Table2, FileBarChart, BookOpen, Sparkles, Palette, Notebook, Layers, Bot, HardDriveDownload, ImagePlus } from "lucide-react";
-import { clearToken } from "@/lib/api";
+import { LayoutDashboard, Package, Factory, Award, Mail, LogOut, Home, Image, FileText, LayoutGrid, Table2, FileBarChart, BookOpen, Sparkles, Palette, Notebook, Layers, Bot, HardDriveDownload, ImagePlus, Database } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 const links = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/admin/migrate", label: "Migrate to Firestore", icon: Database },
   { to: "/admin/mi", label: "MI Chat", icon: Bot },
   { to: "/admin/backups", label: "Backups", icon: HardDriveDownload },
   { to: "/admin/branding", label: "Branding & Identity", icon: Palette },
@@ -28,7 +30,18 @@ const links = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const loc = useLocation();
   const nav = useNavigate();
-  const logout = () => { clearToken(); nav("/admin/login"); };
+  const { logout, user } = useAuth();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast({ title: "Signed out" });
+    } catch {
+      /* ignore */
+    }
+    nav("/admin/login", { replace: true });
+  };
 
   return (
     <div className="min-h-screen flex bg-secondary/20">
@@ -36,12 +49,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="p-5 border-b border-white/10">
           <div className="font-heading text-lg font-bold text-gradient-gold">M.I. Admin</div>
           <div className="text-[10px] uppercase tracking-widest text-white/70 mt-1">Content Manager</div>
+          {user?.email && (
+            <div className="mt-2 text-[10px] text-white/60 truncate" title={user.email}>{user.email}</div>
+          )}
         </div>
         <nav className="flex-1 py-3 overflow-y-auto">
           {links.map(({ to, label, icon: Icon }) => {
             const active = loc.pathname === to;
             return (
-              <Link key={to} to={to} data-testid={`nav-${label.toLowerCase()}`}
+              <Link key={to} to={to} data-testid={`nav-${label.toLowerCase().replace(/\s+/g, "-")}`}
                 className={`flex items-center gap-3 px-5 py-2.5 text-sm hover:bg-white/10 hover:text-white transition ${active ? "bg-primary/25 text-white border-l-2 border-primary font-semibold" : "text-white/85"}`}>
                 <Icon className="w-4 h-4 shrink-0" /> <span className="truncate">{label}</span>
               </Link>
@@ -50,7 +66,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
         <div className="p-3 border-t border-white/10 space-y-1">
           <Link to="/" className="flex items-center gap-2 px-3 py-2 text-sm text-white/85 hover:text-primary"><Home className="w-4 h-4" /> View Site</Link>
-          <button onClick={logout} data-testid="button-logout" className="flex items-center gap-2 px-3 py-2 text-sm text-white/85 hover:text-destructive w-full">
+          <button onClick={handleLogout} data-testid="button-logout" className="flex items-center gap-2 px-3 py-2 text-sm text-white/85 hover:text-destructive w-full">
             <LogOut className="w-4 h-4" /> Sign Out
           </button>
         </div>

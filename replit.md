@@ -4,15 +4,21 @@ Marketing + content-managed site for M.I. Engineering Works, manufacturer of AST
 
 ## Stack
 - **Frontend**: React 18 + Vite 5, TypeScript, Tailwind, shadcn/ui, framer-motion, react-router-dom, react-helmet-async, TanStack Query v5
-- **Backend**: Express + TypeScript (`tsx watch`), JWT auth (`bcryptjs` + `jsonwebtoken`), `multer` for uploads, `pdfkit` for catalog generation
-- **Database**: PostgreSQL via Drizzle ORM (`drizzle-zod`); schemas in `shared/schema.ts`
+- **Backend (legacy, being phased out)**: Express + TypeScript (`tsx watch`), `multer` uploads, `pdfkit` catalogs. Still serves uploads/PDF/MI-chat/backups/ledger/applications.
+- **Backend (current)**: Firebase — Auth (Email/Password) + Firestore. See `FIREBASE_SETUP.md`.
+- **Database (legacy)**: PostgreSQL via Drizzle ORM; schemas in `shared/schema.ts` (kept as the source of record while migration is in progress).
+- **Database (current)**: Firestore collections — `users`, `siteContent`, `pageSections`, `floatingImages`, `products`, `industries`, `standards`, `media`, `contacts`. Migrated routes are intercepted transparently by `src/lib/firestoreApi.ts`.
 - **Dev runner**: `concurrently` runs vite (port 5000) + server (port 3001) under one `npm run dev` workflow
 
 ## Layout
 - `src/pages/` — public pages and `admin/` subfolder
 - `src/components/` — reusable UI components (Header, Footer, Hero, Gallery, GradeChartSection, SpecificationsSection, …)
 - `src/hooks/` — `useSiteContent` (key/value site copy), `useEditableTables` (grade chart + specs JSON tables)
-- `src/lib/api.ts` — fetch helper + token storage (`mi_admin_token`)
+- `src/lib/api.ts` — fetch helper. Routes /api/* through `firestoreApi.ts` first; falls back to Node backend for un-migrated routes. Attaches Firebase ID token as Bearer.
+- `src/lib/firestoreApi.ts` — Transparent Firestore adapter. Intercepts /api/* paths (also installs a global `window.fetch` interceptor so raw fetch() calls in `useSiteContent`, `Footer`, `CustomSections` are caught). Handles list/get/create/update/delete for migrated collections. Exports `importBatchToCollection` used by the Migrate page.
+- `src/lib/firebase.ts` — Firebase init (auth + db) and `ADMIN_EMAIL`.
+- `src/contexts/AuthContext.tsx` — Firebase Auth + Firestore `users/{uid}` sync. Exposes `login`, `register`, `logout`, `updateProfile`, `user`, `isAdmin`.
+- `src/pages/admin/AdminMigrate.tsx` — One-time "Postgres → Firestore" import button (uses real un-intercepted fetch to read from /api/* on the Node backend, then writes to Firestore via `importBatchToCollection`).
 - `server/index.ts` — all Express routes
 - `server/storage.ts` — Drizzle storage interface
 - `server/catalog-pdf.ts` — branded PDF generator (fallback when no custom PDF uploaded)
