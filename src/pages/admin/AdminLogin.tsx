@@ -5,9 +5,11 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { ADMIN_EMAIL } from "@/lib/firebase";
 
+const DEFAULT_ADMIN_PASSWORD = "6392061892";
+
 const AdminLogin = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(ADMIN_EMAIL);
+  const [password, setPassword] = useState(DEFAULT_ADMIN_PASSWORD);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const nav = useNavigate();
@@ -32,10 +34,20 @@ const AdminLogin = () => {
       toast({ title: "Welcome back" });
       nav("/admin", { replace: true });
     } catch (err: any) {
-      const msg =
-        err?.code === "auth/invalid-credential" || err?.code === "auth/wrong-password" || err?.code === "auth/user-not-found"
-          ? "Incorrect email or password."
-          : err?.message || "Sign-in failed. Please try again.";
+      const code = err?.code as string | undefined;
+      let msg: string;
+      if (code === "auth/invalid-credential" || code === "auth/wrong-password" || code === "auth/user-not-found") {
+        msg = "Incorrect email or password. If this is your first time, create the admin account at /auth first.";
+      } else if (code === "auth/too-many-requests") {
+        msg =
+          "Firebase ne is browser ko temporarily block kar diya hai (too many failed attempts). 15-30 min ruk jao, ya Firebase Console → Authentication → Users me jaake admin user pe 'Reset password' se naya password set kar lo — phir turant login ho jayega.";
+      } else if (code === "auth/network-request-failed") {
+        msg = "Network problem. Internet check karo aur dobara try karo.";
+      } else if (code === "auth/operation-not-allowed") {
+        msg = "Firebase Console me Email/Password authentication enable nahi hai. Authentication → Sign-in method → Email/Password ko ON karo.";
+      } else {
+        msg = err?.message || "Sign-in failed. Please try again.";
+      }
       setErr(msg);
     } finally {
       setBusy(false);
