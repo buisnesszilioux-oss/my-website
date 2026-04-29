@@ -113,7 +113,7 @@ const Header = () => {
       l.dropdown === "applications"
         ? industries.map((i) => ({ key: i.slug, label: i.name, href: `/industry/${i.slug}` }))
         : l.dropdown === "categories"
-          ? productCategories.map((c) => ({ key: c.slug, label: `${c.icon}  ${c.name}`, href: `/category/${c.slug}` }))
+          ? productCategories.map((c) => ({ key: c.slug, label: c.name, href: `/category/${c.slug}` }))
           : standards.map((s) => ({ key: s.slug, label: s.code, href: `/standards/${s.slug}` }));
 
     const isOpen = openDropdown === l.label;
@@ -356,7 +356,7 @@ const Header = () => {
                 l.dropdown === "applications"
                   ? industries.map((i) => ({ key: i.slug, label: i.name, href: `/applications/${i.slug}` }))
                   : l.dropdown === "categories"
-                    ? productCategories.map((c) => ({ key: c.slug, label: `${c.icon}  ${c.name}`, href: `/category/${c.slug}` }))
+                    ? productCategories.map((c) => ({ key: c.slug, label: c.name, href: `/category/${c.slug}` }))
                     : standards.map((s) => ({ key: s.slug, label: `${s.code} — ${s.name}`, href: `/standards/${s.slug}` }));
               const expanded = mobileSubmenu === l.label;
               return (

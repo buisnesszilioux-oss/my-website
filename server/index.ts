@@ -775,6 +775,48 @@ if (process.env.VERCEL) {
   // so existing dev setups that proxy from Vite to :3001 keep working.
   ensureFirstRunBackup().catch((e) => console.error("first-run backup failed", e));
   startBackupScheduler();
+
+  // Auto-seed Neon/Postgres on first boot in production so the admin panel,
+  // /api/products, /api/industries and /api/standards have data after a fresh
+  // cPanel deployment. Disable with AUTO_SEED=false.
+  if (process.env.AUTO_SEED !== "false") {
+    (async () => {
+      try {
+        const { db } = await import("./db");
+        const { sql } = await import("drizzle-orm");
+        const { products, industries, standards } = await import("../shared/schema");
+        const { productsSeed, industriesSeed, standardsSeed } = await import("./seed-data");
+        const { categoryProductsSeed } = await import("./seed-categories");
+
+        // Merge legacy + category seeds
+        const map = new Map<string, any>();
+        for (const p of productsSeed) map.set(p.slug, p);
+        for (const p of categoryProductsSeed) map.set(p.slug, p);
+        const merged = Array.from(map.values());
+
+        // Top-up products
+        const have = new Set(((await db.execute(sql`select slug from products`)).rows as any[]).map((r) => r.slug));
+        const missing = merged.filter((p) => !have.has(p.slug));
+        for (const p of missing) await db.insert(products).values(p as any);
+        if (missing.length > 0) console.log(`[auto-seed] +${missing.length} products`);
+
+        // Top-up industries
+        const haveI = new Set(((await db.execute(sql`select slug from industries`)).rows as any[]).map((r) => r.slug));
+        const missI = (industriesSeed as any[]).filter((p) => !haveI.has(p.slug));
+        for (const p of missI) await db.insert(industries).values(p as any);
+        if (missI.length > 0) console.log(`[auto-seed] +${missI.length} industries`);
+
+        // Top-up standards
+        const haveS = new Set(((await db.execute(sql`select slug from standards`)).rows as any[]).map((r) => r.slug));
+        const missS = (standardsSeed as any[]).filter((p) => !haveS.has(p.slug));
+        for (const p of missS) await db.insert(standards).values(p as any);
+        if (missS.length > 0) console.log(`[auto-seed] +${missS.length} standards`);
+      } catch (e) {
+        console.error("[auto-seed] failed (non-fatal):", (e as Error).message);
+      }
+    })();
+  }
+
   const PORT = Number(process.env.PORT || process.env.SERVER_PORT || 3001);
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`[server] listening on :${PORT} (${NODE_ENV})`);

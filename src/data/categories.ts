@@ -1,9 +1,39 @@
+import hexBoltImg from "@/assets/hex-bolt.webp";
+import heavyHexBoltImg from "@/assets/heavy-hex-bolt.webp";
+import anchorBoltImg from "@/assets/anchor-bolt.webp";
+import uBoltImg from "@/assets/u-bolt.webp";
+import eyeBoltImg from "@/assets/eye-bolt.webp";
+import studBoltImg from "@/assets/stud-bolt.webp";
+import doubleEndStudImg from "@/assets/double-end-stud.webp";
+import socketCapScrewImg from "@/assets/socket-cap-screw.jpg";
+import countersunkScrewImg from "@/assets/countersunk-screw.jpg";
+import setScrewImg from "@/assets/set-screw.webp";
+import threadedRodImg from "@/assets/threaded-rod.jpg";
+import roundBarImg from "@/assets/round-bar.jpg";
+
+export const PRODUCT_IMAGES: Record<string, string> = {
+  "hex-bolt": hexBoltImg,
+  "heavy-hex-bolt": heavyHexBoltImg,
+  "anchor-bolt": anchorBoltImg,
+  "u-bolt": uBoltImg,
+  "eye-bolt": eyeBoltImg,
+  "stud-bolt": studBoltImg,
+  "double-end-stud-bolt": doubleEndStudImg,
+  "socket-head-cap-screw": socketCapScrewImg,
+  "countersunk-screw": countersunkScrewImg,
+  "set-screw": setScrewImg,
+  "threaded-rod-(stud-rod)": threadedRodImg,
+  "threaded-rod": threadedRodImg,
+  "round-bar": roundBarImg,
+};
+
 export type CatProduct = {
   slug: string;
   name: string;
   material: string;
   sizes: string;
   description: string;
+  image?: string;
 };
 
 export type Category = {

@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageTransition from "@/components/PageTransition";
 import SEO from "@/components/SEO";
-import { categories, getCategoryBySlug } from "@/data/categories";
+import { categories, getCategoryBySlug, PRODUCT_IMAGES } from "@/data/categories";
 
 export default function CategoryPage() {
   const { slug = "" } = useParams<{ slug: string }>();
@@ -128,6 +128,24 @@ export default function CategoryPage() {
                 <h2 data-testid="text-active-product-name" className="font-heading text-2xl md:text-3xl font-bold text-foreground">
                   {active.name}
                 </h2>
+
+                {/* Product image */}
+                <div className="mt-6 rounded-xl overflow-hidden border border-border bg-secondary/30 aspect-[16/10] flex items-center justify-center">
+                  {active.image || PRODUCT_IMAGES[active.slug] ? (
+                    <img
+                      src={active.image || PRODUCT_IMAGES[active.slug]}
+                      alt={active.name}
+                      data-testid={`img-product-${active.slug}`}
+                      className="w-full h-full object-contain p-4"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="text-center px-6">
+                      <Package className="w-12 h-12 text-muted-foreground/40 mx-auto mb-2" />
+                      <div className="text-xs text-muted-foreground">Reference image available on request</div>
+                    </div>
+                  )}
+                </div>
 
                 <div className="grid sm:grid-cols-2 gap-4 mt-6">
                   <Spec label="Material" value={active.material} />

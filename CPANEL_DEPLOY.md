@@ -73,6 +73,14 @@ npm run db:push
 
 This creates every table in your PostgreSQL database. If `db:push` asks "Is this correct?" → answer `yes`.
 
+> **Auto-seed on first boot.** Once the tables exist, the server automatically populates them on startup with all 11 product categories, ~80 sub-products, applications/industries and standards. So everything will appear in the public site **and** in the admin panel without any extra step. To disable this behaviour, set the env var `AUTO_SEED=false`.
+
+If you ever want to wipe and re-seed manually:
+
+```bash
+npm run db:seed -- --force
+```
+
 ---
 
 ## 6. Start the app
