@@ -75,7 +75,7 @@ export const Lightbox = ({ media, onClose }: { media: Media; onClose: () => void
 
   return (
     <div
-      className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200"
+      className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200"
       onClick={onClose}
       data-testid="lightbox-overlay"
     >

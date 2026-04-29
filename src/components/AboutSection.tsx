@@ -54,7 +54,7 @@ const AboutSection = () => {
               return (
                 <motion.div
                   key={item.title}
-                  className="backdrop-blur-md bg-card/80 border border-border rounded-xl p-5 hover:shadow-gold hover:border-primary/30 transition-all duration-500 group"
+                  className="bg-card/80 border border-border rounded-xl p-5 hover:shadow-gold hover:border-primary/30 transition-all duration-500 group"
                   initial={{ opacity: 0, y: 30, scale: 0.95 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true }}

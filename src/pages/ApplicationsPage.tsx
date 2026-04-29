@@ -85,7 +85,7 @@ const ApplicationsPage = () => {
               { icon: Layers, num: "20+", title: "Core Sectors", sub: "Specialized Alloys" },
               { icon: Award, num: "Doorstep", title: "Global Supply", sub: "Reliable Delivery" },
             ].map(({ icon: Icon, num, title, sub }) => (
-              <div key={title} className="bg-card/10 backdrop-blur-md border border-white/10 rounded-lg p-5 text-center">
+              <div key={title} className="bg-card/10 border border-white/10 rounded-lg p-5 text-center">
                 <Icon className="w-8 h-8 text-primary mx-auto mb-2" />
                 <div className="font-heading text-2xl font-bold text-primary">{num}</div>
                 <div className="text-sm text-foreground/90 font-semibold">{title}</div>

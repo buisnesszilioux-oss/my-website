@@ -60,7 +60,7 @@ const ProductSlider = () => {
                 >
                   <Link
                     to={`/product/${product.slug}`}
-                    className="group block bg-card rounded-lg border border-border hover:border-primary/40 transition-all duration-300 overflow-hidden shadow-elegant hover:shadow-gold"
+                    className="product-3d group block bg-card rounded-lg border border-border transition-all duration-300 overflow-hidden shadow-elegant"
                     title={`${product.name} ASTM A193 Grade B7 - M.I. Engineering Works Mumbai`}
                   >
                     <div className="aspect-square bg-secondary/30 flex items-center justify-center p-4 overflow-hidden relative">

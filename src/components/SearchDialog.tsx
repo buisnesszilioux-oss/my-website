@@ -33,7 +33,7 @@ export default function SearchDialog({ open, onClose }: { open: boolean; onClose
   const go = (path: string) => { onClose(); nav(path); };
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm flex items-start justify-center p-4 pt-[10vh]" onClick={onClose}>
+    <div className="fixed inset-0 z-[100] bg-black/70 flex items-start justify-center p-4 pt-[10vh]" onClick={onClose}>
       <div className="bg-card w-full max-w-2xl rounded-xl border border-border shadow-elegant overflow-hidden" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
           <Search className="w-5 h-5 text-primary" />

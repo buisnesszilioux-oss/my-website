@@ -47,7 +47,7 @@ const DashboardPage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="rounded-2xl border border-primary/20 bg-card/70 backdrop-blur-xl p-6 md:col-span-2">
+            <div className="rounded-2xl border border-primary/20 bg-card/70 p-6 md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
                 <UserIcon className="w-5 h-5 text-primary" />
                 <h2 className="font-heading text-lg font-semibold">Your Profile</h2>
@@ -61,7 +61,7 @@ const DashboardPage = () => {
               </dl>
             </div>
 
-            <div className="rounded-2xl border border-primary/20 bg-card/70 backdrop-blur-xl p-6">
+            <div className="rounded-2xl border border-primary/20 bg-card/70 p-6">
               <div className="flex items-center gap-2 mb-4">
                 <FileText className="w-5 h-5 text-primary" />
                 <h2 className="font-heading text-lg font-semibold">Quick Actions</h2>

@@ -72,7 +72,7 @@ const AccountPage = () => {
 
           <div className="grid md:grid-cols-3 gap-6">
             <div className="md:col-span-1">
-              <div className="rounded-2xl border border-primary/20 bg-card/70 backdrop-blur-xl p-5 text-center">
+              <div className="rounded-2xl border border-primary/20 bg-card/70 p-5 text-center">
                 <div className="w-20 h-20 mx-auto rounded-full bg-gradient-gold flex items-center justify-center text-charcoal text-2xl font-bold overflow-hidden">
                   {user.picture ? (
                     <img src={user.picture} alt={user.name} className="w-full h-full object-cover" />
@@ -95,7 +95,7 @@ const AccountPage = () => {
             </div>
 
             <div className="md:col-span-2">
-              <form onSubmit={save} className="rounded-2xl border border-primary/20 bg-card/70 backdrop-blur-xl p-5 md:p-6 space-y-4">
+              <form onSubmit={save} className="rounded-2xl border border-primary/20 bg-card/70 p-5 md:p-6 space-y-4">
                 <h2 className="font-heading text-xl font-semibold text-foreground">Profile details</h2>
                 <p className="text-xs text-muted-foreground -mt-2">Keep your contact info up to date so we can reach you about quotes.</p>
 

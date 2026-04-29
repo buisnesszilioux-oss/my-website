@@ -64,7 +64,7 @@ const UserAuthPage = () => {
         <div className="absolute inset-0 -z-10 opacity-[0.07] bg-[radial-gradient(circle_at_30%_20%,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent" />
 
         <div className="container max-w-md py-16 md:py-24">
-          <div className="rounded-2xl border border-primary/20 bg-card/70 backdrop-blur-xl shadow-elegant p-6 md:p-8">
+          <div className="rounded-2xl border border-primary/20 bg-card/70 shadow-elegant p-6 md:p-8">
             <div className="grid grid-cols-2 mb-6 rounded-lg bg-secondary/40 p-1">
               <button
                 type="button"

@@ -59,7 +59,7 @@ export default function EditDialog({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-start md:items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/60 flex items-start md:items-center justify-center p-4 overflow-y-auto">
       <form onSubmit={submit} className="bg-card border border-border rounded-xl shadow-elegant w-full max-w-2xl my-6">
         <div className="flex items-center justify-between p-5 border-b border-border">
           <h2 className="font-heading text-lg font-bold">{title}</h2>

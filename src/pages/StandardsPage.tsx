@@ -114,7 +114,7 @@ const StandardsPage = () => {
           {/* Premium glassmorphism search bar + sort toggle */}
           {!isLoading && (data || []).length > 0 && (
             <div className="mb-10 max-w-3xl mx-auto">
-              <div className="group relative rounded-2xl bg-card/60 backdrop-blur-xl border border-primary/15 shadow-elegant transition focus-within:border-primary/60 focus-within:shadow-[0_0_0_4px_hsl(var(--primary)/0.15),0_18px_45px_-15px_hsl(var(--primary)/0.45)]">
+              <div className="group relative rounded-2xl bg-card/60 border border-primary/15 shadow-elegant transition focus-within:border-primary/60 focus-within:shadow-[0_0_0_4px_hsl(var(--primary)/0.15),0_18px_45px_-15px_hsl(var(--primary)/0.45)]">
                 <div className="flex items-center gap-2 px-4 py-3">
                   <Search className="w-5 h-5 text-primary flex-shrink-0" aria-hidden />
                   <input

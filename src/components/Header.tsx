@@ -145,7 +145,7 @@ const Header = () => {
             onMouseLeave={scheduleClose}
             className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[min(680px,90vw)]"
           >
-            <div className="rounded-xl border border-primary/15 bg-card/95 backdrop-blur-xl shadow-elegant p-3">
+            <div className="rounded-xl border border-primary/15 bg-card/95 shadow-elegant p-3">
               <Link
                 to={l.href}
                 onClick={() => setOpenDropdown(null)}
@@ -207,10 +207,10 @@ const Header = () => {
             href="/"
             onClick={handleLogoClick}
             data-testid="link-logo-home"
-            className="flex items-center gap-2 leading-tight group flex-shrink-0 cursor-pointer"
+            className="logo-glow flex items-center gap-2 leading-tight group flex-shrink-0 cursor-pointer"
           >
             {brandLogo ? (
-              <img src={brandLogo} alt={brandName} className="h-8 md:h-10 w-auto object-contain" data-testid="img-brand-logo" />
+              <img src={brandLogo} alt={brandName} className="h-8 md:h-10 w-auto object-contain transition-transform duration-500 group-hover:scale-105" data-testid="img-brand-logo" />
             ) : null}
             <span className="flex flex-col">
               <span className="font-heading text-sm md:text-base lg:text-lg font-bold text-gradient-gold leading-tight">{brandName}</span>
@@ -272,7 +272,7 @@ const Header = () => {
                 </button>
                 {accountOpen && (
                   <div className="absolute right-0 top-full pt-2 w-56 z-50">
-                    <div className="rounded-xl border border-primary/15 bg-card/95 backdrop-blur-xl shadow-elegant p-1.5">
+                    <div className="rounded-xl border border-primary/15 bg-card/95 shadow-elegant p-1.5">
                       <div className="px-3 py-2 border-b border-border/40 mb-1">
                         <p className="text-sm font-semibold truncate">{user.name}</p>
                         <p className="text-[11px] text-muted-foreground truncate">{user.email}</p>
@@ -335,7 +335,7 @@ const Header = () => {
 
         {/* Mobile menu */}
         {mobileOpen && (
-          <nav className="lg:hidden backdrop-blur-xl bg-card/95 border-t border-border pb-4 max-h-[80vh] overflow-y-auto">
+          <nav className="lg:hidden bg-card/95 border-t border-border pb-4 max-h-[80vh] overflow-y-auto">
             {navLinks.map((l) => {
               if (!l.dropdown) {
                 return (

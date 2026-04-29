@@ -129,7 +129,7 @@ export default function AdminApplications() {
                       <ImageIcon className="w-10 h-10 opacity-40" />
                     </div>
                   )}
-                  <div className="absolute top-2 left-2 bg-black/60 backdrop-blur text-white text-[10px] font-semibold px-2 py-1 rounded">
+                  <div className="absolute top-2 left-2 bg-black/60 text-white text-[10px] font-semibold px-2 py-1 rounded">
                     {useCaseCount} {useCaseCount === 1 ? "use case" : "use cases"}
                   </div>
                 </Link>
@@ -173,7 +173,7 @@ export default function AdminApplications() {
       {/* Add / Edit Application modal */}
       {editing && (
         <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4"
           onClick={() => setEditing(null)}
         >
           <div

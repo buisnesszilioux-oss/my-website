@@ -90,7 +90,7 @@ const StatsCounter = () => {
                 transition={{ delay: i * 0.15, duration: 0.6 }}
               >
                 {/* Glassmorphism card */}
-                <div className="backdrop-blur-xl bg-primary-foreground/5 border border-primary/20 rounded-2xl p-6 md:p-8 text-center hover:bg-primary-foreground/10 hover:border-primary/40 transition-all duration-500 group-hover:shadow-[0_0_40px_-10px_hsl(43,72%,48%,0.3)]">
+                <div className="bg-primary-foreground/5 border border-primary/20 rounded-2xl p-6 md:p-8 text-center hover:bg-primary-foreground/10 hover:border-primary/40 transition-all duration-500 group-hover:shadow-[0_0_40px_-10px_hsl(43,72%,48%,0.3)]">
                   <motion.div
                     className="w-14 h-14 rounded-xl bg-primary/15 flex items-center justify-center mx-auto mb-4"
                     whileHover={{ rotate: 10, scale: 1.1 }}

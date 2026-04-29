@@ -103,7 +103,7 @@ export default function FeaturedProductsSection() {
               key={p.prodSlug}
               to={`/category/${p.catSlug}?p=${p.prodSlug}`}
               data-testid={`card-featured-${p.prodSlug}`}
-              className="group flex flex-col rounded-2xl border border-border bg-card overflow-hidden hover:border-primary/40 hover:shadow-gold transition-all"
+              className="product-3d group flex flex-col rounded-2xl border border-border bg-card overflow-hidden transition-all"
             >
               <div className="aspect-[4/3] overflow-hidden bg-secondary/40 flex items-center justify-center">
                 <img

@@ -54,7 +54,7 @@ const Product3DCard = ({ product, animClass }: { product: Product; animClass: st
     >
       <Link
         to={`/product/${product.slug}`}
-        className={`group block bg-card rounded-lg border border-border hover:border-primary/40 transition-all duration-300 overflow-hidden shadow-elegant hover:shadow-gold ${animClass}`}
+        className={`product-3d group block bg-card rounded-lg border border-border transition-all duration-300 overflow-hidden shadow-elegant ${animClass}`}
         data-testid={`card-product-${product.slug}`}
       >
         <div className="aspect-square bg-secondary/30 flex items-center justify-center p-4 overflow-hidden relative">
