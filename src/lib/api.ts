@@ -5,6 +5,8 @@
  */
 
 import { tryFirestoreFetch, AdapterError, installFetchInterceptor } from "./firestoreApi";
+import { storage } from "./firebase";
+import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // Install the global fetch interceptor so even raw `fetch("/api/...")` calls
 // scattered across the codebase are routed to Firestore.
@@ -110,9 +112,36 @@ export async function api<T = any>(path: string, opts: RequestInit = {}): Promis
   }
 }
 
-/** File uploads are disabled in the static (cPanel + Firestore) build. */
-export async function uploadFile(_file: File): Promise<{ url: string }> {
-  throw new Error(
-    "Image upload is disabled. Upload your file to the cPanel /uploads/ folder via File Manager and paste the URL (e.g. /uploads/myimage.jpg).",
-  );
+/**
+ * Upload a file (image / video / pdf) to Firebase Storage and return a public
+ * download URL. Requires Firebase Storage to be enabled in the Firebase Console
+ * and the storage rules to allow writes for admin users.
+ */
+export async function uploadFile(file: File): Promise<{ url: string }> {
+  if (!file) throw new Error("No file selected");
+  const MAX_BYTES = 50 * 1024 * 1024;
+  if (file.size > MAX_BYTES) {
+    throw new Error(`File too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Max 50 MB.`);
+  }
+  const safeName = file.name.replace(/[^a-zA-Z0-9._-]+/g, "_");
+  const path = `uploads/${Date.now()}_${Math.random().toString(36).slice(2, 8)}_${safeName}`;
+  try {
+    const r = storageRef(storage, path);
+    const snap = await uploadBytes(r, file, { contentType: file.type || "application/octet-stream" });
+    const url = await getDownloadURL(snap.ref);
+    return { url };
+  } catch (e: any) {
+    const code = e?.code || "";
+    if (code === "storage/unauthorized") {
+      throw new Error(
+        "Upload blocked by Firebase Storage rules. Open Firebase Console → Storage → Rules and allow writes for admin users.",
+      );
+    }
+    if (code === "storage/unknown" || /CORS|network/i.test(String(e?.message || ""))) {
+      throw new Error(
+        "Upload failed — Firebase Storage may not be enabled. Open Firebase Console → Storage → Get Started to enable it.",
+      );
+    }
+    throw new Error(e?.message || "Upload failed");
+  }
 }
