@@ -1,16 +1,13 @@
 /**
- * Thin API client. Tries the Firestore adapter first for migrated routes,
- * then falls back to the Node backend for things still served there
- * (uploads, PDF generation, MI chat, backups, ledger, applications, etc.).
- *
- * The Firebase ID token is attached as a Bearer token on admin requests
- * so any remaining Node-backed admin endpoints can validate the caller.
+ * Thin client wrapper that routes every legacy `/api/*` call through the
+ * Firestore adapter (see `firestoreApi.ts`). The Node backend is gone — the
+ * frontend talks directly to Firestore + Firebase Auth.
  */
 
 import { tryFirestoreFetch, AdapterError, installFetchInterceptor } from "./firestoreApi";
 
-// Preserve the original window.fetch for callers that explicitly want to bypass
-// any future interceptors. The Firestore adapter is now a no-op stub.
+// Install the global fetch interceptor so even raw `fetch("/api/...")` calls
+// scattered across the codebase are routed to Firestore.
 installFetchInterceptor();
 
 export interface Product {
@@ -75,54 +72,23 @@ export const getToken = () => localStorage.getItem(LEGACY_TOKEN_KEY);
 export const setToken = (t: string) => localStorage.setItem(LEGACY_TOKEN_KEY, t);
 export const clearToken = () => localStorage.removeItem(LEGACY_TOKEN_KEY);
 
-async function bearerHeaders(): Promise<Record<string, string>> {
-  const headers: Record<string, string> = {};
-  try {
-    if (auth.currentUser) {
-      const idToken = await auth.currentUser.getIdToken();
-      headers["Authorization"] = `Bearer ${idToken}`;
-    } else {
-      const legacy = getToken();
-      if (legacy) headers["Authorization"] = `Bearer ${legacy}`;
-    }
-  } catch {
-    /* non-fatal */
-  }
-  return headers;
-}
-
+/** Generic API helper. Routes every call through the Firestore adapter. */
 export async function api<T = any>(path: string, opts: RequestInit = {}): Promise<T> {
-  // Firestore adapter takes precedence for migrated routes.
   try {
-    const fsResult = await tryFirestoreFetch(path, opts);
-    if (fsResult !== null) return fsResult as T;
+    const data = await tryFirestoreFetch(path, opts);
+    if (data === null) {
+      throw new Error(`No Firestore route for ${path}`);
+    }
+    return data as T;
   } catch (e) {
     if (e instanceof AdapterError) throw new Error(e.message);
     throw e;
   }
-
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    ...(await bearerHeaders()),
-    ...(opts.headers as any),
-  };
-  const res = await fetch(path, { ...opts, headers });
-  if (!res.ok) {
-    if ((res.status === 401 || res.status === 403) && path.startsWith("/api/admin")) {
-      // Don't auto-redirect when we're on Firebase auth — let the page handle it.
-      console.warn("[api] admin request returned", res.status, "for", path);
-    }
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err.error || `Request failed (${res.status})`);
-  }
-  return res.json();
 }
 
-export async function uploadFile(file: File): Promise<{ url: string }> {
-  const fd = new FormData();
-  fd.append("file", file);
-  const headers = await bearerHeaders();
-  const res = await fetch("/api/admin/upload", { method: "POST", body: fd, headers });
-  if (!res.ok) throw new Error("Upload failed");
-  return res.json();
+/** File uploads are disabled in the static (cPanel + Firestore) build. */
+export async function uploadFile(_file: File): Promise<{ url: string }> {
+  throw new Error(
+    "Image upload is disabled. Upload your file to the cPanel /uploads/ folder via File Manager and paste the URL (e.g. /uploads/myimage.jpg).",
+  );
 }

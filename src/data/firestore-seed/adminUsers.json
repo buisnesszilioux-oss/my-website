@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "username": "miengineering17@gmail.com",
+    "passwordHash": "$2b$10$bE4utLGJ6wpfUi1mIAY8duYS5I4bilXBMWN5a3FiGgr5k2QPyLWUi"
+  },
+  {
+    "id": 2,
+    "username": "sahilsabirshaikh256@gmail.com",
+    "passwordHash": "$2b$10$bE4utLGJ6wpfUi1mIAY8duYS5I4bilXBMWN5a3FiGgr5k2QPyLWUi"
+  }
+]

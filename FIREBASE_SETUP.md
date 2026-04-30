@@ -1,184 +1,186 @@
-# Firebase Setup — M.I. Engineering Works
+# Firebase + cPanel Setup Guide
 
-This document explains how to finish wiring up Firebase Authentication + Firestore so the new login/register/role-redirect system works on your live cPanel-hosted site.
-
----
-
-## 1. What's already done in code
-
-| File | Purpose |
-| --- | --- |
-| `src/lib/firebase.ts` | Initializes Firebase App, exports `auth`, `db`, and `ADMIN_EMAIL`. |
-| `src/contexts/AuthContext.tsx` | React context wrapping Firebase Auth + Firestore `users` collection. Exposes `login`, `register`, `logout`, `updateProfile`, `user`, `isAdmin`. |
-| `src/components/ProtectedRoute.tsx` | Generic route guard. Use `requireAdmin` to lock pages to admins. |
-| `src/pages/admin/RequireAdmin.tsx` | Admin-only route guard (redirects non-admins to `/dashboard`). |
-| `src/pages/UserAuthPage.tsx` | Public login + register page (`/auth`, `/login`, `/register`). |
-| `src/pages/admin/AdminLogin.tsx` | Admin sign-in page (`/admin/login`). |
-| `src/pages/DashboardPage.tsx` | Customer dashboard (`/dashboard`). |
-| `src/App.tsx` | New routes: `/auth`, `/dashboard`, `/account` (protected). |
-
-**Redirect rules after login:**
-- Email matches `miengineering17@gmail.com` → `/admin`
-- Anyone else → `/dashboard`
-
-**Firestore data model (auto-created on signup):**
-```
-users/{uid} = {
-  uid: string,
-  email: string,        // lowercased
-  name: string,
-  phone: string,        // optional
-  company: string,      // optional
-  picture: string,      // optional
-  role: "admin" | "user",
-  createdAt: serverTimestamp
-}
-```
+This frontend talks **directly** to Firestore + Firebase Auth — there is no
+Node backend in production. The whole site is a static SPA you can drop into
+any cPanel `public_html` folder.
 
 ---
 
-## 2. One-time setup in the Firebase Console
+## 1 · Firebase Console setup (one-time)
 
-You must do these once for the project `miweb-edaf5`:
+Open <https://console.firebase.google.com/> and select project **migo-5b73d**.
 
-### A. Enable Email/Password Authentication
-1. Open https://console.firebase.google.com/project/miweb-edaf5/authentication/providers
-2. Click **Email/Password** → toggle **Enable** → **Save**.
+### 1a · Enable Email/Password Authentication
 
-### B. Create Firestore database
-1. Open https://console.firebase.google.com/project/miweb-edaf5/firestore
-2. Click **Create database** → start in **production mode** → pick a region (e.g. `asia-south1` for India).
+1. Build → **Authentication** → Get started.
+2. Sign-in method tab → **Email/Password** → Enable → Save.
+3. Users tab → **Add user** for each admin email (use the same emails listed
+   in `VITE_ADMIN_EMAILS`). Set a strong password — this is your admin login.
 
-### C. Add Authorized Domains
-Auth will refuse to sign users in from any host that isn't whitelisted.
-1. Open https://console.firebase.google.com/project/miweb-edaf5/authentication/settings
-2. Under **Authorized domains**, add:
-   - Your cPanel/production domain (e.g. `miengineeringworks.com`)
-   - Any preview / staging domains you use
-   - `localhost` is added automatically
+### 1b · Enable Cloud Firestore
 
-### D. Apply Firestore Security Rules
-Open https://console.firebase.google.com/project/miweb-edaf5/firestore/rules and paste:
+1. Build → **Firestore Database** → Create database.
+2. Start in **production mode** (we'll lock it down with rules below).
+3. Pick a location close to your users (e.g. `asia-south1` for India).
 
-```javascript
+### 1c · Apply Firestore Security Rules
+
+In the Rules tab, paste this and **Publish**:
+
+```js
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // helpers
-    function isSignedIn()    { return request.auth != null; }
-    function isOwner(uid)    { return isSignedIn() && request.auth.uid == uid; }
-    function isAdminEmail()  {
-      return isSignedIn()
-        && request.auth.token.email != null
-        && request.auth.token.email.lower() == 'miengineering17@gmail.com';
+    // 🔐 Helper: is the signed-in user an admin?
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email in [
+        "miengineering17@gmail.com",
+        "sahilsabirshaikh256@gmail.com"
+      ];
     }
 
-    // /users/{uid}
+    // Public catalog data — anyone can read, only admins can write.
+    match /products/{id}        { allow read: if true; allow write: if isAdmin(); }
+    match /industries/{id}      { allow read: if true; allow write: if isAdmin(); }
+    match /standards/{id}       { allow read: if true; allow write: if isAdmin(); }
+    match /media/{id}           { allow read: if true; allow write: if isAdmin(); }
+    match /siteContent/{id}     { allow read: if true; allow write: if isAdmin(); }
+    match /pageSections/{id}    { allow read: if true; allow write: if isAdmin(); }
+    match /floatingImages/{id}  { allow read: if true; allow write: if isAdmin(); }
+
+    // Contact form: anyone can submit, only admin can read/delete.
+    match /contacts/{id} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Customer / ledger data — admin only.
+    match /customers/{id}       { allow read, write: if isAdmin(); }
+    match /ledgerEntries/{id}   { allow read, write: if isAdmin(); }
+
+    // User profiles — each signed-in user owns their own doc; admins see all.
     match /users/{uid} {
-      allow read:   if isOwner(uid) || isAdminEmail();
-      allow create: if isOwner(uid)
-                    && request.resource.data.uid == uid
-                    && request.resource.data.email is string
-                    && request.resource.data.role in ['user', 'admin'];
-      allow update: if (isOwner(uid) && !('role' in request.resource.data.diff(resource.data).affectedKeys()))
-                    || isAdminEmail();
-      allow delete: if isAdminEmail();
-    }
-
-    // ── Public-readable site content (drives the public website) ──────────
-    // Anyone can READ; only admin can WRITE.
-    match /siteContent/{doc}      { allow read: if true; allow write: if isAdminEmail(); }
-    match /pageSections/{doc}     { allow read: if true; allow write: if isAdminEmail(); }
-    match /floatingImages/{doc}   { allow read: if true; allow write: if isAdminEmail(); }
-    match /products/{doc}         { allow read: if true; allow write: if isAdminEmail(); }
-    match /industries/{doc}       { allow read: if true; allow write: if isAdminEmail(); }
-    match /standards/{doc}        { allow read: if true; allow write: if isAdminEmail(); }
-    match /media/{doc}            { allow read: if true; allow write: if isAdminEmail(); }
-
-    // ── Contact-form submissions ──────────────────────────────────────────
-    // Anyone may CREATE a submission; only admin may read/update/delete.
-    match /contacts/{doc} {
-      allow create: if request.resource.data.fullName is string
-                    && request.resource.data.email is string
-                    && request.resource.data.message is string;
-      allow read, update, delete: if isAdminEmail();
-    }
-
-    // default: deny everything else
-    match /{document=**} {
-      allow read, write: if false;
+      allow read, write: if request.auth != null
+        && (request.auth.uid == uid || isAdmin());
     }
   }
 }
 ```
-Click **Publish**.
 
-### E. Create the admin account
-The admin role is granted automatically to whoever signs up with `miengineering17@gmail.com`. So:
-1. Open your site at `/auth` (or `/admin/login`).
-2. Click **Create Account** tab.
-3. Register with email `miengineering17@gmail.com` and a strong password.
-4. You'll be redirected straight to `/admin`.
-
-After this, `/admin/login` works for you and `/auth` works for everyone else.
+> ⚠️ **Update the admin email list** inside the `isAdmin()` function whenever
+> you change `VITE_ADMIN_EMAILS`. Both lists must match.
 
 ---
 
-## 3. Environment variables (optional but recommended)
+## 2 · Configure environment variables
 
-The Firebase config is hard-coded as a fallback in `src/lib/firebase.ts`, but you can override it via env vars if you ever rotate keys or use different Firebase projects per environment.
-
-Create `.env` (or set these in your cPanel build environment):
+Local development (Replit Secrets) already has these set. For your cPanel build
+they get baked into the JS bundle at **build time**, so set them in your build
+environment (Replit Secrets / `.env` file) before running `npm run build`:
 
 ```
-VITE_FIREBASE_API_KEY=AIzaSyBoAKGgn_Abb8qADt0u_N_-P0ZzR-vGlOE
-VITE_FIREBASE_AUTH_DOMAIN=miweb-edaf5.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=miweb-edaf5
-VITE_FIREBASE_STORAGE_BUCKET=miweb-edaf5.firebasestorage.app
-VITE_FIREBASE_MESSAGING_SENDER_ID=943224981876
-VITE_FIREBASE_APP_ID=1:943224981876:web:c92167e6f873aca4ec0421
-VITE_FIREBASE_MEASUREMENT_ID=G-GVVDEHW5N5
-VITE_ADMIN_EMAIL=miengineering17@gmail.com
+VITE_FIREBASE_API_KEY=AIzaSyCsHOuFi82wq8LNi4LxaA_m46wfctQvKQU
+VITE_FIREBASE_AUTH_DOMAIN=migo-5b73d.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=migo-5b73d
+VITE_FIREBASE_STORAGE_BUCKET=migo-5b73d.firebasestorage.app
+VITE_FIREBASE_MESSAGING_SENDER_ID=194756594222
+VITE_FIREBASE_APP_ID=1:194756594222:web:3e6f2226a13cb34ccbadbf
+VITE_FIREBASE_MEASUREMENT_ID=G-9WYPJMDRKF
+VITE_ADMIN_EMAILS=miengineering17@gmail.com,sahilsabirshaikh256@gmail.com
 ```
-
-> Note: These keys are **public** — Firebase web SDK keys are designed to be exposed in client code. Real security comes from the Firestore rules above + Authorized Domains list.
 
 ---
 
-## 4. Building for cPanel
+## 3 · One-time data migration (Postgres → Firestore)
 
-1. Run `npm install` (only needed once or when packages change).
-2. Run `npm run build` — this produces a `dist/` folder.
-3. Upload **everything inside `dist/`** to your cPanel `public_html/` (or the subfolder you serve the site from).
-4. Add an `.htaccess` file in `public_html/` so React Router deep-links work:
+A snapshot of the old Postgres data lives in `src/data/firestore-seed/*.json`
+and is bundled with every build.
+
+1. Run the dev server (or open the deployed site).
+2. Sign in at **`/admin/login`** with one of the admin emails you created in
+   Firebase Auth.
+3. Open **`/admin/migrate`**.
+4. Click **"Run full migration"** — this writes the bundled JSON snapshot into
+   Firestore. Safe to re-run; existing docs are merged, not duplicated.
+
+If a step fails with "Missing or insufficient permissions" — your Firestore
+rules from §1c are wrong (most likely the admin email list).
+
+---
+
+## 4 · Build & deploy to cPanel
+
+### 4a · Build the static bundle
+
+```bash
+npm run build
+```
+
+This produces a `dist/` folder containing `index.html`, `assets/`, and a few
+static files. **That entire folder is your website** — no Node, no Express,
+no database connection.
+
+### 4b · Upload to cPanel
+
+1. Open cPanel → **File Manager** → `public_html/` (or your subdomain folder).
+2. Upload **everything inside** `dist/` (not the `dist/` folder itself).
+3. Add a `.htaccess` file alongside `index.html` so client-side routing works:
 
 ```apache
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+  # Don't rewrite real files / folders / uploads
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+  # Send everything else to index.html (React Router handles it)
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Long-cache the hashed assets
+  <FilesMatch "\.(js|css|png|jpg|jpeg|webp|svg|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
 </IfModule>
 ```
 
-That's it — visiting `/auth`, `/dashboard`, `/admin`, etc. will all resolve to your SPA.
+### 4c · Image uploads (cPanel uploads folder)
+
+The "upload image" button in the admin is disabled in this build. To add
+images:
+
+1. cPanel **File Manager** → `public_html/uploads/` (create this folder if it
+   doesn't exist).
+2. Upload your image (e.g. `m12-bolt.jpg`).
+3. In the admin product/industry/etc. edit screen, paste the URL:
+   `/uploads/m12-bolt.jpg`.
+
+The image is then served as a normal static file by Apache.
 
 ---
 
-## 5. Quick smoke test
+## 5 · Local development
 
-1. Visit `/auth` → register with a non-admin email → you should land on `/dashboard`.
-2. Sign out from the dashboard.
-3. Visit `/auth` → register with `miengineering17@gmail.com` → you should land on `/admin`.
-4. Open the Firestore console → `users` collection → you should see two docs, one with `role: "user"` and one with `role: "admin"`.
+```bash
+npm install
+npm run dev
+```
+
+Vite serves the frontend on `http://localhost:5000`. The tiny stub at
+`server/index.ts` runs on `:3001` only so the existing dev script doesn't
+crash — it doesn't serve any real API. All data goes straight to Firestore.
 
 ---
 
-## 6. What is NOT yet in Firebase
+## 6 · Troubleshooting
 
-The current Replit project still uses the old Node + PostgreSQL backend for everything else (products, industries, standards, hero images, contacts, ledger, animations, floating images, media uploads). Phase 1 (this) only migrated **auth + the users collection** to Firebase.
-
-If you want to fully drop the Node backend and move all admin data + uploads to Firebase, that's a separate phase — Firestore for the data and Firebase Storage for image/video uploads (Storage requires the Blaze paid plan).
+| Symptom                                          | Fix                                                    |
+| ------------------------------------------------ | ------------------------------------------------------ |
+| Login error: "auth/invalid-credential"           | The email isn't in Firebase Auth — add it in step 1a.  |
+| "This email is not authorised as an admin"       | Add the email to `VITE_ADMIN_EMAILS` and rebuild.      |
+| "Missing or insufficient permissions"            | Update Firestore rules with the correct admin emails.  |
+| Empty product / industry list on the public site | You haven't run the migration yet (§3).                |
+| 404 on every page after deploy                   | Missing `.htaccess` (§4b) — React Router needs it.     |

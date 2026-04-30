@@ -1,3 +1,14 @@
+/**
+ * Legacy admin-auth helpers — kept for backwards compatibility.
+ *
+ * Authentication is now handled by Firebase Auth via `AuthContext`.
+ * These helpers continue to work so any older imports still compile,
+ * but `getAdminToken` now returns the current Firebase ID token.
+ */
+
+import { auth, isAdminEmail } from "./firebase";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+
 const TOKEN_KEY = "mi_admin_token";
 const EMAIL_KEY = "mi_admin_email";
 
@@ -23,40 +34,27 @@ export function clearAdminSession() {
   } catch { /* ignore */ }
 }
 
-function realFetch(input: RequestInfo, init?: RequestInit) {
-  const f = (typeof window !== "undefined" && (window as any).__realFetch__) || fetch;
-  return f(input, init);
+export async function adminLogin(email: string, password: string): Promise<{ token: string; email: string }> {
+  const cleanEmail = email.trim().toLowerCase();
+  if (!isAdminEmail(cleanEmail)) {
+    throw new Error("This email is not authorised as an admin.");
+  }
+  const cred = await signInWithEmailAndPassword(auth, cleanEmail, password);
+  const token = await cred.user.getIdToken();
+  setAdminSession(token, cleanEmail);
+  return { token, email: cleanEmail };
 }
 
-export async function adminLogin(email: string, password: string): Promise<{ token: string; email: string }> {
-  const res = await realFetch("/api/admin/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username: email.trim().toLowerCase(), password }),
-  });
-  let data: any = {};
-  try { data = await res.json(); } catch { /* ignore */ }
-  if (!res.ok || !data?.token) {
-    throw new Error(data?.error || `Sign-in failed (${res.status})`);
-  }
-  const cleanEmail = email.trim().toLowerCase();
-  setAdminSession(data.token, cleanEmail);
-  return { token: data.token, email: cleanEmail };
+export async function adminLogout() {
+  clearAdminSession();
+  try { await signOut(auth); } catch { /* ignore */ }
 }
 
 export async function verifyAdminToken(): Promise<boolean> {
-  const token = getAdminToken();
-  if (!token) return false;
-  try {
-    const res = await realFetch("/api/admin/verify", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return res.ok;
-  } catch {
-    return false;
-  }
+  const u = auth.currentUser;
+  return !!u && isAdminEmail(u.email);
 }
 
 export function isAdminLoggedIn(): boolean {
-  return Boolean(getAdminToken());
+  return !!auth.currentUser && isAdminEmail(auth.currentUser.email);
 }

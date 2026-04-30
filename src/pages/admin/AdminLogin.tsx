@@ -6,7 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { setAdminSession } from "@/lib/adminAuth";
+import { isAdminEmail } from "@/lib/firebase";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -40,18 +40,10 @@ const AdminLogin = () => {
     setErr(null);
     setBusy(true);
     try {
+      if (!isAdminEmail(email)) {
+        throw new Error("This email is not authorised as an admin.");
+      }
       const profile = await login(email, password);
-      // Mirror the admin token into the legacy storage so any old admin API
-      // calls continue to work without re-login.
-      try {
-        const legacyRes = await fetch("/api/admin/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username: email, password }),
-        });
-        const legacyData = await legacyRes.json().catch(() => ({}));
-        if (legacyRes.ok && legacyData?.token) setAdminSession(legacyData.token, email);
-      } catch { /* non-fatal */ }
       toast({ title: "Welcome", description: profile.role === "admin" ? "Admin access granted." : "Signed in." });
       navigate(profile.role === "admin" ? "/admin" : "/dashboard", { replace: true });
     } catch (e: any) {

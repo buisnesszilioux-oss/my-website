@@ -3,12 +3,18 @@
 Marketing + content-managed site for M.I. Engineering Works, manufacturer of ASTM A193 Grade B7 high-tensile fasteners (Mumbai, India).
 
 ## Stack
-- **Frontend**: React 18 + Vite 5, TypeScript, Tailwind, shadcn/ui, framer-motion, react-router-dom, react-helmet-async, TanStack Query v5
-- **Backend (legacy, being phased out)**: Express + TypeScript (`tsx watch`), `multer` uploads, `pdfkit` catalogs. Still serves uploads/PDF/MI-chat/backups/ledger/applications.
-- **Backend (current)**: Firebase — Auth (Email/Password) + Firestore. See `FIREBASE_SETUP.md`.
-- **Database (legacy)**: PostgreSQL via Drizzle ORM; schemas in `shared/schema.ts` (kept as the source of record while migration is in progress).
-- **Database (current)**: Firestore collections — `users`, `siteContent`, `pageSections`, `floatingImages`, `products`, `industries`, `standards`, `media`, `contacts`. Migrated routes are intercepted transparently by `src/lib/firestoreApi.ts`.
-- **Dev runner**: `concurrently` runs vite (port 5000) + server (port 3001) under one `npm run dev` workflow
+- **Frontend**: React 18 + Vite 5, TypeScript, Tailwind, shadcn/ui, framer-motion, react-router-dom, react-helmet-async, TanStack Query v5. Static SPA — built to `dist/` and deployed on cPanel.
+- **Backend**: Firebase only — **Auth (Email/Password)** + **Firestore**. No Node backend in production. The frontend talks directly to Firebase via the client SDK.
+- **Database**: Firestore collections — `users`, `siteContent`, `pageSections`, `floatingImages`, `products`, `industries`, `standards`, `media`, `contacts`, `customers`, `ledgerEntries`. Doc IDs match the legacy slugs/ids so URLs keep working.
+- **Dev runner**: `concurrently` runs vite (port 5000) + a tiny no-op stub server (port 3001) under one `npm run dev`. The stub only exists so the existing dev script doesn't crash; it serves no real API.
+
+## Architecture (Firestore-only build, 2026-04-30)
+- All `/api/*` calls go through `src/lib/firestoreApi.ts`, which maps every legacy REST route to a Firestore operation client-side. The adapter also installs a `window.fetch` interceptor so raw `fetch("/api/...")` calls in helpers (`useSiteContent`, `Footer`, `CustomSections`, etc.) are caught.
+- `src/contexts/AuthContext.tsx` is backed by Firebase Auth. Each signed-in user has a `users/{uid}` Firestore profile doc. Admin status is derived from `VITE_ADMIN_EMAILS` (comma-separated allow-list).
+- `src/lib/firebase.ts` reads `VITE_FIREBASE_*` env vars at build time and exports `app`, `db`, `auth`, `ADMIN_EMAILS`, `isAdminEmail()`.
+- Image uploads are disabled in this build — admin pastes URLs like `/uploads/foo.jpg` and the file is uploaded to cPanel `public_html/uploads/` via File Manager.
+- One-time data migration: `src/data/firestore-seed/*.json` is the bundled snapshot exported via `scripts/export-pg-to-json.ts`. The admin clicks "Run full migration" on `/admin/migrate` to push it into Firestore.
+- See `FIREBASE_SETUP.md` for full setup, security rules, and cPanel deployment instructions.
 
 ## Recent updates (2026-04)
 - **Universal product detail pages**: `src/pages/ProductDetail.tsx` now resolves a slug from either `src/data/products.ts` (rich) **or** `src/data/categories.ts` (sub-products). Sub-products auto-fill sensible defaults (threads, length, finish, dimensions) so every product gets the same rich layout. Page now includes a sticky **category sidebar** listing every product in the same category, plus a "More from {Category}" related grid.

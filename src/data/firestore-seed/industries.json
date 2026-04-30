@@ -1,0 +1,2972 @@
+[
+  {
+    "id": 1,
+    "slug": "aerospace",
+    "name": "Aerospace",
+    "description": "Engineered fastening solutions for the Aerospace sector — high-strength flight-critical fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding aerospace sector. We supply high-strength flight-critical fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Aerospace&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Aerospace - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Aerospace%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for aerospace primary structural and mechanical joints."
+      },
+      {
+        "name": "Aerospace - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Aerospace%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for aerospace maintenance."
+      },
+      {
+        "name": "Aerospace - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Aerospace%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised aerospace applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 1
+  },
+  {
+    "id": 2,
+    "slug": "aviation",
+    "name": "Aviation",
+    "description": "Engineered fastening solutions for the Aviation sector — ground-support and airframe fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding aviation sector. We supply ground-support and airframe fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Aviation&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Aviation - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Aviation%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for aviation primary structural and mechanical joints."
+      },
+      {
+        "name": "Aviation - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Aviation%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for aviation maintenance."
+      },
+      {
+        "name": "Aviation - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Aviation%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised aviation applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 2
+  },
+  {
+    "id": 3,
+    "slug": "agriculture",
+    "name": "Agriculture",
+    "description": "Engineered fastening solutions for the Agriculture sector — tractor, plough and irrigation fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding agriculture sector. We supply tractor, plough and irrigation fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Agriculture&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Agriculture - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Agriculture%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for agriculture primary structural and mechanical joints."
+      },
+      {
+        "name": "Agriculture - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Agriculture%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for agriculture maintenance."
+      },
+      {
+        "name": "Agriculture - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Agriculture%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised agriculture applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 3
+  },
+  {
+    "id": 4,
+    "slug": "appliances",
+    "name": "Appliances",
+    "description": "Engineered fastening solutions for the Appliances sector — household and white-goods assembly.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding appliances sector. We supply household and white-goods assembly manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Appliances&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Appliances - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Appliances%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for appliances primary structural and mechanical joints."
+      },
+      {
+        "name": "Appliances - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Appliances%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for appliances maintenance."
+      },
+      {
+        "name": "Appliances - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Appliances%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised appliances applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 4
+  },
+  {
+    "id": 5,
+    "slug": "automotive",
+    "name": "Automotive",
+    "description": "Engineered fastening solutions for the Automotive sector — engine, chassis and body fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding automotive sector. We supply engine, chassis and body fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Automotive&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Automotive - Primary Assembly",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Automotive%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for automotive primary structural and mechanical joints."
+      },
+      {
+        "name": "Automotive - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Automotive%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for automotive maintenance."
+      },
+      {
+        "name": "Automotive - Custom Engineering",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Automotive%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised automotive applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 5
+  },
+  {
+    "id": 6,
+    "slug": "boilers-and-heat-exchangers",
+    "name": "Boilers & Heat Exchangers",
+    "description": "Engineered fastening solutions for the Boilers & Heat Exchangers sector — high-temperature pressure-rated bolting.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding boilers & heat exchangers sector. We supply high-temperature pressure-rated bolting manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Boilers%20and%20Heat%20Exchangers&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Boilers & Heat Exchangers - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Boilers%20and%20Heat%20Exchangers%20-%20Primary%20As&font=roboto",
+        "description": "Critical fasteners for boilers & heat exchangers primary structural and mechanical joints."
+      },
+      {
+        "name": "Boilers & Heat Exchangers - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Boilers%20and%20Heat%20Exchangers%20-%20Maintenanc&font=roboto",
+        "description": "Replacement fasteners and consumables for boilers & heat exchangers maintenance."
+      },
+      {
+        "name": "Boilers & Heat Exchangers - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Boilers%20and%20Heat%20Exchangers%20-%20Custom%20Eng&font=roboto",
+        "description": "Bespoke fastener engineering for specialised boilers & heat exchangers applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 6
+  },
+  {
+    "id": 7,
+    "slug": "cement-plants",
+    "name": "Cement Plants",
+    "description": "Engineered fastening solutions for the Cement Plants sector — kilns, mills and conveyor fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding cement plants sector. We supply kilns, mills and conveyor fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Cement%20Plants&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Cement Plants - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Cement%20Plants%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for cement plants primary structural and mechanical joints."
+      },
+      {
+        "name": "Cement Plants - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Cement%20Plants%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for cement plants maintenance."
+      },
+      {
+        "name": "Cement Plants - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Cement%20Plants%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised cement plants applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 7
+  },
+  {
+    "id": 8,
+    "slug": "construction",
+    "name": "Construction",
+    "description": "Engineered fastening solutions for the Construction sector — structural steel and concrete anchors.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding construction sector. We supply structural steel and concrete anchors manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Construction&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Construction - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Construction%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for construction primary structural and mechanical joints."
+      },
+      {
+        "name": "Construction - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Construction%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for construction maintenance."
+      },
+      {
+        "name": "Construction - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Construction%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised construction applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 8
+  },
+  {
+    "id": 9,
+    "slug": "infrastructure",
+    "name": "Infrastructure",
+    "description": "Engineered fastening solutions for the Infrastructure sector — bridges, highways and public works.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding infrastructure sector. We supply bridges, highways and public works manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Infrastructure&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Infrastructure - Primary Assembly",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Infrastructure%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for infrastructure primary structural and mechanical joints."
+      },
+      {
+        "name": "Infrastructure - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Infrastructure%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for infrastructure maintenance."
+      },
+      {
+        "name": "Infrastructure - Custom Engineering",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Infrastructure%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised infrastructure applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 9
+  },
+  {
+    "id": 10,
+    "slug": "conveyors-and-belt-systems",
+    "name": "Conveyors & Belt Systems",
+    "description": "Engineered fastening solutions for the Conveyors & Belt Systems sector — conveyor frame and roller fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding conveyors & belt systems sector. We supply conveyor frame and roller fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Conveyors%20and%20Belt%20Systems&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Conveyors & Belt Systems - Primary Assembly",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Conveyors%20and%20Belt%20Systems%20-%20Primary%20Ass&font=roboto",
+        "description": "Critical fasteners for conveyors & belt systems primary structural and mechanical joints."
+      },
+      {
+        "name": "Conveyors & Belt Systems - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Conveyors%20and%20Belt%20Systems%20-%20Maintenance&font=roboto",
+        "description": "Replacement fasteners and consumables for conveyors & belt systems maintenance."
+      },
+      {
+        "name": "Conveyors & Belt Systems - Custom Engineering",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Conveyors%20and%20Belt%20Systems%20-%20Custom%20Engi&font=roboto",
+        "description": "Bespoke fastener engineering for specialised conveyors & belt systems applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 10
+  },
+  {
+    "id": 11,
+    "slug": "cranes",
+    "name": "Cranes",
+    "description": "Engineered fastening solutions for the Cranes sector — lifting and load-bearing connections.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding cranes sector. We supply lifting and load-bearing connections manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Cranes&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Cranes - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Cranes%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for cranes primary structural and mechanical joints."
+      },
+      {
+        "name": "Cranes - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Cranes%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for cranes maintenance."
+      },
+      {
+        "name": "Cranes - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Cranes%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised cranes applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 11
+  },
+  {
+    "id": 12,
+    "slug": "dairy-plants",
+    "name": "Dairy Plants",
+    "description": "Engineered fastening solutions for the Dairy Plants sector — hygienic stainless fasteners for dairy lines.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding dairy plants sector. We supply hygienic stainless fasteners for dairy lines manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Dairy%20Plants&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Dairy Plants - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Dairy%20Plants%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for dairy plants primary structural and mechanical joints."
+      },
+      {
+        "name": "Dairy Plants - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Dairy%20Plants%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for dairy plants maintenance."
+      },
+      {
+        "name": "Dairy Plants - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Dairy%20Plants%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised dairy plants applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 12
+  },
+  {
+    "id": 13,
+    "slug": "data-centers",
+    "name": "Data Centers",
+    "description": "Engineered fastening solutions for the Data Centers sector — rack, raised-floor and HVAC mounting.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding data centers sector. We supply rack, raised-floor and HVAC mounting manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Data%20Centers&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Data Centers - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Data%20Centers%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for data centers primary structural and mechanical joints."
+      },
+      {
+        "name": "Data Centers - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Data%20Centers%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for data centers maintenance."
+      },
+      {
+        "name": "Data Centers - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Data%20Centers%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised data centers applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 13
+  },
+  {
+    "id": 14,
+    "slug": "defense-and-military",
+    "name": "Defense & Military",
+    "description": "Engineered fastening solutions for the Defense & Military sector — MIL-spec and armor-grade fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding defense & military sector. We supply MIL-spec and armor-grade fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Defense%20and%20Military&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Defense & Military - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Defense%20and%20Military%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for defense & military primary structural and mechanical joints."
+      },
+      {
+        "name": "Defense & Military - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Defense%20and%20Military%20-%20Maintenance%20and%20M&font=roboto",
+        "description": "Replacement fasteners and consumables for defense & military maintenance."
+      },
+      {
+        "name": "Defense & Military - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Defense%20and%20Military%20-%20Custom%20Engineerin&font=roboto",
+        "description": "Bespoke fastener engineering for specialised defense & military applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 14
+  },
+  {
+    "id": 15,
+    "slug": "electrical-and-electronics",
+    "name": "Electrical & Electronics",
+    "description": "Engineered fastening solutions for the Electrical & Electronics sector — switchgear, busbar and panel hardware.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding electrical & electronics sector. We supply switchgear, busbar and panel hardware manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Electrical%20and%20Electronics&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Electrical & Electronics - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Electrical%20and%20Electronics%20-%20Primary%20Ass&font=roboto",
+        "description": "Critical fasteners for electrical & electronics primary structural and mechanical joints."
+      },
+      {
+        "name": "Electrical & Electronics - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Electrical%20and%20Electronics%20-%20Maintenance&font=roboto",
+        "description": "Replacement fasteners and consumables for electrical & electronics maintenance."
+      },
+      {
+        "name": "Electrical & Electronics - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Electrical%20and%20Electronics%20-%20Custom%20Engi&font=roboto",
+        "description": "Bespoke fastener engineering for specialised electrical & electronics applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 15
+  },
+  {
+    "id": 16,
+    "slug": "elevators",
+    "name": "Elevators",
+    "description": "Engineered fastening solutions for the Elevators sector — cabin, guide-rail and machine-room bolting.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding elevators sector. We supply cabin, guide-rail and machine-room bolting manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Elevators&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Elevators - Primary Assembly",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Elevators%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for elevators primary structural and mechanical joints."
+      },
+      {
+        "name": "Elevators - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Elevators%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for elevators maintenance."
+      },
+      {
+        "name": "Elevators - Custom Engineering",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Elevators%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised elevators applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 16
+  },
+  {
+    "id": 17,
+    "slug": "escalators",
+    "name": "Escalators",
+    "description": "Engineered fastening solutions for the Escalators sector — truss, step and balustrade fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding escalators sector. We supply truss, step and balustrade fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Escalators&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Escalators - Primary Assembly",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Escalators%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for escalators primary structural and mechanical joints."
+      },
+      {
+        "name": "Escalators - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Escalators%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for escalators maintenance."
+      },
+      {
+        "name": "Escalators - Custom Engineering",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Escalators%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised escalators applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 17
+  },
+  {
+    "id": 18,
+    "slug": "fire-fighting-systems",
+    "name": "Fire Fighting Systems",
+    "description": "Engineered fastening solutions for the Fire Fighting Systems sector — sprinkler, hydrant and pump fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding fire fighting systems sector. We supply sprinkler, hydrant and pump fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Fire%20Fighting%20Systems&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Fire Fighting Systems - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Fire%20Fighting%20Systems%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for fire fighting systems primary structural and mechanical joints."
+      },
+      {
+        "name": "Fire Fighting Systems - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Fire%20Fighting%20Systems%20-%20Maintenance%20and%20&font=roboto",
+        "description": "Replacement fasteners and consumables for fire fighting systems maintenance."
+      },
+      {
+        "name": "Fire Fighting Systems - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Fire%20Fighting%20Systems%20-%20Custom%20Engineeri&font=roboto",
+        "description": "Bespoke fastener engineering for specialised fire fighting systems applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 18
+  },
+  {
+    "id": 19,
+    "slug": "food-industry",
+    "name": "Food Industry",
+    "description": "Engineered fastening solutions for the Food Industry sector — food-grade stainless fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding food industry sector. We supply food-grade stainless fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Food%20Industry&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Food Industry - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Food%20Industry%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for food industry primary structural and mechanical joints."
+      },
+      {
+        "name": "Food Industry - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Food%20Industry%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for food industry maintenance."
+      },
+      {
+        "name": "Food Industry - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Food%20Industry%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised food industry applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 19
+  },
+  {
+    "id": 20,
+    "slug": "furniture",
+    "name": "Furniture",
+    "description": "Engineered fastening solutions for the Furniture sector — decorative and assembly fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding furniture sector. We supply decorative and assembly fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Furniture&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Furniture - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Furniture%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for furniture primary structural and mechanical joints."
+      },
+      {
+        "name": "Furniture - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Furniture%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for furniture maintenance."
+      },
+      {
+        "name": "Furniture - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Furniture%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised furniture applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 20
+  },
+  {
+    "id": 21,
+    "slug": "hardware-fittings",
+    "name": "Hardware Fittings",
+    "description": "Engineered fastening solutions for the Hardware Fittings sector — general-purpose hardware and brackets.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding hardware fittings sector. We supply general-purpose hardware and brackets manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Hardware%20Fittings&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Hardware Fittings - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Hardware%20Fittings%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for hardware fittings primary structural and mechanical joints."
+      },
+      {
+        "name": "Hardware Fittings - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Hardware%20Fittings%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for hardware fittings maintenance."
+      },
+      {
+        "name": "Hardware Fittings - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Hardware%20Fittings%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised hardware fittings applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 21
+  },
+  {
+    "id": 22,
+    "slug": "hvac",
+    "name": "HVAC",
+    "description": "Engineered fastening solutions for the HVAC sector — ductwork, chiller and AHU fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding hvac sector. We supply ductwork, chiller and AHU fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=HVAC&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "HVAC - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=HVAC%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for hvac primary structural and mechanical joints."
+      },
+      {
+        "name": "HVAC - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=HVAC%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for hvac maintenance."
+      },
+      {
+        "name": "HVAC - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=HVAC%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised hvac applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 22
+  },
+  {
+    "id": 23,
+    "slug": "ducting-systems",
+    "name": "Ducting Systems",
+    "description": "Engineered fastening solutions for the Ducting Systems sector — flange, hanger and clamp hardware.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding ducting systems sector. We supply flange, hanger and clamp hardware manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Ducting%20Systems&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Ducting Systems - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Ducting%20Systems%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for ducting systems primary structural and mechanical joints."
+      },
+      {
+        "name": "Ducting Systems - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Ducting%20Systems%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for ducting systems maintenance."
+      },
+      {
+        "name": "Ducting Systems - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Ducting%20Systems%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised ducting systems applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 23
+  },
+  {
+    "id": 24,
+    "slug": "heavy-engineering",
+    "name": "Heavy Engineering",
+    "description": "Engineered fastening solutions for the Heavy Engineering sector — large-diameter and oversized bolting.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding heavy engineering sector. We supply large-diameter and oversized bolting manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Heavy%20Engineering&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Heavy Engineering - Primary Assembly",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Heavy%20Engineering%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for heavy engineering primary structural and mechanical joints."
+      },
+      {
+        "name": "Heavy Engineering - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Heavy%20Engineering%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for heavy engineering maintenance."
+      },
+      {
+        "name": "Heavy Engineering - Custom Engineering",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Heavy%20Engineering%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised heavy engineering applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 24
+  },
+  {
+    "id": 25,
+    "slug": "machinery",
+    "name": "Machinery",
+    "description": "Engineered fastening solutions for the Machinery sector — machine assembly and maintenance fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding machinery sector. We supply machine assembly and maintenance fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Machinery&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Machinery - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Machinery%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for machinery primary structural and mechanical joints."
+      },
+      {
+        "name": "Machinery - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Machinery%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for machinery maintenance."
+      },
+      {
+        "name": "Machinery - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Machinery%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised machinery applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 25
+  },
+  {
+    "id": 26,
+    "slug": "laboratories",
+    "name": "Laboratories",
+    "description": "Engineered fastening solutions for the Laboratories sector — lab equipment and bench fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding laboratories sector. We supply lab equipment and bench fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Laboratories&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Laboratories - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Laboratories%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for laboratories primary structural and mechanical joints."
+      },
+      {
+        "name": "Laboratories - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Laboratories%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for laboratories maintenance."
+      },
+      {
+        "name": "Laboratories - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Laboratories%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised laboratories applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 26
+  },
+  {
+    "id": 27,
+    "slug": "instrumentation",
+    "name": "Instrumentation",
+    "description": "Engineered fastening solutions for the Instrumentation sector — tubing, manifold and panel fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding instrumentation sector. We supply tubing, manifold and panel fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Instrumentation&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Instrumentation - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Instrumentation%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for instrumentation primary structural and mechanical joints."
+      },
+      {
+        "name": "Instrumentation - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Instrumentation%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for instrumentation maintenance."
+      },
+      {
+        "name": "Instrumentation - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Instrumentation%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised instrumentation applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 27
+  },
+  {
+    "id": 28,
+    "slug": "manufacturing",
+    "name": "Manufacturing",
+    "description": "Engineered fastening solutions for the Manufacturing sector — production line and tooling fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding manufacturing sector. We supply production line and tooling fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Manufacturing&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Manufacturing - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Manufacturing%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for manufacturing primary structural and mechanical joints."
+      },
+      {
+        "name": "Manufacturing - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Manufacturing%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for manufacturing maintenance."
+      },
+      {
+        "name": "Manufacturing - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Manufacturing%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised manufacturing applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 28
+  },
+  {
+    "id": 29,
+    "slug": "marine",
+    "name": "Marine",
+    "description": "Engineered fastening solutions for the Marine sector — 316 SS and HDG fasteners for sea service.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding marine sector. We supply 316 SS and HDG fasteners for sea service manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Marine&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Marine - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Marine%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for marine primary structural and mechanical joints."
+      },
+      {
+        "name": "Marine - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Marine%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for marine maintenance."
+      },
+      {
+        "name": "Marine - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Marine%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised marine applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 29
+  },
+  {
+    "id": 30,
+    "slug": "shipbuilding",
+    "name": "Shipbuilding",
+    "description": "Engineered fastening solutions for the Shipbuilding sector — hull, deck and engine-room bolting.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding shipbuilding sector. We supply hull, deck and engine-room bolting manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Shipbuilding&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Shipbuilding - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Shipbuilding%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for shipbuilding primary structural and mechanical joints."
+      },
+      {
+        "name": "Shipbuilding - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Shipbuilding%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for shipbuilding maintenance."
+      },
+      {
+        "name": "Shipbuilding - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Shipbuilding%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised shipbuilding applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 30
+  },
+  {
+    "id": 31,
+    "slug": "material-handling-equipment",
+    "name": "Material Handling Equipment",
+    "description": "Engineered fastening solutions for the Material Handling Equipment sector — forklift, hoist and conveyor fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding material handling equipment sector. We supply forklift, hoist and conveyor fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Material%20Handling%20Equipment&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Material Handling Equipment - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Material%20Handling%20Equipment%20-%20Primary%20As&font=roboto",
+        "description": "Critical fasteners for material handling equipment primary structural and mechanical joints."
+      },
+      {
+        "name": "Material Handling Equipment - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Material%20Handling%20Equipment%20-%20Maintenanc&font=roboto",
+        "description": "Replacement fasteners and consumables for material handling equipment maintenance."
+      },
+      {
+        "name": "Material Handling Equipment - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Material%20Handling%20Equipment%20-%20Custom%20Eng&font=roboto",
+        "description": "Bespoke fastener engineering for specialised material handling equipment applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 31
+  },
+  {
+    "id": 32,
+    "slug": "medical-equipment-and-hospital-installations",
+    "name": "Medical Equipment & Hospital Installations",
+    "description": "Engineered fastening solutions for the Medical Equipment & Hospital Installations sector — medical-grade stainless fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding medical equipment & hospital installations sector. We supply medical-grade stainless fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Medical%20Equipment%20and%20Hospital%20Installat&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Medical Equipment & Hospital Installations - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Medical%20Equipment%20and%20Hospital%20Installat&font=roboto",
+        "description": "Critical fasteners for medical equipment & hospital installations primary structural and mechanical joints."
+      },
+      {
+        "name": "Medical Equipment & Hospital Installations - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Medical%20Equipment%20and%20Hospital%20Installat&font=roboto",
+        "description": "Replacement fasteners and consumables for medical equipment & hospital installations maintenance."
+      },
+      {
+        "name": "Medical Equipment & Hospital Installations - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Medical%20Equipment%20and%20Hospital%20Installat&font=roboto",
+        "description": "Bespoke fastener engineering for specialised medical equipment & hospital installations applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 32
+  },
+  {
+    "id": 33,
+    "slug": "mining-and-earthmoving-equipment",
+    "name": "Mining & Earthmoving Equipment",
+    "description": "Engineered fastening solutions for the Mining & Earthmoving Equipment sector — high-tensile bolting for heavy machinery.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding mining & earthmoving equipment sector. We supply high-tensile bolting for heavy machinery manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Mining%20and%20Earthmoving%20Equipment&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Mining & Earthmoving Equipment - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Mining%20and%20Earthmoving%20Equipment%20-%20Prima&font=roboto",
+        "description": "Critical fasteners for mining & earthmoving equipment primary structural and mechanical joints."
+      },
+      {
+        "name": "Mining & Earthmoving Equipment - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Mining%20and%20Earthmoving%20Equipment%20-%20Maint&font=roboto",
+        "description": "Replacement fasteners and consumables for mining & earthmoving equipment maintenance."
+      },
+      {
+        "name": "Mining & Earthmoving Equipment - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Mining%20and%20Earthmoving%20Equipment%20-%20Custo&font=roboto",
+        "description": "Bespoke fastener engineering for specialised mining & earthmoving equipment applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 33
+  },
+  {
+    "id": 34,
+    "slug": "oil-and-gas-industry",
+    "name": "Oil & Gas Industry",
+    "description": "Engineered fastening solutions for the Oil & Gas Industry sector — B7/B16 flange bolting for upstream & downstream.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding oil & gas industry sector. We supply B7/B16 flange bolting for upstream & downstream manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Oil%20and%20Gas%20Industry&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Oil & Gas Industry - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Oil%20and%20Gas%20Industry%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for oil & gas industry primary structural and mechanical joints."
+      },
+      {
+        "name": "Oil & Gas Industry - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Oil%20and%20Gas%20Industry%20-%20Maintenance%20and%20M&font=roboto",
+        "description": "Replacement fasteners and consumables for oil & gas industry maintenance."
+      },
+      {
+        "name": "Oil & Gas Industry - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Oil%20and%20Gas%20Industry%20-%20Custom%20Engineerin&font=roboto",
+        "description": "Bespoke fastener engineering for specialised oil & gas industry applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 34
+  },
+  {
+    "id": 35,
+    "slug": "packaging-machinery",
+    "name": "Packaging Machinery",
+    "description": "Engineered fastening solutions for the Packaging Machinery sector — filling, sealing and palletising fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding packaging machinery sector. We supply filling, sealing and palletising fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Packaging%20Machinery&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Packaging Machinery - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Packaging%20Machinery%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for packaging machinery primary structural and mechanical joints."
+      },
+      {
+        "name": "Packaging Machinery - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Packaging%20Machinery%20-%20Maintenance%20and%20MR&font=roboto",
+        "description": "Replacement fasteners and consumables for packaging machinery maintenance."
+      },
+      {
+        "name": "Packaging Machinery - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Packaging%20Machinery%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised packaging machinery applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 35
+  },
+  {
+    "id": 36,
+    "slug": "paper-and-pulp-industry",
+    "name": "Paper & Pulp Industry",
+    "description": "Engineered fastening solutions for the Paper & Pulp Industry sector — corrosion-resistant bolting for digesters.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding paper & pulp industry sector. We supply corrosion-resistant bolting for digesters manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Paper%20and%20Pulp%20Industry&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Paper & Pulp Industry - Primary Assembly",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Paper%20and%20Pulp%20Industry%20-%20Primary%20Assemb&font=roboto",
+        "description": "Critical fasteners for paper & pulp industry primary structural and mechanical joints."
+      },
+      {
+        "name": "Paper & Pulp Industry - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Paper%20and%20Pulp%20Industry%20-%20Maintenance%20an&font=roboto",
+        "description": "Replacement fasteners and consumables for paper & pulp industry maintenance."
+      },
+      {
+        "name": "Paper & Pulp Industry - Custom Engineering",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Paper%20and%20Pulp%20Industry%20-%20Custom%20Enginee&font=roboto",
+        "description": "Bespoke fastener engineering for specialised paper & pulp industry applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 36
+  },
+  {
+    "id": 37,
+    "slug": "petrochemical-and-chemical-plants",
+    "name": "Petrochemical & Chemical Plants",
+    "description": "Engineered fastening solutions for the Petrochemical & Chemical Plants sector — B7/B8M bolting for reactors and columns.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding petrochemical & chemical plants sector. We supply B7/B8M bolting for reactors and columns manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Petrochemical%20and%20Chemical%20Plants&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Petrochemical & Chemical Plants - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Petrochemical%20and%20Chemical%20Plants%20-%20Prim&font=roboto",
+        "description": "Critical fasteners for petrochemical & chemical plants primary structural and mechanical joints."
+      },
+      {
+        "name": "Petrochemical & Chemical Plants - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Petrochemical%20and%20Chemical%20Plants%20-%20Main&font=roboto",
+        "description": "Replacement fasteners and consumables for petrochemical & chemical plants maintenance."
+      },
+      {
+        "name": "Petrochemical & Chemical Plants - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Petrochemical%20and%20Chemical%20Plants%20-%20Cust&font=roboto",
+        "description": "Bespoke fastener engineering for specialised petrochemical & chemical plants applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 37
+  },
+  {
+    "id": 38,
+    "slug": "pharmaceutical-industry",
+    "name": "Pharmaceutical Industry",
+    "description": "Engineered fastening solutions for the Pharmaceutical Industry sector — GMP-compliant 316L fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding pharmaceutical industry sector. We supply GMP-compliant 316L fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Pharmaceutical%20Industry&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Pharmaceutical Industry - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Pharmaceutical%20Industry%20-%20Primary%20Assemb&font=roboto",
+        "description": "Critical fasteners for pharmaceutical industry primary structural and mechanical joints."
+      },
+      {
+        "name": "Pharmaceutical Industry - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Pharmaceutical%20Industry%20-%20Maintenance%20an&font=roboto",
+        "description": "Replacement fasteners and consumables for pharmaceutical industry maintenance."
+      },
+      {
+        "name": "Pharmaceutical Industry - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Pharmaceutical%20Industry%20-%20Custom%20Enginee&font=roboto",
+        "description": "Bespoke fastener engineering for specialised pharmaceutical industry applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 38
+  },
+  {
+    "id": 39,
+    "slug": "power-plants-and-energy",
+    "name": "Power Plants & Energy",
+    "description": "Engineered fastening solutions for the Power Plants & Energy sector — boiler, turbine and condenser bolting.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding power plants & energy sector. We supply boiler, turbine and condenser bolting manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Power%20Plants%20and%20Energy&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Power Plants & Energy - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Power%20Plants%20and%20Energy%20-%20Primary%20Assemb&font=roboto",
+        "description": "Critical fasteners for power plants & energy primary structural and mechanical joints."
+      },
+      {
+        "name": "Power Plants & Energy - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Power%20Plants%20and%20Energy%20-%20Maintenance%20an&font=roboto",
+        "description": "Replacement fasteners and consumables for power plants & energy maintenance."
+      },
+      {
+        "name": "Power Plants & Energy - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Power%20Plants%20and%20Energy%20-%20Custom%20Enginee&font=roboto",
+        "description": "Bespoke fastener engineering for specialised power plants & energy applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 39
+  },
+  {
+    "id": 40,
+    "slug": "pre-engineered-buildings",
+    "name": "Pre-Engineered Buildings (PEB)",
+    "description": "Engineered fastening solutions for the Pre-Engineered Buildings (PEB) sector — HSFG and HDG structural bolting.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding pre-engineered buildings (peb) sector. We supply HSFG and HDG structural bolting manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Pre-Engineered%20Buildings%20(PEB)&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Pre-Engineered Buildings (PEB) - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Pre-Engineered%20Buildings%20(PEB)%20-%20Primary&font=roboto",
+        "description": "Critical fasteners for pre-engineered buildings (peb) primary structural and mechanical joints."
+      },
+      {
+        "name": "Pre-Engineered Buildings (PEB) - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Pre-Engineered%20Buildings%20(PEB)%20-%20Mainten&font=roboto",
+        "description": "Replacement fasteners and consumables for pre-engineered buildings (peb) maintenance."
+      },
+      {
+        "name": "Pre-Engineered Buildings (PEB) - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Pre-Engineered%20Buildings%20(PEB)%20-%20Custom%20&font=roboto",
+        "description": "Bespoke fastener engineering for specialised pre-engineered buildings (peb) applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 40
+  },
+  {
+    "id": 41,
+    "slug": "pressure-vessels",
+    "name": "Pressure Vessels",
+    "description": "Engineered fastening solutions for the Pressure Vessels sector — ASME Section VIII compliant bolting.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding pressure vessels sector. We supply ASME Section VIII compliant bolting manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Pressure%20Vessels&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Pressure Vessels - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Pressure%20Vessels%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for pressure vessels primary structural and mechanical joints."
+      },
+      {
+        "name": "Pressure Vessels - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Pressure%20Vessels%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for pressure vessels maintenance."
+      },
+      {
+        "name": "Pressure Vessels - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Pressure%20Vessels%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised pressure vessels applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 41
+  },
+  {
+    "id": 42,
+    "slug": "printing-machinery",
+    "name": "Printing Machinery",
+    "description": "Engineered fastening solutions for the Printing Machinery sector — press, roller and frame fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding printing machinery sector. We supply press, roller and frame fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Printing%20Machinery&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Printing Machinery - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Printing%20Machinery%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for printing machinery primary structural and mechanical joints."
+      },
+      {
+        "name": "Printing Machinery - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Printing%20Machinery%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for printing machinery maintenance."
+      },
+      {
+        "name": "Printing Machinery - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Printing%20Machinery%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised printing machinery applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 42
+  },
+  {
+    "id": 43,
+    "slug": "pumps-valves-and-compressors",
+    "name": "Pumps, Valves & Compressors",
+    "description": "Engineered fastening solutions for the Pumps, Valves & Compressors sector — casing, cover and gland bolting.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding pumps, valves & compressors sector. We supply casing, cover and gland bolting manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Pumps%2C%20Valves%20and%20Compressors&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Pumps, Valves & Compressors - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Pumps%2C%20Valves%20and%20Compressors%20-%20Primary%20&font=roboto",
+        "description": "Critical fasteners for pumps, valves & compressors primary structural and mechanical joints."
+      },
+      {
+        "name": "Pumps, Valves & Compressors - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Pumps%2C%20Valves%20and%20Compressors%20-%20Maintena&font=roboto",
+        "description": "Replacement fasteners and consumables for pumps, valves & compressors maintenance."
+      },
+      {
+        "name": "Pumps, Valves & Compressors - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Pumps%2C%20Valves%20and%20Compressors%20-%20Custom%20E&font=roboto",
+        "description": "Bespoke fastener engineering for specialised pumps, valves & compressors applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 43
+  },
+  {
+    "id": 44,
+    "slug": "railways-and-metro",
+    "name": "Railways & Metro",
+    "description": "Engineered fastening solutions for the Railways & Metro sector — track, rolling-stock and signalling fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding railways & metro sector. We supply track, rolling-stock and signalling fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Railways%20and%20Metro&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Railways & Metro - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Railways%20and%20Metro%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for railways & metro primary structural and mechanical joints."
+      },
+      {
+        "name": "Railways & Metro - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Railways%20and%20Metro%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for railways & metro maintenance."
+      },
+      {
+        "name": "Railways & Metro - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Railways%20and%20Metro%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised railways & metro applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 44
+  },
+  {
+    "id": 45,
+    "slug": "refrigeration-and-cold-storage",
+    "name": "Refrigeration & Cold Storage",
+    "description": "Engineered fastening solutions for the Refrigeration & Cold Storage sector — low-temperature L7 bolting.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding refrigeration & cold storage sector. We supply low-temperature L7 bolting manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Refrigeration%20and%20Cold%20Storage&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Refrigeration & Cold Storage - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Refrigeration%20and%20Cold%20Storage%20-%20Primary&font=roboto",
+        "description": "Critical fasteners for refrigeration & cold storage primary structural and mechanical joints."
+      },
+      {
+        "name": "Refrigeration & Cold Storage - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Refrigeration%20and%20Cold%20Storage%20-%20Mainten&font=roboto",
+        "description": "Replacement fasteners and consumables for refrigeration & cold storage maintenance."
+      },
+      {
+        "name": "Refrigeration & Cold Storage - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1e293b/fbbf24/png?text=Refrigeration%20and%20Cold%20Storage%20-%20Custom%20&font=roboto",
+        "description": "Bespoke fastener engineering for specialised refrigeration & cold storage applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 45
+  },
+  {
+    "id": 46,
+    "slug": "signage-and-advertising-structures",
+    "name": "Signage & Advertising Structures",
+    "description": "Engineered fastening solutions for the Signage & Advertising Structures sector — weather-resistant outdoor fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding signage & advertising structures sector. We supply weather-resistant outdoor fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Signage%20and%20Advertising%20Structures&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Signage & Advertising Structures - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Signage%20and%20Advertising%20Structures%20-%20Pri&font=roboto",
+        "description": "Critical fasteners for signage & advertising structures primary structural and mechanical joints."
+      },
+      {
+        "name": "Signage & Advertising Structures - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Signage%20and%20Advertising%20Structures%20-%20Mai&font=roboto",
+        "description": "Replacement fasteners and consumables for signage & advertising structures maintenance."
+      },
+      {
+        "name": "Signage & Advertising Structures - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Signage%20and%20Advertising%20Structures%20-%20Cus&font=roboto",
+        "description": "Bespoke fastener engineering for specialised signage & advertising structures applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 46
+  },
+  {
+    "id": 47,
+    "slug": "solar-energy-and-renewable-projects",
+    "name": "Solar Energy & Renewable Projects",
+    "description": "Engineered fastening solutions for the Solar Energy & Renewable Projects sector — HDG and SS fasteners for module mounting.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding solar energy & renewable projects sector. We supply HDG and SS fasteners for module mounting manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Solar%20Energy%20and%20Renewable%20Projects&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Solar Energy & Renewable Projects - Primary Assembly",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Solar%20Energy%20and%20Renewable%20Projects%20-%20Pr&font=roboto",
+        "description": "Critical fasteners for solar energy & renewable projects primary structural and mechanical joints."
+      },
+      {
+        "name": "Solar Energy & Renewable Projects - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Solar%20Energy%20and%20Renewable%20Projects%20-%20Ma&font=roboto",
+        "description": "Replacement fasteners and consumables for solar energy & renewable projects maintenance."
+      },
+      {
+        "name": "Solar Energy & Renewable Projects - Custom Engineering",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Solar%20Energy%20and%20Renewable%20Projects%20-%20Cu&font=roboto",
+        "description": "Bespoke fastener engineering for specialised solar energy & renewable projects applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 47
+  },
+  {
+    "id": 48,
+    "slug": "sports-infrastructure-and-stadiums",
+    "name": "Sports Infrastructure & Stadiums",
+    "description": "Engineered fastening solutions for the Sports Infrastructure & Stadiums sector — stadium, seating and roof fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding sports infrastructure & stadiums sector. We supply stadium, seating and roof fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Sports%20Infrastructure%20and%20Stadiums&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Sports Infrastructure & Stadiums - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Sports%20Infrastructure%20and%20Stadiums%20-%20Pri&font=roboto",
+        "description": "Critical fasteners for sports infrastructure & stadiums primary structural and mechanical joints."
+      },
+      {
+        "name": "Sports Infrastructure & Stadiums - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Sports%20Infrastructure%20and%20Stadiums%20-%20Mai&font=roboto",
+        "description": "Replacement fasteners and consumables for sports infrastructure & stadiums maintenance."
+      },
+      {
+        "name": "Sports Infrastructure & Stadiums - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Sports%20Infrastructure%20and%20Stadiums%20-%20Cus&font=roboto",
+        "description": "Bespoke fastener engineering for specialised sports infrastructure & stadiums applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 48
+  },
+  {
+    "id": 49,
+    "slug": "steel-fabrication-and-structural-works",
+    "name": "Steel Fabrication & Structural Works",
+    "description": "Engineered fastening solutions for the Steel Fabrication & Structural Works sector — HSFG, HV/HR structural bolting.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding steel fabrication & structural works sector. We supply HSFG, HV/HR structural bolting manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Steel%20Fabrication%20and%20Structural%20Works&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Steel Fabrication & Structural Works - Primary Assembly",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Steel%20Fabrication%20and%20Structural%20Works%20-&font=roboto",
+        "description": "Critical fasteners for steel fabrication & structural works primary structural and mechanical joints."
+      },
+      {
+        "name": "Steel Fabrication & Structural Works - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Steel%20Fabrication%20and%20Structural%20Works%20-&font=roboto",
+        "description": "Replacement fasteners and consumables for steel fabrication & structural works maintenance."
+      },
+      {
+        "name": "Steel Fabrication & Structural Works - Custom Engineering",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Steel%20Fabrication%20and%20Structural%20Works%20-&font=roboto",
+        "description": "Bespoke fastener engineering for specialised steel fabrication & structural works applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 49
+  },
+  {
+    "id": 50,
+    "slug": "storage-systems-and-warehousing",
+    "name": "Storage Systems & Warehousing",
+    "description": "Engineered fastening solutions for the Storage Systems & Warehousing sector — rack, mezzanine and pallet fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding storage systems & warehousing sector. We supply rack, mezzanine and pallet fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Storage%20Systems%20and%20Warehousing&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Storage Systems & Warehousing - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Storage%20Systems%20and%20Warehousing%20-%20Primar&font=roboto",
+        "description": "Critical fasteners for storage systems & warehousing primary structural and mechanical joints."
+      },
+      {
+        "name": "Storage Systems & Warehousing - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Storage%20Systems%20and%20Warehousing%20-%20Mainte&font=roboto",
+        "description": "Replacement fasteners and consumables for storage systems & warehousing maintenance."
+      },
+      {
+        "name": "Storage Systems & Warehousing - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Storage%20Systems%20and%20Warehousing%20-%20Custom&font=roboto",
+        "description": "Bespoke fastener engineering for specialised storage systems & warehousing applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 50
+  },
+  {
+    "id": 51,
+    "slug": "sugar-mills",
+    "name": "Sugar Mills",
+    "description": "Engineered fastening solutions for the Sugar Mills sector — mill, evaporator and pan fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding sugar mills sector. We supply mill, evaporator and pan fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Sugar%20Mills&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Sugar Mills - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Sugar%20Mills%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for sugar mills primary structural and mechanical joints."
+      },
+      {
+        "name": "Sugar Mills - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Sugar%20Mills%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for sugar mills maintenance."
+      },
+      {
+        "name": "Sugar Mills - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Sugar%20Mills%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised sugar mills applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 51
+  },
+  {
+    "id": 52,
+    "slug": "telecommunication-towers",
+    "name": "Telecommunication Towers",
+    "description": "Engineered fastening solutions for the Telecommunication Towers sector — tower, antenna and HDG bolting.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding telecommunication towers sector. We supply tower, antenna and HDG bolting manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Telecommunication%20Towers&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Telecommunication Towers - Primary Assembly",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Telecommunication%20Towers%20-%20Primary%20Assem&font=roboto",
+        "description": "Critical fasteners for telecommunication towers primary structural and mechanical joints."
+      },
+      {
+        "name": "Telecommunication Towers - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Telecommunication%20Towers%20-%20Maintenance%20a&font=roboto",
+        "description": "Replacement fasteners and consumables for telecommunication towers maintenance."
+      },
+      {
+        "name": "Telecommunication Towers - Custom Engineering",
+        "image": "https://placehold.co/1200x800/0f172a/f59e0b/png?text=Telecommunication%20Towers%20-%20Custom%20Engine&font=roboto",
+        "description": "Bespoke fastener engineering for specialised telecommunication towers applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 52
+  },
+  {
+    "id": 53,
+    "slug": "textile-machinery",
+    "name": "Textile Machinery",
+    "description": "Engineered fastening solutions for the Textile Machinery sector — loom, spindle and frame fasteners.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding textile machinery sector. We supply loom, spindle and frame fasteners manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Textile%20Machinery&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Textile Machinery - Primary Assembly",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Textile%20Machinery%20-%20Primary%20Assembly&font=roboto",
+        "description": "Critical fasteners for textile machinery primary structural and mechanical joints."
+      },
+      {
+        "name": "Textile Machinery - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Textile%20Machinery%20-%20Maintenance%20and%20MRO&font=roboto",
+        "description": "Replacement fasteners and consumables for textile machinery maintenance."
+      },
+      {
+        "name": "Textile Machinery - Custom Engineering",
+        "image": "https://placehold.co/1200x800/1f2937/d4af37/png?text=Textile%20Machinery%20-%20Custom%20Engineering&font=roboto",
+        "description": "Bespoke fastener engineering for specialised textile machinery applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 53
+  },
+  {
+    "id": 54,
+    "slug": "water-treatment-and-desalination-plants",
+    "name": "Water Treatment & Desalination Plants",
+    "description": "Engineered fastening solutions for the Water Treatment & Desalination Plants sector — duplex SS bolting for water service.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding water treatment & desalination plants sector. We supply duplex SS bolting for water service manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Water%20Treatment%20and%20Desalination%20Plants&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Water Treatment & Desalination Plants - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Water%20Treatment%20and%20Desalination%20Plants%20&font=roboto",
+        "description": "Critical fasteners for water treatment & desalination plants primary structural and mechanical joints."
+      },
+      {
+        "name": "Water Treatment & Desalination Plants - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Water%20Treatment%20and%20Desalination%20Plants%20&font=roboto",
+        "description": "Replacement fasteners and consumables for water treatment & desalination plants maintenance."
+      },
+      {
+        "name": "Water Treatment & Desalination Plants - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Water%20Treatment%20and%20Desalination%20Plants%20&font=roboto",
+        "description": "Bespoke fastener engineering for specialised water treatment & desalination plants applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 54
+  },
+  {
+    "id": 55,
+    "slug": "wind-energy-installations",
+    "name": "Wind Energy Installations",
+    "description": "Engineered fastening solutions for the Wind Energy Installations sector — tower-flange and blade-root bolting.",
+    "heroDescription": "M.I. Engineering Works-grade precision fasteners are engineered for the demanding wind energy installations sector. We supply tower-flange and blade-root bolting manufactured to international standards (ASTM, DIN, ISO, EN) with full traceability, mill test certificates, and corrosion protection options including HDG, PTFE/Xylan and stainless steel grades for service in the harshest environments.",
+    "image": "https://placehold.co/1200x800/111827/eab308/png?text=Wind%20Energy%20Installations&font=roboto",
+    "grades": [
+      {
+        "grade": "ASTM A193 B7",
+        "usage": "General high-strength bolting",
+        "specification": "Cr-Mo alloy steel, quenched & tempered"
+      },
+      {
+        "grade": "ASTM A194 2H",
+        "usage": "Mating nuts for flange joints",
+        "specification": "Heavy hex nuts for B7 studs"
+      },
+      {
+        "grade": "Class 8.8 / 10.9 / 12.9",
+        "usage": "Structural and mechanical assemblies",
+        "specification": "Metric high-strength bolts"
+      },
+      {
+        "grade": "SS 304 / 316",
+        "usage": "Corrosion-resistant fastening",
+        "specification": "Austenitic stainless steel"
+      }
+    ],
+    "applications": [
+      {
+        "name": "Wind Energy Installations - Primary Assembly",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Wind%20Energy%20Installations%20-%20Primary%20Asse&font=roboto",
+        "description": "Critical fasteners for wind energy installations primary structural and mechanical joints."
+      },
+      {
+        "name": "Wind Energy Installations - Maintenance & MRO",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Wind%20Energy%20Installations%20-%20Maintenance%20&font=roboto",
+        "description": "Replacement fasteners and consumables for wind energy installations maintenance."
+      },
+      {
+        "name": "Wind Energy Installations - Custom Engineering",
+        "image": "https://placehold.co/1200x800/111827/eab308/png?text=Wind%20Energy%20Installations%20-%20Custom%20Engin&font=roboto",
+        "description": "Bespoke fastener engineering for specialised wind energy installations applications."
+      }
+    ],
+    "keyRequirements": [
+      "Material certificates EN 10204 3.1/3.2",
+      "Full traceability and batch identification",
+      "Third-party inspection on request",
+      "Custom coatings and platings available"
+    ],
+    "sortOrder": 55
+  }
+]

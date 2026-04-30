@@ -1,0 +1,251 @@
+[
+  {
+    "id": 1,
+    "slug": "astm",
+    "code": "ASTM",
+    "name": "ASTM International (American Society for Testing and Materials)",
+    "region": "United States / International",
+    "description": "ASTM standards (such as A193, A194, A320, A325, A490, F1554) are the global benchmark for high-strength bolting in petrochemical, oil & gas, power generation, and structural steel applications. They define chemistry, mechanical properties, heat treatment, testing, and marking requirements.",
+    "image": "https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0?w=1200&q=80",
+    "scope": "Mechanical and chemical specifications for fasteners, alloy steel bolting materials, stainless steel bolting, structural bolts, and anchor bolts.",
+    "applications": [
+      "Oil & Gas",
+      "Petrochemical",
+      "Power Generation",
+      "Refineries",
+      "Pressure Vessels",
+      "Structural Steel"
+    ],
+    "materials": [
+      "A193 B7 / B7M / B16",
+      "A194 2H / 4 / 7 / 8",
+      "A320 L7 / L7M",
+      "A325 / A490",
+      "F1554"
+    ],
+    "examples": [
+      "ASTM A193 B7 — Cr-Mo alloy stud bolts",
+      "ASTM A194 2H — Heavy hex nuts for high-temperature service",
+      "ASTM A320 L7 — Low-temperature alloy bolting",
+      "ASTM F1554 — Anchor bolts (Grade 36/55/105)"
+    ],
+    "sortOrder": 1
+  },
+  {
+    "id": 2,
+    "slug": "ansi-asme",
+    "code": "ANSI / ASME",
+    "name": "American National Standards Institute / American Society of Mechanical Engineers",
+    "region": "United States",
+    "description": "ANSI/ASME standards govern the dimensional, threading, and head-form requirements of fasteners. ASME B18 covers bolts, screws, and nuts, while ASME B1 governs unified inch (UNC/UNF) and metric (M) thread profiles. Compliance ensures interchangeability of fasteners worldwide.",
+    "image": "https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=1200&q=80",
+    "scope": "Dimensional and thread standards for inch and metric series fasteners — hex bolts, heavy hex, socket products, studs, washers, and nuts.",
+    "applications": [
+      "Flanged Joints (ASME B16.5)",
+      "Pressure Piping",
+      "Mechanical Assemblies",
+      "Industrial Equipment"
+    ],
+    "materials": [
+      "Carbon Steel",
+      "Alloy Steel",
+      "Stainless Steel"
+    ],
+    "examples": [
+      "ASME B18.2.1 — Square and Hex Bolts and Screws (Inch)",
+      "ASME B18.2.2 — Nuts for General Applications",
+      "ASME B1.1 — Unified Inch Screw Threads (UN/UNR)",
+      "ASME B18.3 — Socket Cap Screws"
+    ],
+    "sortOrder": 2
+  },
+  {
+    "id": 3,
+    "slug": "din",
+    "code": "DIN",
+    "name": "Deutsches Institut für Normung (German Institute for Standardization)",
+    "region": "Germany / Europe",
+    "description": "DIN standards are the cornerstone of European fastener manufacturing. DIN 931, 933, 934, 976, and 6914 define metric hex bolts, full thread bolts, hex nuts, threaded rods, and high-strength structural bolts. Most DIN standards are gradually being superseded by ISO equivalents while remaining widely specified in industry.",
+    "image": "https://images.unsplash.com/photo-1581093588401-fbb62a02f120?w=1200&q=80",
+    "scope": "Metric fastener dimensions, threads (DIN 13), property classes (DIN EN ISO 898), surface treatments, and tolerances.",
+    "applications": [
+      "Automotive",
+      "Heavy Engineering",
+      "Industrial Machinery",
+      "Construction"
+    ],
+    "materials": [
+      "Property Class 8.8 / 10.9 / 12.9",
+      "Stainless A2 / A4",
+      "Quenched & Tempered Alloy"
+    ],
+    "examples": [
+      "DIN 931 — Hex bolts with shank (partial thread)",
+      "DIN 933 — Hex bolts fully threaded",
+      "DIN 934 — Hexagon nuts",
+      "DIN 976 — Threaded rods (studs)",
+      "DIN 6914 — High-strength structural hex bolts (HV)"
+    ],
+    "sortOrder": 3
+  },
+  {
+    "id": 4,
+    "slug": "iso",
+    "code": "ISO",
+    "name": "International Organization for Standardization",
+    "region": "International",
+    "description": "ISO standards harmonize fastener specifications globally, succeeding many DIN standards. ISO 4014, 4017, 4032, 4033, 898-1, and 3506 are the most commonly cited for metric bolts, nuts, mechanical properties, and stainless steel fasteners.",
+    "image": "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=1200&q=80",
+    "scope": "Globally accepted dimensions, mechanical properties, and quality assurance requirements for metric fasteners.",
+    "applications": [
+      "Global OEM Supply",
+      "Aerospace",
+      "Marine",
+      "Renewable Energy",
+      "Heavy Equipment"
+    ],
+    "materials": [
+      "8.8 / 10.9 / 12.9 Property Classes",
+      "A2-70 / A4-80 Stainless",
+      "Hot-Dip Galvanized"
+    ],
+    "examples": [
+      "ISO 4014 — Hex bolts, partial thread (formerly DIN 931)",
+      "ISO 4017 — Hex bolts, full thread (formerly DIN 933)",
+      "ISO 4032 — Hex nuts (formerly DIN 934)",
+      "ISO 898-1 — Mechanical properties of fasteners",
+      "ISO 3506 — Stainless steel fasteners"
+    ],
+    "sortOrder": 4
+  },
+  {
+    "id": 5,
+    "slug": "bs",
+    "code": "BS",
+    "name": "British Standards (BSI)",
+    "region": "United Kingdom",
+    "description": "British Standards (BS) for fasteners include BS 3692, BS 4190, BS 4395, and BS EN 14399 governing high-strength friction grip (HSFG) bolts widely used in UK structural steel, infrastructure, and bridge construction. BS Whitworth (BSW) and BS Fine (BSF) thread forms remain in use for legacy and heritage equipment.",
+    "image": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1200&q=80",
+    "scope": "Imperial and Whitworth thread series, HSFG structural bolts, and general-purpose UK fasteners.",
+    "applications": [
+      "UK Structural Steel",
+      "Bridges",
+      "Heritage Restoration",
+      "Railway"
+    ],
+    "materials": [
+      "Grade 8.8 / 10.9 HSFG",
+      "Carbon Steel BSW/BSF"
+    ],
+    "examples": [
+      "BS 3692 — ISO Metric Precision Bolts, Screws, and Nuts",
+      "BS 4190 — ISO Metric Black Hex Bolts and Nuts",
+      "BS 4395 — High-Strength Friction Grip Bolts (HSFG)",
+      "BS EN 14399 — High-strength structural bolting assemblies"
+    ],
+    "sortOrder": 5
+  },
+  {
+    "id": 6,
+    "slug": "is",
+    "code": "IS",
+    "name": "Indian Standards (BIS)",
+    "region": "India",
+    "description": "Indian Standards (IS) issued by the Bureau of Indian Standards govern fasteners used across Indian infrastructure, railways, power, and manufacturing sectors. IS 1364, 1367, 3757, and 6639 align closely with ISO standards while addressing local material specifications.",
+    "image": "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1200&q=80",
+    "scope": "Hex bolts/nuts, technical supply conditions, HSFG bolts, and threaded rods for Indian industry.",
+    "applications": [
+      "Indian Railways",
+      "Power Plants",
+      "Construction",
+      "Defence"
+    ],
+    "materials": [
+      "Property Class 4.6 / 8.8 / 10.9 / 12.9",
+      "Stainless A2 / A4"
+    ],
+    "examples": [
+      "IS 1364 — Hexagon Head Bolts, Screws, and Nuts (Product Grade A & B)",
+      "IS 1367 — Technical Supply Conditions for Threaded Steel Fasteners",
+      "IS 3757 — High Strength Structural Bolts (HSFG)",
+      "IS 6639 — Hexagon Bolts for Steel Structures"
+    ],
+    "sortOrder": 6
+  },
+  {
+    "id": 7,
+    "slug": "sae",
+    "code": "SAE",
+    "name": "Society of Automotive Engineers",
+    "region": "United States",
+    "description": "SAE standards (J429, J995, J1199) define grade-rated bolts and nuts for automotive, aerospace, and heavy-duty mobile equipment. SAE Grade 5 and Grade 8 fasteners are heat-treated medium-carbon and alloy steel bolts used in critical mechanical assemblies.",
+    "image": "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=1200&q=80",
+    "scope": "Mechanical and material requirements for inch-series bolts, screws, and studs in automotive applications.",
+    "applications": [
+      "Automotive",
+      "Aerospace",
+      "Heavy Equipment",
+      "Off-Highway Vehicles"
+    ],
+    "materials": [
+      "Grade 2 / 5 / 8 Carbon & Alloy Steel"
+    ],
+    "examples": [
+      "SAE J429 — Mechanical and Material Requirements for Externally Threaded Fasteners",
+      "SAE J995 — Mechanical and Material Requirements for Steel Nuts",
+      "SAE J1199 — Mechanical and Material Requirements for Metric Externally Threaded Steel Fasteners"
+    ],
+    "sortOrder": 7
+  },
+  {
+    "id": 8,
+    "slug": "eu",
+    "code": "EN",
+    "name": "European Norms (EN / EN ISO)",
+    "region": "Europe",
+    "description": "EN and EN ISO standards harmonize fastener requirements across the European Union. EN 14399 covers high-strength structural bolting assemblies for preloading, and EN ISO 4014/4017/898-1 govern dimensions and mechanical properties for metric fasteners CE-marked under the Construction Products Regulation.",
+    "image": "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1200&q=80",
+    "scope": "CE-compliant high-strength bolting and harmonized European fastener standards.",
+    "applications": [
+      "EU Structural Steel",
+      "Bridges",
+      "Wind Turbines",
+      "Industrial Plants"
+    ],
+    "materials": [
+      "8.8 / 10.9 HV / HR Systems",
+      "Hot-Dip Galvanized"
+    ],
+    "examples": [
+      "EN 14399-1..10 — High-strength structural bolting assemblies for preloading",
+      "EN ISO 4014 — Hex bolts (partial thread)",
+      "EN ISO 898-1 — Mechanical properties of carbon steel fasteners"
+    ],
+    "sortOrder": 8
+  },
+  {
+    "id": 9,
+    "slug": "uni",
+    "code": "UNI",
+    "name": "Ente Nazionale Italiano di Unificazione (Italian Standards)",
+    "region": "Italy",
+    "description": "UNI standards are the Italian national specifications for fasteners, often referenced in Italian and Mediterranean industrial projects. Many UNI standards have been harmonized with ISO/EN equivalents but remain specified in legacy and Italian-engineered equipment.",
+    "image": "https://images.unsplash.com/photo-1492130410875-aa61d2a6b6e8?w=1200&q=80",
+    "scope": "Italian dimensional and material standards for hex bolts, nuts, washers, and threaded fasteners.",
+    "applications": [
+      "Italian Industrial Equipment",
+      "Marine",
+      "Construction"
+    ],
+    "materials": [
+      "Class 8.8 / 10.9",
+      "Stainless"
+    ],
+    "examples": [
+      "UNI 5737 — Hex bolts (equivalent to DIN 931 / ISO 4014)",
+      "UNI 5739 — Hex bolts fully threaded (equivalent to DIN 933)",
+      "UNI 5588 — Hex nuts"
+    ],
+    "sortOrder": 9
+  }
+]

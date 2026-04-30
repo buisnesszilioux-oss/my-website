@@ -5,64 +5,38 @@ import AdminLayout from "./AdminLayout";
 import { importBatchToCollection } from "@/lib/firestoreApi";
 import { useToast } from "@/hooks/use-toast";
 
+// Bundled snapshot of the legacy Postgres data (exported via
+// `scripts/export-pg-to-json.ts`). The migration runs entirely in the browser
+// using the Firebase client SDK, so all you need is to be signed in as admin
+// and have Firestore + the security rules configured.
+import productsSeed from "@/data/firestore-seed/products.json";
+import industriesSeed from "@/data/firestore-seed/industries.json";
+import standardsSeed from "@/data/firestore-seed/standards.json";
+import mediaSeed from "@/data/firestore-seed/media.json";
+import siteContentSeed from "@/data/firestore-seed/siteContent.json";
+import pageSectionsSeed from "@/data/firestore-seed/pageSections.json";
+import floatingImagesSeed from "@/data/firestore-seed/floatingImages.json";
+import customersSeed from "@/data/firestore-seed/customers.json";
+import ledgerEntriesSeed from "@/data/firestore-seed/ledgerEntries.json";
+
 type Step = {
   key: string;
   label: string;
-  /** Source URL on the Node backend that returns an array of records */
-  sourceUrl: string;
-  /** Firestore collection name to write into */
   collection: string;
-  /** Field on each record to use as the document id (defaults to "id") */
+  data: any[];
   idField?: string;
-  /** Optional transform applied to each record before write */
-  transform?: (item: any) => any;
 };
 
 const STEPS: Step[] = [
-  {
-    key: "siteContent",
-    label: "Site Content (home page text)",
-    sourceUrl: "/api/site-content",
-    collection: "siteContent",
-    idField: "key",
-    transform: (map) => map, // special: handled below
-  },
-  {
-    key: "pageSections",
-    label: "Custom Homepage Sections",
-    sourceUrl: "/api/page-sections",
-    collection: "pageSections",
-  },
-  {
-    key: "floatingImages",
-    label: "Floating Hero Images",
-    sourceUrl: "/api/admin/floating-images",
-    collection: "floatingImages",
-  },
-  {
-    key: "products",
-    label: "Products",
-    sourceUrl: "/api/products",
-    collection: "products",
-  },
-  {
-    key: "industries",
-    label: "Industries",
-    sourceUrl: "/api/industries",
-    collection: "industries",
-  },
-  {
-    key: "standards",
-    label: "Standards",
-    sourceUrl: "/api/standards",
-    collection: "standards",
-  },
-  {
-    key: "media",
-    label: "Media (gallery / hero / banners)",
-    sourceUrl: "/api/media",
-    collection: "media",
-  },
+  { key: "siteContent",    label: "Site Content (home page text)",    collection: "siteContent",    data: siteContentSeed as any[],   idField: "key"  },
+  { key: "pageSections",   label: "Custom Homepage Sections",         collection: "pageSections",   data: pageSectionsSeed as any[] },
+  { key: "floatingImages", label: "Floating Hero Images",             collection: "floatingImages", data: floatingImagesSeed as any[] },
+  { key: "products",       label: "Products",                          collection: "products",       data: productsSeed as any[],     idField: "slug" },
+  { key: "industries",     label: "Industries",                        collection: "industries",     data: industriesSeed as any[],   idField: "slug" },
+  { key: "standards",      label: "Standards",                         collection: "standards",      data: standardsSeed as any[],    idField: "slug" },
+  { key: "media",          label: "Media (gallery / hero / banners)",  collection: "media",          data: mediaSeed as any[] },
+  { key: "customers",      label: "Ledger Customers",                  collection: "customers",      data: customersSeed as any[] },
+  { key: "ledgerEntries",  label: "Ledger Entries",                    collection: "ledgerEntries",  data: ledgerEntriesSeed as any[] },
 ];
 
 type Status = "idle" | "running" | "done" | "error";
@@ -77,34 +51,13 @@ const AdminMigrate = () => {
   const setStatus = (key: string, patch: Partial<{ status: Status; count: number; error: string }>) =>
     setStatuses((prev) => ({ ...prev, [key]: { ...prev[key], ...patch } }));
 
-  // Fetch directly from the Node backend (bypass our Firestore adapter)
-  // by hitting the dev server origin without /api proxy interception. We use
-  // the relative path with a special header that the adapter ignores by
-  // checking source — easiest is to call the backend directly using a
-  // sentinel query param that won't match any Firestore route.
-  // Simpler: temporarily uninstall? Better: call the real fetch via a saved ref.
-  const realFetch = (window as any).__realFetch__ || fetch;
-
   const runStep = async (step: Step) => {
     setStatus(step.key, { status: "running" });
     try {
-      // Use real fetch (not intercepted) to pull from the Node backend
-      const res = await realFetch(step.sourceUrl);
-      if (!res.ok) throw new Error(`Source returned ${res.status}`);
-      const raw = await res.json();
-
-      let count = 0;
-      if (step.key === "siteContent" && raw && typeof raw === "object" && !Array.isArray(raw)) {
-        // siteContent comes back as a key→value map; convert to array form
-        const items = Object.entries(raw as Record<string, string>).map(([key, value]) => ({ key, value }));
-        count = await importBatchToCollection(step.collection, items, { idField: "key" });
-      } else if (Array.isArray(raw)) {
-        count = await importBatchToCollection(step.collection, raw, { idField: step.idField });
-      } else {
-        throw new Error("Unexpected response shape");
-      }
-
+      const items = step.data || [];
+      const count = await importBatchToCollection(step.collection, items, { idField: step.idField });
       setStatus(step.key, { status: "done", count });
+      return count;
     } catch (e: any) {
       setStatus(step.key, { status: "error", error: e?.message || "Failed" });
       throw e;
@@ -117,17 +70,16 @@ const AdminMigrate = () => {
     let failed = 0;
     for (const step of STEPS) {
       try {
-        await runStep(step);
-        total += statuses[step.key]?.count ?? 0;
+        const c = await runStep(step);
+        total += c;
       } catch {
         failed++;
-        // continue — don't abort the whole migration on one failure
       }
     }
     setRunning(false);
     toast({
       title: failed === 0 ? "Migration complete" : `Migration finished with ${failed} error(s)`,
-      description: failed === 0 ? `Imported ${total}+ records into Firestore.` : "Check the per-step errors below.",
+      description: failed === 0 ? `Imported ${total} records into Firestore.` : "Check the per-step errors below.",
       variant: failed === 0 ? "default" : "destructive",
     });
   };
@@ -140,20 +92,21 @@ const AdminMigrate = () => {
 
       <div className="mb-6">
         <p className="text-xs uppercase tracking-[0.2em] text-primary/80 mb-1">One-time migration</p>
-        <h1 className="font-heading text-2xl md:text-3xl font-bold">Postgres → Firestore</h1>
+        <h1 className="font-heading text-2xl md:text-3xl font-bold">Seed → Firestore</h1>
         <p className="text-muted-foreground mt-2 text-sm max-w-2xl">
-          This pulls every record from the existing Node + Postgres backend and copies it into
-          Firestore. Document IDs are preserved (e.g. <code>products/123</code>) so URLs and
-          internal references keep working. Safe to run multiple times — existing docs are merged.
+          This pushes the bundled snapshot (exported from the old Postgres backend) into your
+          Firestore project. Document IDs are preserved (e.g. <code>products/m12-hex-bolt</code>)
+          so URLs and internal references keep working. Safe to run multiple times — existing
+          docs are merged.
         </p>
       </div>
 
       <div className="rounded-2xl border border-amber-500/40 bg-amber-500/10 text-amber-100 px-4 py-3 mb-6 text-sm flex items-start gap-2">
         <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
         <div>
-          <b>Before you run this:</b> open the Firestore console and apply the security rules from{" "}
-          <code>FIREBASE_SETUP.md</code>. The rules must allow the admin email to write to all
-          collections, otherwise every step will fail with "Missing or insufficient permissions".
+          <b>Before you run this:</b> open the Firestore console and apply security rules that
+          allow the admin email to write to all collections, otherwise every step will fail with
+          "Missing or insufficient permissions". See <code>FIREBASE_SETUP.md</code>.
         </div>
       </div>
 
@@ -181,7 +134,7 @@ const AdminMigrate = () => {
                 <div className="min-w-0">
                   <p className="font-medium truncate">{step.label}</p>
                   <p className="text-[11px] text-muted-foreground truncate">
-                    {step.sourceUrl} <ArrowRight className="inline w-3 h-3 mx-1" />{" "}
+                    {step.data.length} record(s) <ArrowRight className="inline w-3 h-3 mx-1" />{" "}
                     Firestore <code>{step.collection}</code>
                   </p>
                   {s.status === "done" && (
