@@ -48,6 +48,8 @@ const AdminContacts = lazy(() => import("./pages/admin/AdminContacts.tsx"));
 const AdminGradeChart = lazy(() => import("./pages/admin/AdminGradeChart.tsx"));
 const AdminSpecifications = lazy(() => import("./pages/admin/AdminSpecifications.tsx"));
 const AdminCatalog = lazy(() => import("./pages/admin/AdminCatalog.tsx"));
+const AdminCatalogue = lazy(() => import("./pages/admin/AdminCatalogue.tsx"));
+const AdminSlides = lazy(() => import("./pages/admin/AdminSlides.tsx"));
 const AdminBranding = lazy(() => import("./pages/admin/AdminBranding.tsx"));
 const AdminAnimations = lazy(() => import("./pages/admin/AdminAnimations.tsx"));
 const AdminLedger = lazy(() => import("./pages/admin/AdminLedger.tsx"));
@@ -108,6 +110,8 @@ const AnimatedRoutes = () => {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
           <Route path="/admin/products" element={<RequireAdmin><AdminProducts /></RequireAdmin>} />
+          <Route path="/admin/catalogue" element={<RequireAdmin><AdminCatalogue /></RequireAdmin>} />
+          <Route path="/admin/slides" element={<RequireAdmin><AdminSlides /></RequireAdmin>} />
           <Route path="/admin/industries" element={<RequireAdmin><AdminIndustries /></RequireAdmin>} />
           <Route path="/admin/standards" element={<RequireAdmin><AdminStandards /></RequireAdmin>} />
           <Route path="/admin/media" element={<RequireAdmin><AdminMedia /></RequireAdmin>} />

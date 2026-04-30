@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { LayoutDashboard, Package, Factory, Award, Mail, LogOut, Home, Image, FileText, LayoutGrid, Table2, FileBarChart, BookOpen, Sparkles, Palette, Notebook, Layers, Bot, HardDriveDownload, ImagePlus, Database } from "lucide-react";
+import { LayoutDashboard, Package, Factory, Award, Mail, LogOut, Home, Image, FileText, LayoutGrid, Table2, FileBarChart, BookOpen, Sparkles, Palette, Notebook, Layers, Bot, HardDriveDownload, ImagePlus, Database, GalleryHorizontal, Boxes } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { clearAdminSession, getAdminEmail } from "@/lib/adminAuth";
@@ -16,6 +16,8 @@ const links = [
   { to: "/admin/animations", label: "Animations", icon: Sparkles },
   { to: "/admin/content", label: "Site Content", icon: FileText },
   { to: "/admin/sections", label: "Custom Sections", icon: LayoutGrid },
+  { to: "/admin/catalogue", label: "Catalogue", icon: Boxes },
+  { to: "/admin/slides", label: "Slides", icon: GalleryHorizontal },
   { to: "/admin/products", label: "Products", icon: Package },
   { to: "/admin/applications", label: "Applications / Use Cases", icon: Layers },
   { to: "/admin/industries", label: "Industries (Advanced)", icon: Factory },

@@ -372,6 +372,39 @@ const ROUTES: Array<{ test: RegExp; handle: Handler }> = [
     },
   },
 
+  // ─── Public: home slides ──────────────────────────────────────────────────
+  {
+    test: /^\/api\/home-slides\/?$/,
+    handle: async (m) => {
+      if (m === "GET") {
+        const all = await listCollection("homeSlides", { orderField: "sortOrder" });
+        return all.filter((x: any) => x.enabled !== false);
+      }
+      throw new AdapterError("Method not allowed", 405);
+    },
+  },
+
+  // ─── Admin CRUD: home slides ──────────────────────────────────────────────
+  {
+    test: /^\/api\/admin\/home-slides\/?$/,
+    handle: async (m, body) => {
+      requireAdmin();
+      if (m === "GET") return listCollection("homeSlides", { orderField: "sortOrder" });
+      if (m === "POST") return createDoc("homeSlides", body);
+      throw new AdapterError("Method not allowed", 405);
+    },
+  },
+  {
+    test: /^\/api\/admin\/home-slides\/([^/]+)\/?$/,
+    handle: async (m, body, segs) => {
+      requireAdmin();
+      const id = segs[1];
+      if (m === "PATCH") return patchDoc("homeSlides", id, body);
+      if (m === "DELETE") return removeDoc("homeSlides", id);
+      throw new AdapterError("Method not allowed", 405);
+    },
+  },
+
   // ─── Admin CRUD: contacts ─────────────────────────────────────────────────
   {
     test: /^\/api\/admin\/contacts\/?$/,

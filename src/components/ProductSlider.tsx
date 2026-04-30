@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Autoplay from "embla-carousel-autoplay";
-import { products } from "@/data/products";
+import { useQuery } from "@tanstack/react-query";
+import { products as defaultProducts } from "@/data/products";
+import { api } from "@/lib/api";
+import type { HomeSlide } from "@/pages/admin/AdminSlides";
 import {
   Carousel,
   CarouselContent,
@@ -10,7 +13,39 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 
+interface SliderItem {
+  slug: string;
+  name: string;
+  img: string;
+  standard: string;
+  link?: string;
+}
+
 const ProductSlider = () => {
+  const { data: customSlides } = useQuery<HomeSlide[]>({
+    queryKey: ["/api/home-slides"],
+    queryFn: () => api("/api/home-slides"),
+    staleTime: 60_000,
+  });
+
+  const items: SliderItem[] = customSlides && customSlides.length > 0
+    ? customSlides
+        .slice()
+        .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+        .map((s) => ({
+          slug: s.slug || s.id,
+          name: s.name,
+          img: s.image,
+          standard: s.standard,
+          link: s.link,
+        }))
+    : defaultProducts.map((p) => ({
+        slug: p.slug,
+        name: p.name,
+        img: p.img,
+        standard: p.standard,
+      }));
+
   return (
     <section className="py-16 md:py-20 bg-secondary/20 overflow-hidden" aria-label="ASTM A193 Grade B7 Fasteners Collection">
       <div className="container">
@@ -53,13 +88,13 @@ const ProductSlider = () => {
             className="w-full"
           >
             <CarouselContent className="-ml-4">
-              {products.map((product) => (
+              {items.map((product) => (
                 <CarouselItem
                   key={product.slug}
                   className="pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4"
                 >
                   <Link
-                    to={`/product/${product.slug}`}
+                    to={product.link || `/product/${product.slug}`}
                     className="product-3d group block bg-card rounded-lg border border-border transition-all duration-300 overflow-hidden shadow-elegant"
                     title={`${product.name} ASTM A193 Grade B7 - M.I. Engineering Works Mumbai`}
                   >
@@ -97,7 +132,7 @@ const ProductSlider = () => {
         <div className="sr-only">
           <h3>ASTM A193 Grade B7 Products by M.I. Engineering Works, Mumbai</h3>
           <ul>
-            {products.map((p) => (
+            {defaultProducts.map((p) => (
               <li key={p.slug}>
                 <a href={`/product/${p.slug}`}>
                   {p.name} - ASTM A193 Grade B7 - {p.standard} - Sizes: {p.sizes} - Material: {p.material}

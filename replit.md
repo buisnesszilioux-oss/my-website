@@ -16,6 +16,14 @@ Marketing + content-managed site for M.I. Engineering Works, manufacturer of AST
 - One-time data migration: `src/data/firestore-seed/*.json` is the bundled snapshot exported via `scripts/export-pg-to-json.ts`. The admin clicks "Run full migration" on `/admin/migrate` to push it into Firestore.
 - See `FIREBASE_SETUP.md` for full setup, security rules, and cPanel deployment instructions.
 
+## Recent updates (2026-04-30, second pass)
+- **Cloudinary configured** for image uploads. `.env` now contains `VITE_CLOUDINARY_CLOUD_NAME=dsarrlz50` and `VITE_CLOUDINARY_UPLOAD_PRESET=dhutd5ga`. All admin image uploads (Catalogue, Slides, Products, Hero, etc.) go through `uploadFile()` in `src/lib/api.ts` which posts to Cloudinary's unsigned upload endpoint and stores the returned `secure_url` in Firestore.
+- **New admin section: Catalogue** (`/admin/catalogue`, `src/pages/admin/AdminCatalogue.tsx`). Image-first card grid with search + category filter for editing the products shown in the home page's "Premium Industrial Fasteners" section. Reads/writes the same `products` Firestore collection used by `ProductsSection.tsx`.
+- **New admin section: Slides** (`/admin/slides`, `src/pages/admin/AdminSlides.tsx`). Manages a new `homeSlides` Firestore collection that powers the auto-rotating slider directly under "Premium B7 Fasteners" on the home page (`ProductSlider.tsx`). Supports add / edit / delete / reorder / hide. Each slide has `name`, `image`, `standard`, `slug`, `link`, `sortOrder`, `enabled`. If the collection is empty, the slider falls back to the built-in `src/data/products.ts` defaults so the page never goes blank.
+- **Firestore adapter routes added** in `src/lib/firestoreApi.ts`: `GET /api/home-slides` (public) and full CRUD under `/api/admin/home-slides`.
+- Both new pages are linked from `AdminLayout.tsx` (sidebar) and routed in `src/App.tsx`.
+- cPanel ZIPs rebuilt: `cpanel-zips/mi-frontend-public_html.zip`, `cpanel-zips/mi-backend-nodeapp.zip`, `cpanel-zips/mi-fullstack-cpanel.zip`.
+
 ## Recent updates (2026-04)
 - **Universal product detail pages**: `src/pages/ProductDetail.tsx` now resolves a slug from either `src/data/products.ts` (rich) **or** `src/data/categories.ts` (sub-products). Sub-products auto-fill sensible defaults (threads, length, finish, dimensions) so every product gets the same rich layout. Page now includes a sticky **category sidebar** listing every product in the same category, plus a "More from {Category}" related grid.
 - **Applications search bar**: replaces the previous A–Z letter index in `src/pages/ApplicationsPage.tsx`. Keeps the A→Z / Z→A sort toggle. Uses the same glass search style as Standards.
