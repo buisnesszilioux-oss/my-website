@@ -108,3 +108,9 @@ id = "uyi06QC8nhSBnravWgjqE"
 uri = "file://FIREBASE_SETUP.md"
 type = "text"
 title = "Firebase + cPanel Setup Guide"
+
+[[outputs]]
+id = "bqhV--sj9Al3XunlfBD9X"
+uri = "file://mi-engineering-frontend.zip"
+type = "unspecified"
+title = "M.I. Engineering Frontend (cPanel deploy ready)"
