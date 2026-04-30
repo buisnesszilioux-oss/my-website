@@ -95,7 +95,7 @@ title = "Backend ZIP — cPanel Node.js app folder ke liye"
 id = "l--ya6McLziW4NV0RBeel"
 uri = "file://cpanel-zips/mi-frontend-public_html.zip"
 type = "unspecified"
-title = "Frontend ZIP — public_html folder ke liye"
+title = "Frontend bundle for cPanel public_html (4.37 MB)"
 
 [[outputs]]
 id = "iMwLZwGn8Scc-im8_3lgR"

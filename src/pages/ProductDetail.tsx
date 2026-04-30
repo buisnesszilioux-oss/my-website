@@ -6,6 +6,7 @@ import { getProductBySlug, products, type Product as RichProduct } from "@/data/
 import { categories, PRODUCT_IMAGES } from "@/data/categories";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ContactSection from "@/components/ContactSection";
 import PageTransition from "@/components/PageTransition";
 
 type ResolvedProduct = RichProduct & { categorySlug?: string; categoryName?: string };
@@ -392,6 +393,9 @@ const ProductDetail = () => {
           </div>
         </section>
       )}
+
+      {/* Send us a message + location */}
+      <ContactSection />
 
       <Footer />
     </div>

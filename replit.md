@@ -16,6 +16,14 @@ Marketing + content-managed site for M.I. Engineering Works, manufacturer of AST
 - One-time data migration: `src/data/firestore-seed/*.json` is the bundled snapshot exported via `scripts/export-pg-to-json.ts`. The admin clicks "Run full migration" on `/admin/migrate` to push it into Firestore.
 - See `FIREBASE_SETUP.md` for full setup, security rules, and cPanel deployment instructions.
 
+## Recent updates (2026-04-30, third pass)
+- **Removed home-page slider**: `<ProductSlider />` and the `src/components/ProductSlider.tsx` component are gone. Home now goes Hero → About → Categories → Stats → Applications → ... directly.
+- **Removed admin Slides section**: `src/pages/admin/AdminSlides.tsx` deleted, sidebar entry removed from `AdminLayout.tsx`, route removed from `App.tsx`, and the `/api/home-slides` + `/api/admin/home-slides` Firestore adapter routes removed from `src/lib/firestoreApi.ts`. The `homeSlides` Firestore collection (if any docs exist) is now orphan and harmless.
+- **Contact + map at the bottom of every product page**: `<ContactSection />` (with "Send Us a Message" form, address card, phone, email, and embedded Google map of the Khetwadi office) is now rendered just above the Footer on both `ProductDetail.tsx` (`/product/:slug`) and `CategoryPage.tsx` (`/category/:slug`).
+- **Search bar on category pages**: `CategoryPage.tsx` left sidebar now has a search input that live-filters the product list within that category. Empty search shows everything.
+- All products from `src/data/products.ts` and `src/data/categories.ts` continue to render via the existing `/product/:slug` and `/category/:slug` routes — no product data was deleted.
+- cPanel ZIPs rebuilt: `cpanel-zips/mi-frontend-public_html.zip` (4.37 MB), `mi-backend-nodeapp.zip` (24.20 MB), `mi-fullstack-cpanel.zip` (28.46 MB).
+
 ## Recent updates (2026-04-30, second pass)
 - **Cloudinary configured** for image uploads. `.env` now contains `VITE_CLOUDINARY_CLOUD_NAME=dsarrlz50` and `VITE_CLOUDINARY_UPLOAD_PRESET=dhutd5ga`. All admin image uploads (Catalogue, Slides, Products, Hero, etc.) go through `uploadFile()` in `src/lib/api.ts` which posts to Cloudinary's unsigned upload endpoint and stores the returned `secure_url` in Firestore.
 - **New admin section: Catalogue** (`/admin/catalogue`, `src/pages/admin/AdminCatalogue.tsx`). Image-first card grid with search + category filter for editing the products shown in the home page's "Premium Industrial Fasteners" section. Reads/writes the same `products` Firestore collection used by `ProductsSection.tsx`.

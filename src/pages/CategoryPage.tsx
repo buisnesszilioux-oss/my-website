@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { ChevronRight, FileText, MessageSquareQuote, Package } from "lucide-react";
+import { ChevronRight, FileText, MessageSquareQuote, Package, Search } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ContactSection from "@/components/ContactSection";
 import PageTransition from "@/components/PageTransition";
 import SEO from "@/components/SEO";
 import { categories, getCategoryBySlug, PRODUCT_IMAGES } from "@/data/categories";
@@ -13,6 +14,7 @@ export default function CategoryPage() {
   const [params, setParams] = useSearchParams();
   const initialProd = params.get("p") || cat?.products[0]?.slug || "";
   const [activeSlug, setActiveSlug] = useState<string>(initialProd);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const first = cat?.products[0]?.slug || "";
@@ -86,13 +88,29 @@ export default function CategoryPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6">
 
           {/* Left: product list */}
-          <aside className="bg-card rounded-xl border border-border overflow-hidden lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)]">
+          <aside className="bg-card rounded-xl border border-border overflow-hidden lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] flex flex-col">
             <div className="px-4 py-3 border-b border-border flex items-center gap-2 bg-secondary/40">
               <Package className="w-4 h-4 text-primary" />
               <h2 className="text-sm font-semibold uppercase tracking-wider">{cat.name} ({cat.products.length})</h2>
             </div>
-            <ul className="overflow-y-auto max-h-[60vh] lg:max-h-[calc(100vh-11rem)]">
-              {cat.products.map((p) => {
+            {/* Search box */}
+            <div className="p-3 border-b border-border">
+              <div className="relative">
+                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground/60 pointer-events-none" />
+                <input
+                  type="search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder={`Search in ${cat.name}…`}
+                  data-testid="input-category-search"
+                  className="w-full pl-9 pr-3 py-2 text-sm rounded-md border border-border bg-background/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/40 transition placeholder:text-muted-foreground/60"
+                />
+              </div>
+            </div>
+            <ul className="overflow-y-auto max-h-[60vh] lg:max-h-[calc(100vh-15rem)]">
+              {cat.products
+                .filter((p) => !search.trim() || p.name.toLowerCase().includes(search.trim().toLowerCase()))
+                .map((p) => {
                 const isActive = p.slug === active?.slug;
                 return (
                   <li key={p.slug}>
@@ -199,6 +217,9 @@ export default function CategoryPage() {
           </div>
         </section>
       </main>
+
+      {/* Send us a message + location */}
+      <ContactSection />
 
       <Footer />
     </PageTransition>
