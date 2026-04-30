@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import ProductSlider from "@/components/ProductSlider";
 import AboutSection from "@/components/AboutSection";
-import ProductsSection from "@/components/ProductsSection";
+import ProductCategoriesSection from "@/components/ProductCategoriesSection";
 import ApplicationsSection from "@/components/ApplicationsSection";
 import StandardsSection from "@/components/StandardsSection";
 import GallerySection from "@/components/GallerySection";
@@ -43,7 +43,7 @@ const Index = () => {
         <ProductSlider />
         <AboutSection />
         <CustomSections position="after-about" />
-        <ProductsSection withFilters />
+        <ProductCategoriesSection />
         <StatsCounter />
         <CustomSections position="after-stats" />
         <ApplicationsSection />

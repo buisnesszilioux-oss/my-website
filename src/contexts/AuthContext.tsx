@@ -13,6 +13,8 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   updateProfile as fbUpdateProfile,
+  GoogleAuthProvider,
+  signInWithPopup,
   type User as FirebaseUser,
 } from "firebase/auth";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
@@ -46,6 +48,7 @@ type AuthContextValue = {
   isAdmin: boolean;
   token: string | null;
   login: (email: string, password: string) => Promise<AuthUser>;
+  loginWithGoogle: () => Promise<AuthUser>;
   register: (data: RegisterData) => Promise<AuthUser>;
   logout: () => Promise<void>;
   refresh: () => Promise<void>;
@@ -144,6 +147,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return profile;
   };
 
+  const loginWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: "select_account" });
+    const cred = await signInWithPopup(auth, provider);
+    const profile = await loadOrCreateProfile(cred.user);
+    setUser(profile);
+    setToken(await cred.user.getIdToken());
+    return profile;
+  };
+
   const register = async (input: RegisterData) => {
     const cred = await createUserWithEmailAndPassword(auth, input.email.trim(), input.password);
     if (input.name) {
@@ -193,6 +206,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     isAdmin: !!user && user.role === "admin",
     token,
     login,
+    loginWithGoogle,
     register,
     logout,
     refresh,
