@@ -13,7 +13,7 @@ const GalleryPage = () => {
   const { data, isLoading } = useQuery<Media[]>({ queryKey: ["/api/media"], queryFn: () => api("/api/media") });
   const heroImage = useHeroImage("gallery");
   const [filter, setFilter] = useState<"all" | "photo" | "video">("all");
-  const [open, setOpen] = useState<Media | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const items = (data || []).filter((m) => filter === "all" ? true : m.type === filter);
 
@@ -70,12 +70,12 @@ const GalleryPage = () => {
             <div className="text-center text-muted-foreground py-20">No {filter === "all" ? "media" : filter + "s"} uploaded yet.</div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {items.map((m) => (
-                <button key={m.id} onClick={() => setOpen(m)} data-testid={`gallery-item-${m.id}`} className="group relative aspect-square overflow-hidden rounded-lg border border-border hover:border-primary/40 hover:shadow-gold transition">
+              {items.map((m, i) => (
+                <button key={m.id} onClick={() => setOpenIndex(i)} data-testid={`gallery-item-${m.id}`} className="group relative aspect-square overflow-hidden rounded-lg border border-border hover:border-primary/40 hover:shadow-gold transition">
                   <img src={m.thumbnail || m.url} alt={m.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
                   {m.type === "video" && (
                     <span className="absolute inset-0 flex items-center justify-center bg-black/30">
-                      <span className="w-14 h-14 rounded-full bg-gradient-gold flex items-center justify-center"><Play className="w-6 h-6 text-charcoal" /></span>
+                      <span className="w-14 h-14 rounded-full bg-gradient-gold flex items-center justify-center"><Play className="w-6 h-6 text-charcoal" fill="currentColor" /></span>
                     </span>
                   )}
                   {m.title && <span className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-2 text-xs text-white text-left">{m.title}</span>}
@@ -87,7 +87,9 @@ const GalleryPage = () => {
       </section>
 
       <Footer />
-      {open && <Lightbox media={open} onClose={() => setOpen(null)} />}
+      {openIndex !== null && (
+        <Lightbox items={items} startIndex={openIndex} onClose={() => setOpenIndex(null)} />
+      )}
     </PageTransition>
   );
 };
