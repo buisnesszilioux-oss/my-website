@@ -34,7 +34,7 @@ const AdminStandards = () => {
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["/api/standards"] }); toast({ title: "Saved" }); },
   });
   const del = useMutation({
-    mutationFn: (id: number) => api(`/api/admin/standards/${id}`, { method: "DELETE" }),
+    mutationFn: (id: string) => api(`/api/admin/standards/${id}`, { method: "DELETE" }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["/api/standards"] }); toast({ title: "Deleted" }); },
   });
 

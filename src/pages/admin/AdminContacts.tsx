@@ -9,7 +9,7 @@ const AdminContacts = () => {
   const { toast } = useToast();
   const { data } = useQuery<ContactSubmission[]>({ queryKey: ["/api/admin/contacts"], queryFn: () => api("/api/admin/contacts") });
   const del = useMutation({
-    mutationFn: (id: number) => api(`/api/admin/contacts/${id}`, { method: "DELETE" }),
+    mutationFn: (id: string) => api(`/api/admin/contacts/${id}`, { method: "DELETE" }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["/api/admin/contacts"] }); toast({ title: "Deleted" }); },
   });
 

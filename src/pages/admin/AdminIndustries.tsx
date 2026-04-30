@@ -32,7 +32,7 @@ const AdminIndustries = () => {
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["/api/industries"] }); toast({ title: "Saved" }); },
   });
   const del = useMutation({
-    mutationFn: (id: number) => api(`/api/admin/industries/${id}`, { method: "DELETE" }),
+    mutationFn: (id: string) => api(`/api/admin/industries/${id}`, { method: "DELETE" }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["/api/industries"] }); toast({ title: "Deleted" }); },
   });
 

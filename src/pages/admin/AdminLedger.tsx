@@ -9,7 +9,7 @@ import {
 import AdminLayout from "./AdminLayout";
 import { api } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
-import type { Customer, LedgerEntry } from "@shared/schema";
+import type { Customer, LedgerEntry } from "@/lib/api";
 
 const inr = (n: number) =>
   Number.isFinite(n)
@@ -108,7 +108,7 @@ export default function AdminLedger() {
   });
 
   const remove = useMutation({
-    mutationFn: (id: number) => api(`/api/admin/customers/${id}`, { method: "DELETE" }),
+    mutationFn: (id: string) => api(`/api/admin/customers/${id}`, { method: "DELETE" }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["/api/admin/customers"] });
       qc.invalidateQueries({ queryKey: ["/api/admin/ledger"] });

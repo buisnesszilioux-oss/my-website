@@ -65,6 +65,30 @@ export interface ContactSubmission {
   createdAt: string;
 }
 
+export interface Customer {
+  id: string;
+  name: string;
+  phone?: string | null;
+  address?: string | null;
+  notes?: string | null;
+  createdAt?: string | null;
+}
+
+export interface LedgerEntry {
+  id: string;
+  customerId: string;
+  customerName: string;
+  invoiceDate: string;
+  invoiceNo: string;
+  amountDue: string | number;
+  amountReceived?: string | number | null;
+  paymentDate?: string | null;
+  notes?: string | null;
+  tallyReceiptDone?: boolean | null;
+  bookEntryDone?: boolean | null;
+  createdAt?: string | null;
+}
+
 // Legacy token helpers — kept as no-ops so existing admin pages that import
 // them continue to compile. Real auth is now Firebase Auth via AuthContext.
 const LEGACY_TOKEN_KEY = "mi_admin_token";

@@ -16,6 +16,7 @@ const PUBLIC_PATHS: Record<HeroPage, string> = {
   gallery: "/gallery",
   specifications: "/specifications",
   gradeChart: "/grade-chart",
+  calculator: "/calculator",
   about: "/about",
   contact: "/contact",
 };

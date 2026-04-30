@@ -26,8 +26,12 @@ const ApplicationsPage = () => {
     const q = query.trim().toLowerCase();
     if (!q) return sorted;
     return sorted.filter((i) => {
-      const hay = [i.name, i.description, ...(i.applications || []), ...(i.materials || [])]
-        .filter(Boolean).join(" ").toLowerCase();
+      const hay = [
+        i.name,
+        i.description,
+        ...((i.applications || []).map((a: any) => (typeof a === "string" ? a : a?.name))),
+        ...(i.keyRequirements || []),
+      ].filter(Boolean).join(" ").toLowerCase();
       return hay.includes(q);
     });
   }, [sorted, query]);

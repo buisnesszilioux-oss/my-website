@@ -77,7 +77,7 @@ title = "Step-by-step cPanel deployment guide"
 id = "fhOYhkoOGYy8TCx0FGW71"
 uri = "file://cpanel-zips/mi-frontend.zip"
 type = "unspecified"
-title = "Frontend (with fixed hero text — 4.4 MB)"
+title = "M.I. Engineering Works — Frontend (cPanel ready)"
 
 [[outputs]]
 id = "XF9DhZMUf60W9voD4BL0-"
@@ -102,3 +102,9 @@ id = "iMwLZwGn8Scc-im8_3lgR"
 uri = "file://cpanel-zips/mi-fullstack-cpanel.zip"
 type = "unspecified"
 title = "M.I. Engineering — cPanel Single ZIP (frontend + backend)"
+
+[[outputs]]
+id = "uyi06QC8nhSBnravWgjqE"
+uri = "file://FIREBASE_SETUP.md"
+type = "text"
+title = "Firebase + cPanel Setup Guide"

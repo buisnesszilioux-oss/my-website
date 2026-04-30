@@ -10,7 +10,7 @@ import {
 import AdminLayout from "./AdminLayout";
 import { api } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
-import type { Customer, LedgerEntry } from "@shared/schema";
+import type { Customer, LedgerEntry } from "@/lib/api";
 
 const inr = (n: number) =>
   Number.isFinite(n)
@@ -46,12 +46,12 @@ const emptyForm: FormState = {
 
 export default function AdminLedgerCustomer() {
   const params = useParams<{ name: string }>();
-  const customerId = Number(params.name);
+  const customerId = params.name || "";
   const nav = useNavigate();
   const qc = useQueryClient();
   const { toast } = useToast();
 
-  const validId = Number.isFinite(customerId) && customerId > 0;
+  const validId = customerId.length > 0;
 
   const { data: customer, isLoading: cLoading, error: cError } = useQuery<Customer>({
     queryKey: ["/api/admin/customers", customerId],
@@ -98,7 +98,7 @@ export default function AdminLedgerCustomer() {
   });
 
   const update = useMutation({
-    mutationFn: ({ id, data }: { id: number; data: any }) =>
+    mutationFn: ({ id, data }: { id: string; data: any }) =>
       api(`/api/admin/ledger/${id}`, { method: "PATCH", body: JSON.stringify(data) }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["/api/admin/ledger"] });
@@ -108,7 +108,7 @@ export default function AdminLedgerCustomer() {
   });
 
   const remove = useMutation({
-    mutationFn: (id: number) => api(`/api/admin/ledger/${id}`, { method: "DELETE" }),
+    mutationFn: (id: string) => api(`/api/admin/ledger/${id}`, { method: "DELETE" }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["/api/admin/ledger"] });
       toast({ title: "Deleted" });
@@ -140,7 +140,7 @@ export default function AdminLedgerCustomer() {
     const paid = isPaidEntry(e);
     const data = paid
       ? { amountReceived: "0", paymentDate: "" }
-      : { amountReceived: e.amountDue || "0", paymentDate: today() };
+      : { amountReceived: String(e.amountDue ?? "0"), paymentDate: today() };
     update.mutate({ id: e.id, data });
     toast({ title: paid ? "Marked as Pending" : "Marked as Paid" });
   };
@@ -159,7 +159,7 @@ export default function AdminLedgerCustomer() {
     setForm({
       invoiceDate: e.invoiceDate || today(),
       invoiceNo: e.invoiceNo || "",
-      amountDue: e.amountDue || "",
+      amountDue: String(e.amountDue ?? ""),
       notes: e.notes || "",
     });
   };
@@ -446,8 +446,8 @@ const Field = ({ label, children }: { label: string; children: React.ReactNode }
   </div>
 );
 
-const Th = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <th className={`px-4 py-3 text-[11px] font-bold uppercase tracking-wider text-foreground/80 ${className}`}>{children}</th>
+const Th = ({ children, className = "", title }: { children: React.ReactNode; className?: string; title?: string }) => (
+  <th title={title} className={`px-4 py-3 text-[11px] font-bold uppercase tracking-wider text-foreground/80 ${className}`}>{children}</th>
 );
 
 const Td = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (

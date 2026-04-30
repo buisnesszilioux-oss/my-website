@@ -51,7 +51,7 @@ const AdminProducts = () => {
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["/api/products"] }); toast({ title: "Saved" }); },
   });
   const del = useMutation({
-    mutationFn: (id: number) => api(`/api/admin/products/${id}`, { method: "DELETE" }),
+    mutationFn: (id: string) => api(`/api/admin/products/${id}`, { method: "DELETE" }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["/api/products"] }); toast({ title: "Deleted" }); },
   });
 

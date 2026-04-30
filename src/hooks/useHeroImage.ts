@@ -9,6 +9,7 @@ export type HeroPage =
   | "gallery"
   | "specifications"
   | "gradeChart"
+  | "calculator"
   | "about"
   | "contact";
 

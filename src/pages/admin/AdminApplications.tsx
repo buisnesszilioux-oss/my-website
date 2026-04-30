@@ -13,7 +13,7 @@ const slugify = (s: string) =>
   s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 type FormState = {
-  id?: number;
+  id?: string;
   slug: string;
   name: string;
   image: string;
@@ -57,7 +57,7 @@ export default function AdminApplications() {
   });
 
   const del = useMutation({
-    mutationFn: (id: number) => api(`/api/admin/industries/${id}`, { method: "DELETE" }),
+    mutationFn: (id: string) => api(`/api/admin/industries/${id}`, { method: "DELETE" }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["/api/industries"] }); toast({ title: "Deleted" }); },
   });
 
