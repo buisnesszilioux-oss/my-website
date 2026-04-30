@@ -445,25 +445,35 @@ const ROUTES: Array<{ test: RegExp; handle: Handler }> = [
   },
 
   // ─── Admin: site-content (key/value) ──────────────────────────────────────
+  // Accepts either a single { key, value } or a batch { entries: [{key,value}, …] }.
   {
     test: /^\/api\/admin\/site-content\/?$/,
     handle: async (m, body) => {
       requireAdmin();
       if (m !== "POST") throw new AdapterError("Method not allowed", 405);
-      const key = String(body?.key || "").trim();
-      if (!key) throw new AdapterError("Missing key", 400);
-      const value = String(body?.value ?? "");
-      await setDoc(doc(db, "siteContent", key), { key, value }, { merge: true });
-      return { key, value };
+
+      const entries: Array<{ key: string; value: string }> = Array.isArray(body?.entries)
+        ? body.entries
+        : [{ key: body?.key, value: body?.value }];
+
+      const saved: Array<{ key: string; value: string }> = [];
+      for (const entry of entries) {
+        const key = String(entry?.key || "").trim();
+        if (!key) throw new AdapterError("Missing key", 400);
+        const value = String(entry?.value ?? "");
+        await setDoc(doc(db, "siteContent", key), { key, value }, { merge: true });
+        saved.push({ key, value });
+      }
+      return Array.isArray(body?.entries) ? { saved } : saved[0];
     },
   },
 
-  // ─── Admin: upload (cPanel manual) ────────────────────────────────────────
+  // ─── Admin: upload (handled client-side via Cloudinary) ───────────────────
   {
     test: /^\/api\/admin\/upload\/?$/,
     handle: async () => {
       throw new AdapterError(
-        "Image upload disabled. Upload your file to the cPanel /uploads/ folder via File Manager and paste the URL (e.g. /uploads/myimage.jpg).",
+        "Uploads are handled client-side via Cloudinary — call uploadFile() from src/lib/api.ts directly.",
         501,
       );
     },

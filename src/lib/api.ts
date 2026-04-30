@@ -5,8 +5,6 @@
  */
 
 import { tryFirestoreFetch, AdapterError, installFetchInterceptor } from "./firestoreApi";
-import { storage } from "./firebase";
-import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // Install the global fetch interceptor so even raw `fetch("/api/...")` calls
 // scattered across the codebase are routed to Firestore.
@@ -113,35 +111,44 @@ export async function api<T = any>(path: string, opts: RequestInit = {}): Promis
 }
 
 /**
- * Upload a file (image / video / pdf) to Firebase Storage and return a public
- * download URL. Requires Firebase Storage to be enabled in the Firebase Console
- * and the storage rules to allow writes for admin users.
+ * Upload a file (image / video / pdf) to Cloudinary and return a public
+ * delivery URL. Uses an UNSIGNED upload preset so no server is needed.
+ *
+ * Required env vars (set as Replit secrets, prefixed VITE_ so Vite exposes them):
+ *   VITE_CLOUDINARY_CLOUD_NAME    — your Cloudinary cloud name
+ *   VITE_CLOUDINARY_UPLOAD_PRESET — name of an UNSIGNED upload preset
+ *
+ * Setup steps in Cloudinary dashboard:
+ *   1. Settings → Upload → Add upload preset → Signing Mode = "Unsigned"
+ *   2. (Optional) Set a folder, allowed formats, max file size on the preset
  */
 export async function uploadFile(file: File): Promise<{ url: string }> {
   if (!file) throw new Error("No file selected");
-  const MAX_BYTES = 50 * 1024 * 1024;
-  if (file.size > MAX_BYTES) {
-    throw new Error(`File too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Max 50 MB.`);
+
+  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME as string | undefined;
+  const preset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET as string | undefined;
+  if (!cloudName || !preset) {
+    throw new Error(
+      "Cloudinary not configured. Set VITE_CLOUDINARY_CLOUD_NAME and VITE_CLOUDINARY_UPLOAD_PRESET in Replit Secrets.",
+    );
   }
-  const safeName = file.name.replace(/[^a-zA-Z0-9._-]+/g, "_");
-  const path = `uploads/${Date.now()}_${Math.random().toString(36).slice(2, 8)}_${safeName}`;
-  try {
-    const r = storageRef(storage, path);
-    const snap = await uploadBytes(r, file, { contentType: file.type || "application/octet-stream" });
-    const url = await getDownloadURL(snap.ref);
-    return { url };
-  } catch (e: any) {
-    const code = e?.code || "";
-    if (code === "storage/unauthorized") {
-      throw new Error(
-        "Upload blocked by Firebase Storage rules. Open Firebase Console → Storage → Rules and allow writes for admin users.",
-      );
-    }
-    if (code === "storage/unknown" || /CORS|network/i.test(String(e?.message || ""))) {
-      throw new Error(
-        "Upload failed — Firebase Storage may not be enabled. Open Firebase Console → Storage → Get Started to enable it.",
-      );
-    }
-    throw new Error(e?.message || "Upload failed");
+
+  // Cloudinary auto-routes images / videos / raw files based on `resource_type=auto`.
+  const endpoint = `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`;
+
+  const form = new FormData();
+  form.append("file", file);
+  form.append("upload_preset", preset);
+
+  const realFetch = (window as any).__realFetch__ || window.fetch.bind(window);
+  const res = await realFetch(endpoint, { method: "POST", body: form });
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    const msg = data?.error?.message || `Cloudinary upload failed (${res.status})`;
+    throw new Error(msg);
   }
+  const url: string = data?.secure_url || data?.url;
+  if (!url) throw new Error("Cloudinary did not return a URL");
+  return { url };
 }
