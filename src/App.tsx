@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation, Navigate, useParams } from "react-router-dom";
 import { AnimatePresence, MotionConfig } from "framer-motion";
 import { HelmetProvider } from "react-helmet-async";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -14,25 +14,13 @@ import BrandingHead from "./components/BrandingHead";
 import { useApplyBackgroundAnimation } from "@/hooks/useActiveAnimations";
 import { useApplyTheme } from "@/hooks/useApplyTheme";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { categories } from "@/data/categories";
 
-// Public pages — lazy loaded for faster initial paint
+// Public pages
 const ProductDetail = lazy(() => import("./pages/ProductDetail.tsx"));
-const ProductsPage = lazy(() => import("./pages/ProductsPage.tsx"));
-const CategoryPage = lazy(() => import("./pages/CategoryPage.tsx"));
-const AboutPage = lazy(() => import("./pages/AboutPage.tsx"));
-const ContactPage = lazy(() => import("./pages/ContactPage.tsx"));
-const IndustryDetail = lazy(() => import("./pages/IndustryDetail.tsx"));
-const ApplicationsPage = lazy(() => import("./pages/ApplicationsPage.tsx"));
-const SpecificationsPage = lazy(() => import("./pages/SpecificationsPage.tsx"));
-const GradeChartPage = lazy(() => import("./pages/GradeChartPage.tsx"));
-const StandardsPage = lazy(() => import("./pages/StandardsPage.tsx"));
-const StandardDetail = lazy(() => import("./pages/StandardDetail.tsx"));
-const GalleryPage = lazy(() => import("./pages/GalleryPage.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
-const QuotePage = lazy(() => import("./pages/QuotePage.tsx"));
-const UserAuthPage = lazy(() => import("./pages/UserAuthPage.tsx"));
 
-// Admin pages — lazy loaded (only ever opened by site owner)
+// Admin pages
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin.tsx"));
 const AdminMedia = lazy(() => import("./pages/admin/AdminMedia.tsx"));
 const AdminContent = lazy(() => import("./pages/admin/AdminContent.tsx"));
@@ -77,6 +65,15 @@ const RouteFallback = () => (
   </div>
 );
 
+// /category/:slug → redirect to first product in that category
+const CategoryRedirect = () => {
+  const { slug } = useParams<{ slug: string }>();
+  const cat = categories.find((c) => c.slug === slug);
+  const first = cat?.products[0]?.slug;
+  if (first) return <Navigate to={`/product/${first}`} replace />;
+  return <Navigate to="/" replace />;
+};
+
 const AnimatedRoutes = () => {
   const location = useLocation();
   return (
@@ -84,24 +81,26 @@ const AnimatedRoutes = () => {
       <Suspense fallback={<RouteFallback />}>
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Index />} />
-          <Route path="/products" element={<ProductsPage />} />
-          <Route path="/category/:slug" element={<CategoryPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/quote" element={<QuotePage />} />
-          <Route path="/login" element={<UserAuthPage />} />
-          <Route path="/auth" element={<UserAuthPage />} />
-          <Route path="/register" element={<UserAuthPage />} />
-
           <Route path="/product/:slug" element={<ProductDetail />} />
-          <Route path="/industry/:slug" element={<IndustryDetail />} />
-          <Route path="/applications" element={<ApplicationsPage />} />
-          <Route path="/standards" element={<StandardsPage />} />
-          <Route path="/standards/:slug" element={<StandardDetail />} />
-          <Route path="/gallery" element={<GalleryPage />} />
-          <Route path="/specifications" element={<SpecificationsPage />} />
-          <Route path="/grade-chart" element={<GradeChartPage />} />
+          <Route path="/category/:slug" element={<CategoryRedirect />} />
 
+          {/* Redirect old pages to home */}
+          <Route path="/products" element={<Navigate to="/" replace />} />
+          <Route path="/about" element={<Navigate to="/" replace />} />
+          <Route path="/contact" element={<Navigate to="/" replace />} />
+          <Route path="/quote" element={<Navigate to="/" replace />} />
+          <Route path="/applications" element={<Navigate to="/" replace />} />
+          <Route path="/industry/:slug" element={<Navigate to="/" replace />} />
+          <Route path="/standards" element={<Navigate to="/" replace />} />
+          <Route path="/standards/:slug" element={<Navigate to="/" replace />} />
+          <Route path="/gallery" element={<Navigate to="/" replace />} />
+          <Route path="/specifications" element={<Navigate to="/" replace />} />
+          <Route path="/grade-chart" element={<Navigate to="/" replace />} />
+          <Route path="/login" element={<Navigate to="/" replace />} />
+          <Route path="/auth" element={<Navigate to="/" replace />} />
+          <Route path="/register" element={<Navigate to="/" replace />} />
+
+          {/* Admin */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
           <Route path="/admin/products" element={<RequireAdmin><AdminProducts /></RequireAdmin>} />
@@ -144,7 +143,6 @@ const SiteEffects = () => {
 const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
-      {/* reducedMotion="always" disables scroll-triggered & all motion animations so pages open instantly */}
       <MotionConfig reducedMotion="always">
         <TooltipProvider>
           <Toaster />

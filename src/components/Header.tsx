@@ -1,29 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Menu, X, Phone, Mail, Search, Download, ChevronDown } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
 import SearchDialog from "@/components/SearchDialog";
 import { useSiteContent } from "@/hooks/useSiteContent";
-import { api, type Industry, type Standard } from "@/lib/api";
 import { categories as productCategories } from "@/data/categories";
-
-type NavLink = {
-  label: string;
-  href: string;
-  dropdown?: "applications" | "standards" | "categories";
-};
-
-const navLinks: NavLink[] = [
-  { label: "Home", href: "/" },
-  { label: "Products", href: "/products", dropdown: "categories" },
-  { label: "Applications", href: "/applications", dropdown: "applications" },
-  { label: "Standards", href: "/standards", dropdown: "standards" },
-  { label: "Gallery", href: "/gallery" },
-  { label: "Specifications", href: "/specifications" },
-  { label: "Grade Chart", href: "/grade-chart" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -37,19 +17,6 @@ const Header = () => {
   const brandLogo = (content["brand.logo"] || "").trim();
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const { data: industries = [] } = useQuery<Industry[]>({
-    queryKey: ["industries"],
-    queryFn: () => api<Industry[]>("/api/industries"),
-    staleTime: 60_000,
-  });
-
-  const { data: standards = [] } = useQuery<Standard[]>({
-    queryKey: ["standards"],
-    queryFn: () => api<Standard[]>("/api/standards"),
-    staleTime: 60_000,
-  });
-
-  // Close any open dropdown on route change
   useEffect(() => {
     setOpenDropdown(null);
     setMobileOpen(false);
@@ -74,9 +41,6 @@ const Header = () => {
     }
   };
 
-  const isActive = (link: NavLink) =>
-    link.href === "/" ? location.pathname === "/" : location.pathname.startsWith(link.href);
-
   const cancelClose = () => {
     if (closeTimerRef.current) {
       clearTimeout(closeTimerRef.current);
@@ -88,91 +52,7 @@ const Header = () => {
     closeTimerRef.current = setTimeout(() => setOpenDropdown(null), 180);
   };
 
-  const renderDesktopLink = (l: NavLink) => {
-    if (!l.dropdown) {
-      return (
-        <Link
-          key={l.label}
-          to={l.href}
-          onClick={l.href === "/" ? handleHomeNavClick : undefined}
-          data-testid={`nav-${l.label.toLowerCase()}`}
-          className={`relative text-sm font-medium transition-colors after:absolute after:left-0 after:right-0 after:-bottom-1.5 after:h-0.5 after:rounded-full after:bg-primary after:transition-transform after:origin-center ${
-            isActive(l) ? "text-primary after:scale-x-100" : "text-foreground/80 hover:text-primary after:scale-x-0 hover:after:scale-x-100"
-          }`}
-        >
-          {l.label}
-        </Link>
-      );
-    }
-
-    const items =
-      l.dropdown === "applications"
-        ? industries.map((i) => ({ key: i.slug, label: i.name, href: `/industry/${i.slug}` }))
-        : l.dropdown === "categories"
-          ? productCategories.map((c) => ({ key: c.slug, label: c.name, href: `/category/${c.slug}` }))
-          : standards.map((s) => ({ key: s.slug, label: s.code, href: `/standards/${s.slug}` }));
-
-    const isOpen = openDropdown === l.label;
-    return (
-      <div
-        key={l.label}
-        className="relative"
-        onMouseEnter={() => {
-          cancelClose();
-          setOpenDropdown(l.label);
-        }}
-        onMouseLeave={scheduleClose}
-      >
-        <button
-          type="button"
-          data-testid={`nav-${l.label.toLowerCase()}`}
-          onClick={() => setOpenDropdown(isOpen ? null : l.label)}
-          className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${
-            isActive(l) || isOpen ? "text-primary" : "text-foreground/80 hover:text-primary"
-          }`}
-        >
-          {l.label}
-          <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isOpen ? "rotate-180" : ""}`} />
-        </button>
-
-        {isOpen && (
-          <div
-            onMouseEnter={cancelClose}
-            onMouseLeave={scheduleClose}
-            className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[min(680px,90vw)]"
-          >
-            <div className="rounded-xl border border-primary/15 bg-card/95 shadow-elegant p-3">
-              <Link
-                to={l.href}
-                onClick={() => setOpenDropdown(null)}
-                className="flex items-center justify-between px-3 py-2 mb-2 rounded-md text-sm font-semibold text-primary hover:bg-secondary/60 transition-colors"
-              >
-                View all {l.label}
-                <span className="text-xs text-muted-foreground">{items.length} total</span>
-              </Link>
-              <div className="grid grid-cols-2 gap-1 max-h-[60vh] overflow-y-auto pr-1">
-                {items.map((it) => (
-                  <Link
-                    key={it.key}
-                    to={it.href}
-                    onClick={() => setOpenDropdown(null)}
-                    className="px-3 py-2 rounded-md text-sm text-foreground/80 hover:text-primary hover:bg-secondary/60 transition-colors line-clamp-1"
-                    data-testid={`nav-dropdown-${it.key}`}
-                    title={it.label}
-                  >
-                    {it.label}
-                  </Link>
-                ))}
-                {items.length === 0 && (
-                  <div className="px-3 py-2 text-xs text-muted-foreground col-span-2">No items found.</div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  };
+  const isProductsOpen = openDropdown === "Products";
 
   return (
     <>
@@ -199,6 +79,7 @@ const Header = () => {
       {/* Main nav */}
       <header className="sticky top-0 z-50 glass-panel-strong border-b border-primary/15">
         <div className="container flex items-center justify-between gap-3 h-14 md:h-16">
+          {/* Logo */}
           <a
             href="/"
             onClick={handleLogoClick}
@@ -217,8 +98,68 @@ const Header = () => {
           </a>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-3 xl:gap-4">
-            {navLinks.map(renderDesktopLink)}
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
+            {/* Home */}
+            <Link
+              to="/"
+              onClick={handleHomeNavClick}
+              data-testid="nav-home"
+              className={`relative text-sm font-medium transition-colors after:absolute after:left-0 after:right-0 after:-bottom-1.5 after:h-0.5 after:rounded-full after:bg-primary after:transition-transform after:origin-center ${
+                location.pathname === "/" ? "text-primary after:scale-x-100" : "text-foreground/80 hover:text-primary after:scale-x-0 hover:after:scale-x-100"
+              }`}
+            >
+              Home
+            </Link>
+
+            {/* Products dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => { cancelClose(); setOpenDropdown("Products"); }}
+              onMouseLeave={scheduleClose}
+            >
+              <button
+                type="button"
+                data-testid="nav-products"
+                onClick={() => setOpenDropdown(isProductsOpen ? null : "Products")}
+                className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${
+                  location.pathname.startsWith("/product") || isProductsOpen ? "text-primary" : "text-foreground/80 hover:text-primary"
+                }`}
+              >
+                Products
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isProductsOpen ? "rotate-180" : ""}`} />
+              </button>
+
+              {isProductsOpen && (
+                <div
+                  onMouseEnter={cancelClose}
+                  onMouseLeave={scheduleClose}
+                  className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[min(720px,92vw)]"
+                >
+                  <div className="rounded-xl border border-primary/15 bg-card/98 shadow-elegant p-4">
+                    <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3 px-1">Browse by Category</p>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-1 max-h-[70vh] overflow-y-auto pr-1">
+                      {productCategories.map((cat) => (
+                        <div key={cat.slug}>
+                          <p className="px-3 pt-2 pb-1 text-[11px] font-bold uppercase tracking-wider text-primary/70">{cat.icon} {cat.name}</p>
+                          {cat.products.map((p) => (
+                            <Link
+                              key={p.slug}
+                              to={`/product/${p.slug}`}
+                              onClick={() => setOpenDropdown(null)}
+                              className="block px-3 py-1.5 rounded-md text-sm text-foreground/80 hover:text-primary hover:bg-secondary/60 transition-colors line-clamp-1"
+                              data-testid={`nav-dropdown-${p.slug}`}
+                              title={p.name}
+                            >
+                              {p.name}
+                            </Link>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </nav>
 
           {/* Right side actions */}
@@ -243,17 +184,17 @@ const Header = () => {
             >
               <Download className="w-3.5 h-3.5" />
             </a>
-
-
-            <Link
-              to="/quote"
+            <a
+              href="#contact"
+              onClick={(e) => {
+                if (location.pathname !== "/") { e.preventDefault(); window.location.assign("/#contact"); }
+                else { setMobileOpen(false); }
+              }}
               data-testid="nav-quote"
-              className={`hidden md:inline-flex items-center px-3 py-1.5 rounded-md bg-gradient-gold text-charcoal text-xs font-bold hover:opacity-90 transition shadow-gold ${
-                location.pathname === "/quote" ? "ring-2 ring-primary/50" : ""
-              }`}
+              className="hidden md:inline-flex items-center px-3 py-1.5 rounded-md bg-gradient-gold text-charcoal text-xs font-bold hover:opacity-90 transition shadow-gold"
             >
               Get Quote
-            </Link>
+            </a>
 
             <button onClick={() => setSearchOpen(true)} data-testid="button-search-mobile" aria-label="Search" className="md:hidden p-1.5 text-foreground"><Search className="w-5 h-5" /></button>
             <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden text-foreground p-1.5" data-testid="button-menu-mobile" aria-label="Menu">
@@ -265,75 +206,59 @@ const Header = () => {
         {/* Mobile menu */}
         {mobileOpen && (
           <nav className="lg:hidden bg-card/95 border-t border-border pb-4 max-h-[80vh] overflow-y-auto">
-            {navLinks.map((l) => {
-              if (!l.dropdown) {
-                return (
-                  <Link
-                    key={l.label}
-                    to={l.href}
-                    onClick={(e) => {
-                      if (l.href === "/") handleHomeNavClick(e);
-                      setMobileOpen(false);
-                    }}
-                    className="block px-6 py-3 text-foreground/80 hover:text-primary hover:bg-secondary/50 transition-colors"
-                  >
-                    {l.label}
-                  </Link>
-                );
-              }
-              const items =
-                l.dropdown === "applications"
-                  ? industries.map((i) => ({ key: i.slug, label: i.name, href: `/applications/${i.slug}` }))
-                  : l.dropdown === "categories"
-                    ? productCategories.map((c) => ({ key: c.slug, label: c.name, href: `/category/${c.slug}` }))
-                    : standards.map((s) => ({ key: s.slug, label: `${s.code} — ${s.name}`, href: `/standards/${s.slug}` }));
-              const expanded = mobileSubmenu === l.label;
-              return (
-                <div key={l.label} className="border-b border-border/40 last:border-0">
-                  <div className="flex items-center">
-                    <Link
-                      to={l.href}
-                      onClick={() => setMobileOpen(false)}
-                      className="flex-1 px-6 py-3 text-foreground/80 hover:text-primary transition-colors"
-                    >
-                      {l.label}
-                    </Link>
-                    <button
-                      type="button"
-                      onClick={() => setMobileSubmenu(expanded ? null : l.label)}
-                      className="px-4 py-3 text-foreground/60 hover:text-primary"
-                      aria-label={`Toggle ${l.label} submenu`}
-                    >
-                      <ChevronDown className={`w-4 h-4 transition-transform ${expanded ? "rotate-180" : ""}`} />
-                    </button>
-                  </div>
-                  {expanded && (
-                    <div className="bg-secondary/30 max-h-72 overflow-y-auto">
-                      {items.map((it) => (
+            {/* Home */}
+            <Link
+              to="/"
+              onClick={(e) => { handleHomeNavClick(e); setMobileOpen(false); }}
+              className="block px-6 py-3 text-foreground/80 hover:text-primary hover:bg-secondary/50 transition-colors font-medium"
+            >
+              Home
+            </Link>
+
+            {/* Products with submenu */}
+            <div className="border-b border-border/40">
+              <div className="flex items-center">
+                <span className="flex-1 px-6 py-3 text-foreground/80 font-medium">Products</span>
+                <button
+                  type="button"
+                  onClick={() => setMobileSubmenu(mobileSubmenu === "Products" ? null : "Products")}
+                  className="px-4 py-3 text-foreground/60 hover:text-primary"
+                  aria-label="Toggle Products submenu"
+                >
+                  <ChevronDown className={`w-4 h-4 transition-transform ${mobileSubmenu === "Products" ? "rotate-180" : ""}`} />
+                </button>
+              </div>
+              {mobileSubmenu === "Products" && (
+                <div className="bg-secondary/30 max-h-72 overflow-y-auto">
+                  {productCategories.map((cat) => (
+                    <div key={cat.slug}>
+                      <p className="px-9 pt-2 pb-0.5 text-[10px] font-bold uppercase tracking-wider text-primary/70">{cat.icon} {cat.name}</p>
+                      {cat.products.map((p) => (
                         <Link
-                          key={it.key}
-                          to={it.href}
+                          key={p.slug}
+                          to={`/product/${p.slug}`}
                           onClick={() => setMobileOpen(false)}
-                          className="block px-9 py-2 text-sm text-foreground/75 hover:text-primary hover:bg-secondary/60"
+                          className="block px-12 py-1.5 text-sm text-foreground/75 hover:text-primary hover:bg-secondary/60"
                         >
-                          {it.label}
+                          {p.name}
                         </Link>
                       ))}
                     </div>
-                  )}
+                  ))}
                 </div>
-              );
-            })}
+              )}
+            </div>
+
             <div className="px-6 pt-3 space-y-2 text-sm">
               <div className="flex flex-wrap gap-2">
-                <Link
-                  to="/quote"
+                <a
+                  href="/#contact"
                   onClick={() => setMobileOpen(false)}
                   data-testid="nav-quote-mobile"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-gradient-gold text-charcoal font-semibold"
                 >
                   Get a Quote
-                </Link>
+                </a>
                 <a href="/api/catalog.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-border text-foreground/80 font-semibold">
                   <Download className="w-4 h-4" /> Catalog
                 </a>

@@ -112,7 +112,7 @@ const ProductDetail = () => {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <h1 className="font-heading text-3xl font-bold text-foreground mb-4">Product Not Found</h1>
-            <Link to="/products" className="text-primary hover:underline">← Back to Products</Link>
+            <Link to="/" className="text-primary hover:underline">← Back to Home</Link>
           </div>
         </div>
         <Footer />
@@ -153,12 +153,10 @@ const ProductDetail = () => {
         <div className="container py-3">
           <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
             <Link to="/" className="hover:text-primary transition-colors">Home</Link>
-            <span>/</span>
-            <Link to="/products" className="hover:text-primary transition-colors">Products</Link>
             {category && (
               <>
                 <span>/</span>
-                <Link to={`/category/${category.slug}`} className="hover:text-primary transition-colors">{category.name}</Link>
+                <span className="text-foreground/60">{category.name}</span>
               </>
             )}
             <span>/</span>
@@ -170,8 +168,8 @@ const ProductDetail = () => {
       {/* Product Hero with sidebar layout */}
       <section className="py-10 md:py-14 bg-background">
         <div className="container">
-          <Link to={category ? `/category/${category.slug}` : "/products"} className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors mb-6">
-            <ArrowLeft className="w-4 h-4" /> Back to {category ? category.name : "Products"}
+          <Link to="/" className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors mb-6">
+            <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
 
           <div className="grid lg:grid-cols-[280px_1fr] gap-6 lg:gap-8">
