@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { X, Plus } from "lucide-react";
+import { X, Plus, Upload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { uploadFile } from "@/lib/api";
 
 const ImagesField = ({
   label, arr, onAdd, onRemove,
@@ -69,6 +70,16 @@ export default function EditDialog({
 
   const set = (n: string, v: any) => setValues((p: any) => ({ ...p, [n]: v }));
 
+  const handleFile = async (n: string, file: File) => {
+    try {
+      setBusy(true);
+      const { url } = await uploadFile(file);
+      set(n, url);
+      toast({ title: "Uploaded", description: file.name });
+    } catch (e: any) { toast({ title: "Upload failed", description: e.message, variant: "destructive" }); }
+    finally { setBusy(false); }
+  };
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -115,7 +126,11 @@ export default function EditDialog({
                 <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{f.label}</span>
                 <div className="mt-1 flex items-center gap-3">
                   {v && <img src={v} alt="" className="w-20 h-20 object-cover rounded border border-border" />}
-                  <input value={v ?? ""} onChange={(e) => set(f.name, e.target.value)} placeholder="Paste image URL" className="flex-1 bg-background border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                  <input value={v ?? ""} onChange={(e) => set(f.name, e.target.value)} placeholder="Paste image URL or upload" className="flex-1 bg-background border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                  <label className="cursor-pointer inline-flex items-center gap-1 px-3 py-2 bg-secondary hover:bg-secondary/70 rounded-md text-sm">
+                    <Upload className="w-4 h-4" /> Upload
+                    <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f2 = e.target.files?.[0]; if (f2) handleFile(f.name, f2); }} />
+                  </label>
                 </div>
               </div>
             );

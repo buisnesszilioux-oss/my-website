@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AdminLayout from "./AdminLayout";
-import { api } from "@/lib/api";
+import { api, uploadFile } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Trash2, ImagePlus, Eye, EyeOff } from "lucide-react";
+import { Plus, Trash2, ImagePlus, Eye, EyeOff, Upload } from "lucide-react";
 import type { FloatingImage } from "@/components/FloatingImages";
 
 const empty = {
@@ -58,6 +58,19 @@ export default function AdminFloatingImages() {
     },
   });
 
+  const [busy, setBusy] = useState(false);
+
+  const handleFileUpload = async (file: File) => {
+    try {
+      setBusy(true);
+      const { url } = await uploadFile(file);
+      setForm((p) => ({ ...p, url, title: p.title || file.name.replace(/\.[^.]+$/, "") }));
+      toast({ title: "Uploaded", description: file.name });
+    } catch (e: any) {
+      toast({ title: "Upload failed", description: e.message, variant: "destructive" });
+    } finally { setBusy(false); }
+  };
+
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.url) {
@@ -93,14 +106,20 @@ export default function AdminFloatingImages() {
           </label>
 
           <div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Image URL</span>
-            <input
-              value={form.url}
-              onChange={(e) => setForm({ ...form, url: e.target.value })}
-              placeholder="Paste image URL"
-              data-testid="input-floating-url"
-              className="mt-1 w-full bg-background border border-border rounded-md px-3 py-2 text-sm text-foreground"
-            />
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Image</span>
+            <div className="mt-1 flex items-center gap-3">
+              <input
+                value={form.url}
+                onChange={(e) => setForm({ ...form, url: e.target.value })}
+                placeholder="Paste URL or upload"
+                data-testid="input-floating-url"
+                className="flex-1 bg-background border border-border rounded-md px-3 py-2 text-sm text-foreground"
+              />
+              <label className="cursor-pointer inline-flex items-center gap-1 px-4 py-2 bg-gradient-gold text-charcoal rounded-md text-sm font-semibold">
+                <Upload className="w-4 h-4" /> {busy ? "…" : "Upload"}
+                <input type="file" accept="image/*" className="hidden" data-testid="input-floating-file" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileUpload(f); }} />
+              </label>
+            </div>
           </div>
         </div>
 
@@ -169,7 +188,7 @@ export default function AdminFloatingImages() {
 
         <button
           type="submit"
-          disabled={create.isPending}
+          disabled={create.isPending || busy}
           data-testid="button-add-floating"
           className="inline-flex items-center gap-2 px-5 py-2 rounded-md bg-gradient-gold text-charcoal font-semibold disabled:opacity-60"
         >

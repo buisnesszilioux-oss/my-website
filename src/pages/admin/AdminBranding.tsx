@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
-import { Save, Plus, Trash2, Loader2 } from "lucide-react";
+import { Save, Plus, Trash2, Loader2, Upload } from "lucide-react";
 import AdminLayout from "./AdminLayout";
-import { api } from "@/lib/api";
+import { api, uploadFile } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { SITE_CONTENT_DEFAULTS } from "@/hooks/useSiteContent";
 
@@ -55,6 +55,20 @@ export default function AdminBranding() {
     onError: (e: any) => toast({ title: "Save failed", description: e.message, variant: "destructive" }),
   });
 
+  const [uploading, setUploading] = useState<"logo" | "favicon" | null>(null);
+
+  const handleUpload = async (file: File, kind: "logo" | "favicon") => {
+    setUploading(kind);
+    try {
+      const r = await uploadFile(file);
+      if (kind === "logo") setLogo(r.url);
+      else setFavicon(r.url);
+      toast({ title: "Uploaded", description: "File uploaded — remember to Save Changes." });
+    } catch (e: any) {
+      toast({ title: "Upload failed", description: e.message, variant: "destructive" });
+    } finally { setUploading(null); }
+  };
+
   const updateSocial = (idx: number, patch: Partial<Social>) =>
     setSocials((prev) => prev.map((s, i) => (i === idx ? { ...s, ...patch } : s)));
 
@@ -101,11 +115,13 @@ export default function AdminBranding() {
 
           <UploadField
             label="Logo (shown next to brand name)" url={logo} onUrl={setLogo}
+            onFile={(f) => handleUpload(f, "logo")} uploading={uploading === "logo"}
             testid="upload-logo" preview="logo"
           />
 
           <UploadField
             label="Favicon (browser tab icon — PNG / 32×32 or 64×64)" url={favicon} onUrl={setFavicon}
+            onFile={(f) => handleUpload(f, "favicon")} uploading={uploading === "favicon"}
             testid="upload-favicon" preview="favicon"
           />
         </div>
@@ -163,10 +179,11 @@ const Field = ({ label, children }: { label: string; children: React.ReactNode }
 );
 
 const UploadField = ({
-  label, url, onUrl, testid, preview,
+  label, url, onUrl, onFile, uploading, testid, preview,
 }: {
   label: string; url: string; onUrl: (s: string) => void;
-  testid: string; preview: "logo" | "favicon";
+  onFile: (f: File) => void; uploading: boolean; testid: string;
+  preview: "logo" | "favicon";
 }) => (
   <div>
     <label className="block text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5">{label}</label>
@@ -174,8 +191,13 @@ const UploadField = ({
       <div className={`shrink-0 ${preview === "favicon" ? "w-12 h-12" : "w-20 h-20"} rounded border bg-secondary/40 flex items-center justify-center overflow-hidden`}>
         {url ? <img src={url} alt="" className="max-w-full max-h-full object-contain" /> : <span className="text-xs text-muted-foreground">No image</span>}
       </div>
+      <label className="inline-flex items-center gap-2 text-sm font-semibold border border-primary/40 text-primary hover:bg-primary/10 px-3 py-2 rounded-md cursor-pointer">
+        {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+        {uploading ? "Uploading…" : "Upload File"}
+        <input type="file" accept="image/*" className="hidden" data-testid={testid} onChange={(e) => { const f = e.target.files?.[0]; if (f) onFile(f); e.currentTarget.value = ""; }} />
+      </label>
       {url ? <button type="button" onClick={() => onUrl("")} className="text-xs text-destructive hover:underline">Remove</button> : null}
     </div>
-    <input type="url" value={url} onChange={(e) => onUrl(e.target.value)} placeholder="Paste a public image URL" className={inputCls} data-testid={testid} />
+    <input type="url" value={url} onChange={(e) => onUrl(e.target.value)} placeholder="Or paste a public image URL" className={inputCls} />
   </div>
 );

@@ -3,10 +3,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import {
-  Plus, Pencil, Trash2, Layers, ChevronRight, X, Save, Image as ImageIcon,
+  Plus, Pencil, Trash2, Layers, ChevronRight, X, Save, Image as ImageIcon, Upload, Loader2,
 } from "lucide-react";
 import AdminLayout from "./AdminLayout";
-import { api, type Industry } from "@/lib/api";
+import { api, uploadFile, type Industry } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 
 const slugify = (s: string) =>
@@ -31,6 +31,20 @@ export default function AdminApplications() {
   });
 
   const [editing, setEditing] = useState<FormState | null>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleUpload = async (file: File) => {
+    if (!editing) return;
+    setUploading(true);
+    try {
+      const { url } = await uploadFile(file);
+      setEditing((e) => e ? { ...e, image: url } : e);
+      toast({ title: "Image uploaded — remember to Save" });
+    } catch (e: any) {
+      toast({ title: "Upload failed", description: e.message, variant: "destructive" });
+    } finally { setUploading(false); }
+  };
+
   const save = useMutation({
     mutationFn: async (v: FormState) => {
       const body = {
@@ -204,6 +218,8 @@ export default function AdminApplications() {
                 <ImagePicker
                   value={editing.image}
                   onChange={(v) => setEditing({ ...editing, image: v })}
+                  onUpload={handleUpload}
+                  uploading={uploading}
                 />
               </Field>
 
@@ -225,7 +241,7 @@ export default function AdminApplications() {
               </button>
               <button
                 onClick={submit}
-                disabled={save.isPending}
+                disabled={save.isPending || uploading}
                 data-testid="button-save-application"
                 className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2 rounded-md text-sm font-semibold hover:opacity-90 disabled:opacity-60"
               >
@@ -250,20 +266,31 @@ const Field = ({ label, children }: { label: string; children: React.ReactNode }
 );
 
 export const ImagePicker = ({
-  value, onChange,
+  value, onChange, onUpload, uploading,
 }: {
   value: string;
   onChange: (url: string) => void;
+  onUpload?: (file: File) => void | Promise<void>;
+  uploading?: boolean;
 }) => {
   return (
     <div className="space-y-2">
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="Paste image URL"
-        className={`${inputCls} w-full`}
-      />
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="Paste image URL or click Upload"
+          className={`${inputCls} flex-1`}
+        />
+        {onUpload && (
+          <label className={`inline-flex items-center gap-1.5 cursor-pointer px-3 py-2 rounded-md border border-border text-sm font-semibold hover:border-primary hover:text-primary ${uploading ? "opacity-60 pointer-events-none" : ""}`}>
+            {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+            {uploading ? "Uploading…" : "Upload"}
+            <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) onUpload(f); e.currentTarget.value = ""; }} />
+          </label>
+        )}
+      </div>
       {value && (
         <div className="rounded-md border border-border overflow-hidden bg-secondary/30">
           <img src={value} alt="Preview" className="w-full max-h-48 object-cover" />

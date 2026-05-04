@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
-import { Save, Loader2, RotateCcw, Image as ImageIcon, ExternalLink } from "lucide-react";
+import { Save, Loader2, RotateCcw, Image as ImageIcon, ExternalLink, Upload } from "lucide-react";
 import { Link } from "react-router-dom";
 import AdminLayout from "./AdminLayout";
-import { api } from "@/lib/api";
+import { api, uploadFile } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { HERO_PAGES, type HeroPage } from "@/hooks/useHeroImage";
 
@@ -52,6 +52,26 @@ export default function AdminHero() {
 
   const update = (page: HeroPage, value: string) => {
     setVals((p) => ({ ...p, [`hero.image.${page}`]: value }));
+  };
+
+  const [busyKey, setBusyKey] = useState<HeroPage | null>(null);
+
+  const handleUpload = async (page: HeroPage, file: File) => {
+    try {
+      setBusyKey(page);
+      const { url } = await uploadFile(file);
+      update(page, url);
+      try {
+        await api("/api/admin/media", {
+          method: "POST",
+          body: JSON.stringify({ type: "photo", category: "hero", url, title: `Hero — ${HERO_PAGES.find((p) => p.key === page)?.label || page}`, caption: "" }),
+        });
+        qc.invalidateQueries({ queryKey: ["/api/media"] });
+      } catch { /* non-fatal */ }
+      toast({ title: "Uploaded", description: file.name });
+    } catch (e: any) {
+      toast({ title: "Upload failed", description: e.message, variant: "destructive" });
+    } finally { setBusyKey(null); }
   };
 
   const reset = (page: HeroPage) => update(page, "");
@@ -123,6 +143,11 @@ export default function AdminHero() {
                 />
 
                 <div className="flex gap-2 flex-wrap">
+                  <label className="inline-flex items-center gap-2 border border-border px-3 py-2 rounded-md text-sm cursor-pointer hover:bg-secondary">
+                    {busyKey === p.key ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                    Upload
+                    <input type="file" accept="image/*" className="hidden" data-testid={`input-hero-file-${p.key}`} onChange={(e) => { const f = e.target.files?.[0]; if (f) handleUpload(p.key, f); e.target.value = ""; }} />
+                  </label>
                   {value && (
                     <button
                       type="button"

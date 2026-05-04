@@ -98,3 +98,26 @@ export async function api<T = any>(path: string, opts: RequestInit = {}): Promis
     throw e;
   }
 }
+
+// ── Cloudinary upload ──────────────────────────────────────────────────────────
+const CLOUDINARY_CLOUD = "dgcjtvc86";
+const CLOUDINARY_PRESET = "oiexwrrt";
+
+export async function uploadFile(file: File): Promise<{ url: string }> {
+  const form = new FormData();
+  form.append("file", file);
+  form.append("upload_preset", CLOUDINARY_PRESET);
+
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/upload`,
+    { method: "POST", body: form }
+  );
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as any)?.error?.message || "Cloudinary upload failed");
+  }
+
+  const data = await res.json();
+  return { url: data.secure_url as string };
+}
