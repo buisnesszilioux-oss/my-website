@@ -18,6 +18,16 @@ import { categories } from "@/data/categories";
 
 // Public pages
 const ProductDetail = lazy(() => import("./pages/ProductDetail.tsx"));
+const AboutPage = lazy(() => import("./pages/AboutPage.tsx"));
+const ContactPage = lazy(() => import("./pages/ContactPage.tsx"));
+const ApplicationsPage = lazy(() => import("./pages/ApplicationsPage.tsx"));
+const IndustryDetail = lazy(() => import("./pages/IndustryDetail.tsx"));
+const SpecificationsPage = lazy(() => import("./pages/SpecificationsPage.tsx"));
+const GradeChartPage = lazy(() => import("./pages/GradeChartPage.tsx"));
+const StandardsPage = lazy(() => import("./pages/StandardsPage.tsx"));
+const StandardDetail = lazy(() => import("./pages/StandardDetail.tsx"));
+const GalleryPage = lazy(() => import("./pages/GalleryPage.tsx"));
+const QuotePage = lazy(() => import("./pages/QuotePage.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
 // Admin pages
@@ -83,19 +93,17 @@ const AnimatedRoutes = () => {
           <Route path="/" element={<Index />} />
           <Route path="/product/:slug" element={<ProductDetail />} />
           <Route path="/category/:slug" element={<CategoryRedirect />} />
-
-          {/* Redirect old pages to home */}
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/quote" element={<QuotePage />} />
+          <Route path="/applications" element={<ApplicationsPage />} />
+          <Route path="/industry/:slug" element={<IndustryDetail />} />
+          <Route path="/standards" element={<StandardsPage />} />
+          <Route path="/standards/:slug" element={<StandardDetail />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/specifications" element={<SpecificationsPage />} />
+          <Route path="/grade-chart" element={<GradeChartPage />} />
           <Route path="/products" element={<Navigate to="/" replace />} />
-          <Route path="/about" element={<Navigate to="/" replace />} />
-          <Route path="/contact" element={<Navigate to="/" replace />} />
-          <Route path="/quote" element={<Navigate to="/" replace />} />
-          <Route path="/applications" element={<Navigate to="/" replace />} />
-          <Route path="/industry/:slug" element={<Navigate to="/" replace />} />
-          <Route path="/standards" element={<Navigate to="/" replace />} />
-          <Route path="/standards/:slug" element={<Navigate to="/" replace />} />
-          <Route path="/gallery" element={<Navigate to="/" replace />} />
-          <Route path="/specifications" element={<Navigate to="/" replace />} />
-          <Route path="/grade-chart" element={<Navigate to="/" replace />} />
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="/auth" element={<Navigate to="/" replace />} />
           <Route path="/register" element={<Navigate to="/" replace />} />
