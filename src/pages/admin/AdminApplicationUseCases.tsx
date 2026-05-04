@@ -3,10 +3,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import {
-  ArrowLeft, Plus, Pencil, Trash2, Loader2, X, Save, Image as ImageIcon,
+  ArrowLeft, Plus, Pencil, Trash2, X, Save, Image as ImageIcon,
 } from "lucide-react";
 import AdminLayout from "./AdminLayout";
-import { api, uploadFile, type Industry } from "@/lib/api";
+import { api, type Industry } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { ImagePicker } from "./AdminApplications";
 
@@ -29,8 +29,6 @@ export default function AdminApplicationUseCases() {
 
   const [draft, setDraft] = useState<UseCase | null>(null);
   const [draftIndex, setDraftIndex] = useState<number | null>(null); // null = adding new
-  const [uploading, setUploading] = useState(false);
-
   // Reset modal whenever the industry changes
   useEffect(() => { setDraft(null); setDraftIndex(null); }, [slug]);
 
@@ -51,17 +49,6 @@ export default function AdminApplicationUseCases() {
     onError: (e: any) => toast({ title: "Failed", description: e.message, variant: "destructive" }),
   });
 
-  const handleUpload = async (file: File) => {
-    if (!draft) return;
-    setUploading(true);
-    try {
-      const { url } = await uploadFile(file);
-      setDraft({ ...draft, image: url });
-      toast({ title: "Image uploaded — click Save to apply" });
-    } catch (e: any) {
-      toast({ title: "Upload failed", description: e.message, variant: "destructive" });
-    } finally { setUploading(false); }
-  };
 
   const submitDraft = () => {
     if (!draft) return;
@@ -218,8 +205,6 @@ export default function AdminApplicationUseCases() {
                 <ImagePicker
                   value={draft.image}
                   onChange={(v) => setDraft({ ...draft, image: v })}
-                  onUpload={handleUpload}
-                  uploading={uploading}
                 />
               </Field>
             </div>
@@ -230,7 +215,7 @@ export default function AdminApplicationUseCases() {
               </button>
               <button
                 onClick={submitDraft}
-                disabled={persist.isPending || uploading}
+                disabled={persist.isPending}
                 data-testid="button-save-usecase"
                 className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2 rounded-md text-sm font-semibold hover:opacity-90 disabled:opacity-60"
               >

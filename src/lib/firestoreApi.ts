@@ -26,7 +26,7 @@ import {
   serverTimestamp,
   writeBatch,
 } from "firebase/firestore";
-import { db, isAdminEmail, auth } from "./firebase";
+import { db } from "./firebase";
 
 export class AdapterError extends Error {
   status: number;
@@ -55,9 +55,14 @@ function method(opts: RequestInit): string {
 }
 
 function requireAdmin() {
-  const user = auth.currentUser;
-  if (!user) throw new AdapterError("Not authenticated", 401);
-  if (!isAdminEmail(user.email)) throw new AdapterError("Admin access required", 403);
+  try {
+    if (localStorage.getItem("mi_admin_session") !== "1") {
+      throw new AdapterError("Admin access required", 403);
+    }
+  } catch (e) {
+    if (e instanceof AdapterError) throw e;
+    throw new AdapterError("Admin access required", 403);
+  }
 }
 
 function snapToDoc(snap: any) {

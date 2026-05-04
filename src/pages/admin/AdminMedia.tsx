@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AdminLayout from "./AdminLayout";
-import { api, uploadFile } from "@/lib/api";
+import { api } from "@/lib/api";
 import type { Media } from "@/lib/api-extras";
-import { Trash2, Upload, Plus, Play, Image as ImageIcon } from "lucide-react";
+import { Trash2, Plus, Play, Image as ImageIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const CATEGORIES = ["hero", "product", "banner", "gallery"] as const;
@@ -43,16 +43,6 @@ const AdminMedia = () => {
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["/api/media"] }); toast({ title: "Deleted" }); },
   });
 
-  const handleFileUpload = async (file: File, target: "url" | "thumbnail") => {
-    try {
-      setBusy(true);
-      const { url } = await uploadFile(file);
-      setForm((p) => ({ ...p, [target]: url, type: file.type.startsWith("video/") ? "video" : (target === "url" ? p.type : p.type) }));
-      toast({ title: "File uploaded", description: file.name });
-    } catch (e: any) { toast({ title: "Upload failed", description: e.message, variant: "destructive" }); }
-    finally { setBusy(false); }
-  };
-
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.url) { toast({ title: "URL required", description: "Please upload or paste a media URL", variant: "destructive" }); return; }
@@ -90,28 +80,16 @@ const AdminMedia = () => {
           <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="mt-1 w-full bg-background border border-border rounded-md px-3 py-2" data-testid="input-media-title" />
         </label>
 
-        <div>
-          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Media File ({form.type})</span>
-          <div className="mt-1 flex items-center gap-3">
-            <input value={form.url} onChange={(e) => setForm({ ...form, url: e.target.value })} placeholder="Paste URL or upload" className="flex-1 bg-background border border-border rounded-md px-3 py-2 text-sm" data-testid="input-media-url" />
-            <label className="cursor-pointer inline-flex items-center gap-1 px-4 py-2 bg-gradient-gold text-charcoal rounded-md text-sm font-semibold">
-              <Upload className="w-4 h-4" /> Upload
-              <input type="file" accept={form.type === "video" ? "video/*" : "image/*"} className="hidden" data-testid="input-file-media" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileUpload(f, "url"); }} />
-            </label>
-          </div>
-        </div>
+        <label className="block">
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Media URL ({form.type})</span>
+          <input value={form.url} onChange={(e) => setForm({ ...form, url: e.target.value })} placeholder="Paste media URL" className="mt-1 w-full bg-background border border-border rounded-md px-3 py-2 text-sm" data-testid="input-media-url" />
+        </label>
 
         {form.type === "video" && (
-          <div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Thumbnail (optional)</span>
-            <div className="mt-1 flex items-center gap-3">
-              <input value={form.thumbnail} onChange={(e) => setForm({ ...form, thumbnail: e.target.value })} placeholder="Thumbnail image URL" className="flex-1 bg-background border border-border rounded-md px-3 py-2 text-sm" />
-              <label className="cursor-pointer inline-flex items-center gap-1 px-4 py-2 bg-secondary rounded-md text-sm">
-                <Upload className="w-4 h-4" /> Upload
-                <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileUpload(f, "thumbnail"); }} />
-              </label>
-            </div>
-          </div>
+          <label className="block">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Thumbnail URL (optional)</span>
+            <input value={form.thumbnail} onChange={(e) => setForm({ ...form, thumbnail: e.target.value })} placeholder="Thumbnail image URL" className="mt-1 w-full bg-background border border-border rounded-md px-3 py-2 text-sm" />
+          </label>
         )}
 
         <label className="block">

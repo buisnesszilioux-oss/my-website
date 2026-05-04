@@ -1,7 +1,47 @@
 import { useEffect, useState } from "react";
-import { uploadFile } from "@/lib/api";
-import { X, Upload } from "lucide-react";
+import { X, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+
+const ImagesField = ({
+  label, arr, onAdd, onRemove,
+}: { label: string; arr: string[]; onAdd: (url: string) => void; onRemove: (i: number) => void }) => {
+  const [newUrl, setNewUrl] = useState("");
+  return (
+    <div>
+      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        {label} <span className="normal-case font-normal text-[11px]">(extra gallery photos — up to 6)</span>
+      </span>
+      <div className="mt-2 grid grid-cols-3 sm:grid-cols-4 gap-2">
+        {arr.map((url, i) => (
+          <div key={i} className="relative group rounded-md overflow-hidden border border-border bg-secondary/30 aspect-square">
+            <img src={url} alt="" className="w-full h-full object-cover" />
+            <button type="button" onClick={() => onRemove(i)} className="absolute top-1 right-1 p-1 rounded-full bg-black/70 text-white opacity-0 group-hover:opacity-100 transition" aria-label="Remove">
+              <X className="w-3 h-3" />
+            </button>
+          </div>
+        ))}
+        {arr.length < 6 && (
+          <div className="col-span-3 sm:col-span-4 flex gap-2">
+            <input
+              type="text"
+              value={newUrl}
+              onChange={(e) => setNewUrl(e.target.value)}
+              placeholder="Paste image URL and press Add"
+              className="flex-1 bg-background border border-border rounded-md px-3 py-2 text-sm"
+            />
+            <button
+              type="button"
+              onClick={() => { if (newUrl.trim()) { onAdd(newUrl.trim()); setNewUrl(""); } }}
+              className="inline-flex items-center gap-1 px-3 py-2 rounded-md border border-border text-sm hover:bg-secondary"
+            >
+              <Plus className="w-4 h-4" /> Add
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export type Field =
   | { name: string; label: string; type: "text" | "textarea" | "image" | "images" }
@@ -28,16 +68,6 @@ export default function EditDialog({
   if (!open) return null;
 
   const set = (n: string, v: any) => setValues((p: any) => ({ ...p, [n]: v }));
-
-  const handleFile = async (n: string, file: File) => {
-    try {
-      setBusy(true);
-      const { url } = await uploadFile(file);
-      set(n, url);
-      toast({ title: "Uploaded", description: file.name });
-    } catch (e: any) { toast({ title: "Upload failed", description: e.message, variant: "destructive" }); }
-    finally { setBusy(false); }
-  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,48 +115,20 @@ export default function EditDialog({
                 <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{f.label}</span>
                 <div className="mt-1 flex items-center gap-3">
                   {v && <img src={v} alt="" className="w-20 h-20 object-cover rounded border border-border" />}
-                  <input value={v ?? ""} onChange={(e) => set(f.name, e.target.value)} placeholder="Paste image URL or upload" className="flex-1 bg-background border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
-                  <label className="cursor-pointer inline-flex items-center gap-1 px-3 py-2 bg-secondary hover:bg-secondary/70 rounded-md text-sm">
-                    <Upload className="w-4 h-4" /> Upload
-                    <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f2 = e.target.files?.[0]; if (f2) handleFile(f.name, f2); }} />
-                  </label>
+                  <input value={v ?? ""} onChange={(e) => set(f.name, e.target.value)} placeholder="Paste image URL" className="flex-1 bg-background border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30" />
                 </div>
               </div>
             );
             if (f.type === "images") {
               const arr: string[] = Array.isArray(v) ? v : [];
-              const setArr = (next: string[]) => set(f.name, next);
-              const handleMulti = async (file: File) => {
-                if (arr.length >= 6) { toast({ title: "Limit", description: "Max 6 images", variant: "destructive" }); return; }
-                try {
-                  setBusy(true);
-                  const { url } = await uploadFile(file);
-                  setArr([...arr, url]);
-                  toast({ title: "Image added", description: file.name });
-                } catch (e: any) { toast({ title: "Upload failed", description: e.message, variant: "destructive" }); }
-                finally { setBusy(false); }
-              };
               return (
-                <div key={f.name}>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{f.label} <span className="normal-case font-normal text-[11px]">(extra gallery photos — up to 6)</span></span>
-                  <div className="mt-2 grid grid-cols-3 sm:grid-cols-4 gap-2">
-                    {arr.map((url, i) => (
-                      <div key={i} className="relative group rounded-md overflow-hidden border border-border bg-secondary/30 aspect-square">
-                        <img src={url} alt="" className="w-full h-full object-cover" />
-                        <button type="button" onClick={() => setArr(arr.filter((_, j) => j !== i))} className="absolute top-1 right-1 p-1 rounded-full bg-black/70 text-white opacity-0 group-hover:opacity-100 transition" aria-label="Remove">
-                          <X className="w-3 h-3" />
-                        </button>
-                      </div>
-                    ))}
-                    {arr.length < 6 && (
-                      <label className="cursor-pointer aspect-square flex flex-col items-center justify-center gap-1 border-2 border-dashed border-border rounded-md text-xs text-muted-foreground hover:border-primary hover:text-primary transition">
-                        <Upload className="w-5 h-5" />
-                        <span>Add Photo</span>
-                        <input type="file" accept="image/*" className="hidden" onChange={(e) => { const file = e.target.files?.[0]; if (file) { handleMulti(file); e.currentTarget.value = ""; } }} />
-                      </label>
-                    )}
-                  </div>
-                </div>
+                <ImagesField
+                  key={f.name}
+                  label={f.label}
+                  arr={arr}
+                  onAdd={(url) => set(f.name, [...arr, url])}
+                  onRemove={(i) => set(f.name, arr.filter((_, j) => j !== i))}
+                />
               );
             }
             if (f.type === "select") return (

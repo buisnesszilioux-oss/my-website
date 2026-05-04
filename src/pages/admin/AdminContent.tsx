@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AdminLayout from "./AdminLayout";
-import { api, uploadFile } from "@/lib/api";
+import { api } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { SITE_CONTENT_DEFAULTS, type SiteContentMap } from "@/hooks/useSiteContent";
-import { Save, Upload } from "lucide-react";
+import { Save } from "lucide-react";
 
 type FieldType = "text" | "textarea" | "image";
 type FieldDef = { key: string; label: string; type: FieldType; placeholder?: string };
@@ -76,8 +76,6 @@ export default function AdminContent() {
     queryFn: () => api("/api/site-content"),
   });
   const [values, setValues] = useState<SiteContentMap>({});
-  const [uploadingKey, setUploadingKey] = useState<string | null>(null);
-
   useEffect(() => {
     const merged: SiteContentMap = { ...SITE_CONTENT_DEFAULTS, ...(data || {}) };
     setValues(merged);
@@ -96,19 +94,6 @@ export default function AdminContent() {
   const onSaveGroup = (g: typeof groups[number]) => {
     const entries = g.fields.map((f) => ({ key: f.key, value: values[f.key] ?? "" }));
     save.mutate(entries);
-  };
-
-  const onUpload = async (key: string, file: File) => {
-    try {
-      setUploadingKey(key);
-      const { url } = await uploadFile(file);
-      setValues((p) => ({ ...p, [key]: url }));
-      toast({ title: "Uploaded", description: file.name });
-    } catch (e: any) {
-      toast({ title: "Upload failed", description: e.message, variant: "destructive" });
-    } finally {
-      setUploadingKey(null);
-    }
   };
 
   return (
@@ -154,10 +139,6 @@ export default function AdminContent() {
                           data-testid={`input-${f.key}`}
                           className="flex-1 bg-background border border-border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                         />
-                        <label className="cursor-pointer inline-flex items-center gap-1 px-3 py-2 bg-secondary hover:bg-secondary/70 rounded-md text-sm">
-                          <Upload className="w-4 h-4" /> {uploadingKey === f.key ? "…" : "Upload"}
-                          <input type="file" accept="image/*" className="hidden" onChange={(e) => { const fl = e.target.files?.[0]; if (fl) onUpload(f.key, fl); }} />
-                        </label>
                       </div>
                     </div>
                   );
