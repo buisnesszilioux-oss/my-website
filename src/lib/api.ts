@@ -1,7 +1,51 @@
-import { tryFirestoreFetch, AdapterError, installFetchInterceptor } from "./firestoreApi";
+// ── Token helpers ─────────────────────────────────────────────────────────────
+const TOKEN_KEY = "mi_admin_token";
+export const getToken = () => localStorage.getItem(TOKEN_KEY);
+export const setToken = (t: string) => localStorage.setItem(TOKEN_KEY, t);
+export const clearToken = () => localStorage.removeItem(TOKEN_KEY);
 
-installFetchInterceptor();
+// ── Core fetch helper ─────────────────────────────────────────────────────────
+export async function api<T = any>(path: string, opts: RequestInit = {}): Promise<T> {
+  const token = getToken();
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...(opts.headers as Record<string, string>),
+  };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
 
+  const res = await fetch(path, { ...opts, headers });
+
+  if (!res.ok) {
+    let msg = `Request failed (${res.status})`;
+    try { const j = await res.json(); msg = j.error || j.message || msg; } catch {}
+    throw new Error(msg);
+  }
+
+  return res.json() as Promise<T>;
+}
+
+// ── File upload → backend ─────────────────────────────────────────────────────
+export async function uploadFile(file: File): Promise<{ url: string }> {
+  const token = getToken();
+  const form = new FormData();
+  form.append("file", file);
+
+  const res = await fetch("/api/admin/upload", {
+    method: "POST",
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+    body: form,
+  });
+
+  if (!res.ok) {
+    let msg = "Upload failed";
+    try { const j = await res.json(); msg = j.error || msg; } catch {}
+    throw new Error(msg);
+  }
+
+  return res.json() as Promise<{ url: string }>;
+}
+
+// ── Types ─────────────────────────────────────────────────────────────────────
 export interface Product {
   id: string;
   slug: string;
@@ -79,45 +123,4 @@ export interface LedgerEntry {
   tallyReceiptDone?: boolean | null;
   bookEntryDone?: boolean | null;
   createdAt?: string | null;
-}
-
-const LEGACY_TOKEN_KEY = "mi_admin_token";
-export const getToken = () => localStorage.getItem(LEGACY_TOKEN_KEY);
-export const setToken = (t: string) => localStorage.setItem(LEGACY_TOKEN_KEY, t);
-export const clearToken = () => localStorage.removeItem(LEGACY_TOKEN_KEY);
-
-export async function api<T = any>(path: string, opts: RequestInit = {}): Promise<T> {
-  try {
-    const data = await tryFirestoreFetch(path, opts);
-    if (data === null) {
-      throw new Error(`No Firestore route for ${path}`);
-    }
-    return data as T;
-  } catch (e) {
-    if (e instanceof AdapterError) throw new Error(e.message);
-    throw e;
-  }
-}
-
-// ── Cloudinary upload ──────────────────────────────────────────────────────────
-const CLOUDINARY_CLOUD = "dgcjtvc86";
-const CLOUDINARY_PRESET = "oiexwrrt";
-
-export async function uploadFile(file: File): Promise<{ url: string }> {
-  const form = new FormData();
-  form.append("file", file);
-  form.append("upload_preset", CLOUDINARY_PRESET);
-
-  const res = await fetch(
-    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/upload`,
-    { method: "POST", body: form }
-  );
-
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error((err as any)?.error?.message || "Cloudinary upload failed");
-  }
-
-  const data = await res.json();
-  return { url: data.secure_url as string };
 }
