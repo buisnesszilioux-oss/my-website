@@ -88,9 +88,7 @@ app.get("/api/admin/verify", requireAdmin, (_req, res) => res.json({ ok: true })
 // ── File Upload ───────────────────────────────────────────────────────────────
 app.post("/api/admin/upload", requireAdmin, upload.single("file"), (req, res) => {
   if (!req.file) { res.status(400).json({ error: "No file uploaded" }); return; }
-  const host = req.headers["x-forwarded-host"] || req.headers.host || "localhost:3001";
-  const proto = req.headers["x-forwarded-proto"] || "http";
-  const url = `${proto}://${host}/uploads/${req.file.filename}`;
+  const url = `/uploads/${req.file.filename}`;
   res.json({ url });
 });
 
