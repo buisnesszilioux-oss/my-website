@@ -112,9 +112,8 @@ const ProductsSection = ({ withFilters = false, hideHeading = false }: ProductsS
   const animClass = anim.cardClass || "";
 
   const { data: products = [], isLoading } = useQuery<Product[]>({
-    queryKey: ["products"],
+    queryKey: ["/api/products"],
     queryFn: () => api<Product[]>("/api/products"),
-    staleTime: 30_000,
   });
 
   const [search, setSearch] = useState("");

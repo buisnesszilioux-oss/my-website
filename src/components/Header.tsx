@@ -38,15 +38,13 @@ const Header = () => {
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { data: industries = [] } = useQuery<Industry[]>({
-    queryKey: ["industries"],
+    queryKey: ["/api/industries"],
     queryFn: () => api<Industry[]>("/api/industries"),
-    staleTime: 60_000,
   });
 
   const { data: standards = [] } = useQuery<Standard[]>({
-    queryKey: ["standards"],
+    queryKey: ["/api/standards"],
     queryFn: () => api<Standard[]>("/api/standards"),
-    staleTime: 60_000,
   });
 
   useEffect(() => {
