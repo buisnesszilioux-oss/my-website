@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently -k -n server,vite -c yellow,cyan \"npm:dev:server\" \"npm:dev:client\"",
+    "dev": "vite",
     "dev:server": "tsx watch server/index.ts",
     "dev:client": "vite",
     "db:push": "drizzle-kit push",

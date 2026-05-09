@@ -58,8 +58,6 @@ export default function AdminFloatingImages() {
     },
   });
 
-  const [busy, setBusy] = useState(false);
-
   const handleFileUpload = async (file: File) => {
     try {
       setBusy(true);

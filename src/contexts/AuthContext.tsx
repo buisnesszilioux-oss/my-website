@@ -1,9 +1,12 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 
-const ADMIN_EMAIL = "miengineering17@gmail.com";
-const ADMIN_PASSWORD = "6392061892";
+const ALLOWED_EMAILS = (import.meta.env.VITE_ADMIN_EMAILS || "")
+  .split(",")
+  .map((e: string) => e.trim().toLowerCase())
+  .filter(Boolean);
+
 const SESSION_KEY = "mi_admin_session";
 const EMAIL_KEY = "mi_admin_email";
 
@@ -23,18 +26,37 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAdmin, setIsAdmin] = useState<boolean>(() => {
     try { return localStorage.getItem(SESSION_KEY) === "1"; } catch { return false; }
   });
+  const [loading, setLoading] = useState(false);
 
-  const user: AuthUser | null = isAdmin ? { email: ADMIN_EMAIL, role: "admin" } : null;
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (firebaseUser) => {
+      if (!firebaseUser) {
+        setIsAdmin(false);
+        localStorage.removeItem(SESSION_KEY);
+        localStorage.removeItem(EMAIL_KEY);
+      }
+    });
+    return unsub;
+  }, []);
+
+  const user: AuthUser | null = isAdmin
+    ? { email: localStorage.getItem(EMAIL_KEY) || "", role: "admin" }
+    : null;
 
   const login = async (email: string, password: string) => {
-    if (email.trim().toLowerCase() !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
+    const normalised = email.trim().toLowerCase();
+    if (ALLOWED_EMAILS.length > 0 && !ALLOWED_EMAILS.includes(normalised)) {
       throw new Error("Invalid email or password.");
     }
-    // Sign in to Firebase Auth so Firestore security rules allow writes
-    await signInWithEmailAndPassword(auth, ADMIN_EMAIL, ADMIN_PASSWORD);
-    localStorage.setItem(SESSION_KEY, "1");
-    localStorage.setItem(EMAIL_KEY, ADMIN_EMAIL);
-    setIsAdmin(true);
+    setLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, normalised, password);
+      localStorage.setItem(SESSION_KEY, "1");
+      localStorage.setItem(EMAIL_KEY, normalised);
+      setIsAdmin(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const logout = () => {
@@ -45,7 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAdmin, loading: false, login, logout }}>
+    <AuthContext.Provider value={{ user, isAdmin, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
